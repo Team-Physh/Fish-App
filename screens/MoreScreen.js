@@ -7,7 +7,7 @@ export default function MoreScreen({navigation}) {
     return (
         <View style={styles.container}>
             <Text style={styles.boxText}>More Page</Text>
-          <Footer />
+            <Footer />
         </View>
     )
 }

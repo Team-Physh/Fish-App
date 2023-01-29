@@ -7,7 +7,7 @@ export default function ViewScreen({navigation}) {
     return (
         <View style={styles.container}>
             <Text style={styles.boxText}>View Page</Text>
-          <Footer />
+            <Footer />
         </View>
     )
 }

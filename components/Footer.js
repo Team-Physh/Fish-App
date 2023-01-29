@@ -9,7 +9,7 @@ export default function Footer(){
                     <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                       <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
                       <Text style={style.iconText}>Scan</Text>
-                     </TouchableOpacity>
+                     </TouchableOpacity> 
                      <TouchableOpacity onPress={() => navigation.navigate('View')}>
                       <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
                       <Text style={style.iconText}>View</Text>
@@ -18,6 +18,7 @@ export default function Footer(){
                       <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
                       <Text style={style.iconText}>More</Text>
                      </TouchableOpacity>
+                     
                   </View>
             </View>
     );
