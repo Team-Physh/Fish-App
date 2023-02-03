@@ -17,13 +17,13 @@ export async function downloadDatabase()
     const data = await getAllData();
 
 
-    // testing function that prints out whatever index of data your tryna see. Can also print whole thing
-    const printInfo = (_array) => {
-    console.log("Download success! printing data at chosen index (zero probably)\n");
-    //console.log(Object.values(_array[1]));
-    console.log(_array[0]);
-
-    };
+    // // testing function that prints out whatever index of data your tryna see. Can also print whole thing
+    // const printInfo = (_array) => {
+    // console.log("Download success! printing data at chosen index (zero probably)\n");
+    // //console.log(Object.values(_array[1]));
+    // console.log(_array[0]);
+    //
+    // };
 
     // start DATABASE transaction
     db.transaction(tx => {
@@ -46,16 +46,18 @@ export async function downloadDatabase()
                         [array.hex, array.lastCaught, array.length, array.pit, array.riverMile, array.species])
         }
 
+        console.log("database download complete");
 
-        // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
-                tx.executeSql(
-        "select * from fishTable",
-        null,
-        // success
-        (_, { rows: { _array } }) => printInfo(_array),
-        // error
-        () => console.log("error fetching")
-                    );
+
+        // // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
+        //         tx.executeSql(
+        // "select * from fishTable",
+        // null,
+        // // success
+        // (_, { rows: { _array } }) => printInfo(_array),
+        // // error
+        // () => console.log("error fetching")
+        //             );
 
     });
     }
