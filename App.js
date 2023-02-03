@@ -1,14 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewScreen from './screens/ViewScreen';
 import HomeScreen from './screens/HomeScreen';
 import MoreScreen from './screens/MoreScreen';
+import * as SQLite from 'expo-sqlite'
+ import { getAllData, downloadDatabase } from './database/databasefunctions.js'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+  console.log("App Start");
+
+  // download function!
+  //downloadDatabase();
+
   return (
     <View style={{ flex: 1,}}>
       <NavigationContainer>

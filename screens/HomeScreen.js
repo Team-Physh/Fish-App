@@ -1,27 +1,7 @@
 import {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
-
-async function getAllData()
-{
-  const response = await fetch('http://api.vlexum.com:3000/fish/9891031619722')
-  const data = await response.json()
-
-  return data;
-
-  //console.log(JSON.stringify(data, null, 4));
-
-}
-
-async function displayData()
-{
-  const fishData = await getAllData()
-  console.log(fishData);
-
-
-
-
-}
+import * as SQLite from 'expo-sqlite'
 
 export default function HomeScreen({navigation}) {
   const [pitData, setData] = useState({
