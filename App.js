@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewScreen from './screens/ViewScreen';
 import HomeScreen from './screens/HomeScreen';
 import MoreScreen from './screens/MoreScreen';
+import HelpScreen from './screens/HelpScreen';
 import * as SQLite from 'expo-sqlite'
  import { getAllData, downloadDatabase } from './database/databasefunctions.js'
 
@@ -44,6 +45,12 @@ export default function App() {
           gestureEnabled: false,
           animation: 'none',
         }} name="More" component={ MoreScreen } />  
+
+        <Stack.Screen options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: 'none',
+        }} name="HelpScreen" component={HelpScreen} />  
 
 
         </Stack.Navigator>

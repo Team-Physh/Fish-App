@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
+import HelpIcon from '../components/HelpIcon'
 import * as SQLite from 'expo-sqlite'
 import {downloadDatabase} from '../database/databasefunctions'
 
@@ -39,6 +40,7 @@ export default function HomeScreen({navigation}) {
 
     return (
         <View style={styles.container}>
+          <HelpIcon />
             <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
               <Text style={styles.buttonText}>Download DB </Text>
             </TouchableOpacity>

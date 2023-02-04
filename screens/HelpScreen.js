@@ -1,14 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
-import HelpIcon from '../components/HelpIcon'
 
-export default function ViewScreen({navigation}) {
+export default function HelpScreen({navigation}) {
 
 
     return (
         <View style={styles.container}>
-            <HelpIcon />
-            <Text style={styles.boxText}>View Page</Text>
+            <Text style={styles.boxText}>Help</Text>
             <Footer />
         </View>
     )
