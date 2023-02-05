@@ -1,7 +1,6 @@
 import {useState} from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
-import HelpIcon from '../components/HelpIcon'
 import * as SQLite from 'expo-sqlite'
 import {downloadDatabase} from '../database/databasefunctions'
 
@@ -40,7 +39,9 @@ export default function HomeScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-          <HelpIcon />
+            <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
+                      <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
               <Text style={styles.buttonText}>Download DB </Text>
             </TouchableOpacity>
@@ -64,13 +65,23 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center'
     },
+
+    icon:{
+      height: 50,
+      width: 50,
+      resizeMode: 'contain',
+      top: 50,
+      right:20,
+      position: 'absolute',
+    },
+
     boxText:{
         color: 'black',
         fontSize: 15,
         textAlign: 'center',
         top: "30%",
+        alignSelf: 'center',
     },
     sendButton:{
       backgroundColor: 'lightblue',
@@ -79,6 +90,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 50,
       top: "30%",
+      alignSelf: 'center',
     },
 
     syncButton:{
@@ -88,6 +100,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 50,
       top: "15%",
+      alignSelf: 'center',
     },
 
     buttonText:{
@@ -107,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: "20px",
     textAlign: "center",
     top: "30%",
+    alignSelf: 'center',
     }
   
   });
