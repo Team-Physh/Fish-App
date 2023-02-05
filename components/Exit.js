@@ -1,18 +1,22 @@
 import { TouchableOpacity , Text , Image , StyleSheet , View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function HelpIcon(){
-    const navigation = useNavigation();
-    return(
-            <View elevation={5} style={ style.helpIcon }>
-                  <View style={ style.textAlign }>
-                    <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
-                      <Image style={ style.icon } source={require('../assets/question.png')}></Image>
-                     </TouchableOpacity>                    
-                  </View>
-            </View>
-    );
+export default function Exit({navigation}) {
+  
+  const backButton = useNavigation();
+  
+  return (
+    <View elevation={5} style={style.Exit}>
+      <TouchableOpacity onPress={() => backButton.goBack()}>
+        <Image style={style.icon} source={require('../assets/exit.png')}></Image>
+      </TouchableOpacity>   
+    </View>
+  );
 }
+
 const style = StyleSheet.create({
    helpIcon:{
      flex: 1,
@@ -42,7 +46,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
 
-  helpIcon: {
+  Exit: {
     flex: 1,
     position: 'absolute',
     top: 20,
