@@ -7,7 +7,7 @@ export default function Footer(){
             <View elevation={5} style={ style.footer }>
                   <View style={ style.textAlign }>
                     <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                      <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
+                      <Image style={ style.icon } source={require('../assets/scan.png')}></Image>
                       <Text style={style.iconText}>Scan</Text>
                      </TouchableOpacity> 
                      <TouchableOpacity onPress={() => navigation.navigate('View')}>

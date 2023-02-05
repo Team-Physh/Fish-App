@@ -16,7 +16,15 @@ export default function HomeScreen({navigation}) {
   });
 
 
+  // main modal
   const [modalVisible, setModalVisible] = useState(false);
+
+  // update modal
+  const [updateVisible, setUpdateVisible] = useState(false);
+
+
+
+
 
   function enterTag(number)
   {
@@ -45,14 +53,6 @@ export default function HomeScreen({navigation}) {
       }
       // make screen visible
       setModalVisible(true);
-
-
-
-
-
-
-
-
 
 
 
@@ -87,10 +87,19 @@ export default function HomeScreen({navigation}) {
                     );
 
     });
+  }
 
 
+  const nextModal = () => {
+    setUpdateVisible(true);
+    setModalVisible(false);
 
   }
+
+
+
+
+
 
     return (
         <View style={styles.container}>
@@ -130,8 +139,49 @@ export default function HomeScreen({navigation}) {
               <Text style={styles.headerText}>Last Recorded Length</Text>
               <Text style={styles.dataText}>{pitTag.length}</Text>
 
-              <TouchableOpacity style={styles.nextButton} onPress={() => enterTag(pitTag.number)}>
+              <TouchableOpacity style={styles.nextButton} onPress={() => nextModal()}>
                 <Text style={styles.updateText}>Update Data  ⮕</Text>
+              </TouchableOpacity>
+
+            </View>
+
+
+          </View>
+          </View>
+
+      </Modal>
+
+
+       <Modal
+        animationType="fade"
+        transparent={true}
+        visible={updateVisible}
+        >
+        <View style={styles.bgmodal}>
+
+          <View style={styles.modalView}>
+
+          <TouchableOpacity onPress={() => setUpdateVisible(false)}>
+                <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
+          </TouchableOpacity>
+
+          <Text style={styles.modalText}>Update Data</Text>
+
+
+            <View style = {styles.displayData}>
+
+
+              <Text style={styles.headerText}>New Length</Text>
+              <Text style={styles.dataText}>PLACEHOLDER</Text>
+
+              <Text style={styles.headerText}>River Mile</Text>
+              <Text style={styles.dataText}>PLACEHOLDER</Text>
+
+              <Text style={styles.headerText}>Current Date</Text>
+              <Text style={styles.dataText}>PLACEHOLDER</Text>
+
+              <TouchableOpacity style={styles.nextButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.updateText}>Confirm Updates</Text>
               </TouchableOpacity>
 
             </View>
@@ -149,23 +199,38 @@ export default function HomeScreen({navigation}) {
 
 
 
-            <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
+
+
+
+
+
+
+            <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
-              <Text style={styles.buttonText}>Download DB </Text>
-            </TouchableOpacity>
-            <Text style={styles.boxText}>Scanning Screen</Text>
-            <TextInput
-                style={styles.textIn}
-                autoCapitalize="none"
-                onChangeText={text => setPit({ number: text})}
-                label={"Username"}
-                placeholder="Enter PIT tag"
-              />
-            <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
-              <Text style={styles.buttonText}>ENTER </Text>
-            </TouchableOpacity>
+
+
+            <View style={styles.itemsHome}>
+
+              <Text style={styles.boxText}>Scan</Text>
+              <TextInput
+                  style={styles.textIn}
+                  autoCapitalize="none"
+                  onChangeText={text => setPit({ number: text})}
+                  label={"Username"}
+                  placeholder="Enter PIT tag"
+                />
+              <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
+                <Text style={styles.buttonText}>ENTER </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
+                <Text style={styles.buttonText}>Download DB </Text>
+              </TouchableOpacity>
+
+            </View>
+
+
             <Footer />
         </View>
     )
@@ -177,6 +242,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
     },
 
+    itemsHome: {
+      width: "100%",
+      height: "100%",
+      justifyContent: "center",
+    },
+
     icon:{
       height: 50,
       width: 50,
@@ -186,11 +257,15 @@ const styles = StyleSheet.create({
       position: 'absolute',
     },
 
+    help:{
+      zIndex: 1,
+    },
+
     boxText:{
         color: 'black',
         fontSize: 15,
         textAlign: 'center',
-        top: "30%",
+        // top: "40%",
         alignSelf: 'center',
     },
     sendButton:{
@@ -199,7 +274,7 @@ const styles = StyleSheet.create({
       width: '50%',
       justifyContent: 'center',
       borderRadius: 50,
-      top: "30%",
+      // top: "40%",
       alignSelf: 'center',
     },
 
@@ -209,8 +284,9 @@ const styles = StyleSheet.create({
       width: '50%',
       justifyContent: 'center',
       borderRadius: 50,
-      top: "15%",
+      // top: "45%",
       alignSelf: 'center',
+      marginTop: 10,
     },
 
     buttonText:{
@@ -229,7 +305,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: "20px",
     textAlign: "center",
-    top: "30%",
+    // top: "40%",
     alignSelf: 'center',
     borderRadius: 10,
     },
@@ -299,6 +375,12 @@ const styles = StyleSheet.create({
       color: 'black',
       fontSize: 15,
       textAlign: 'center',
+    },
+
+    bgmodal2:{
+      height: "100%",
+      width: "100%",
+      backgroundColor: "rgba(0, 0, 0, .7)",
     },
   
   });

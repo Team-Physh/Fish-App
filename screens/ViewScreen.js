@@ -6,9 +6,9 @@ export default function ViewScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-         <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
+         <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
-        </TouchableOpacity>
+            </TouchableOpacity>
             <Text style={styles.boxText}>View Page</Text>
             <Footer />
         </View>
@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
       top: 50,
       right:20,
       position: 'absolute',
+    },
+
+      help:{
+      zIndex: 1,
     },
   
   });
