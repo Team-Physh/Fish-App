@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
+import { Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {downloadDatabase} from '../database/databasefunctions'
@@ -11,15 +11,39 @@ export default function HomeScreen({navigation}) {
     number: '',
   });
 
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   function enterTag(number)
   {
   const db = SQLite.openDatabase("fish.db");
 
-      // testing function that prints out whatever index of data your tryna see. Can also print whole thing
+    // testing function that prints out whatever index of data your tryna see. Can also print whole thing
     const printInfo = (_array) => {
     //console.log(Object.values(_array[1]));
+
+    var count = Object.keys(_array).length;
+
+    // if entry found
+    if (count >= 1)
+    {
+      console.log("got em");
+      setModalVisible(true);
+    }
+    else
+    {
+      Alert.alert(
+      "Invalid PIT code",
+      "This will change to new entry screen maybe",
+      [
+        { text: "Ok" }
+      ]
+    );
+    }
+    console.log(count);
     console.log(_array);
 
+    //9891031619722
     };
 
   db.transaction(tx => {
@@ -35,10 +59,43 @@ export default function HomeScreen({navigation}) {
                     );
 
     });
+
+
+
   }
 
     return (
         <View style={styles.container}>
+
+
+        <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        >
+        <View style={styles.bgmodal}>
+
+          <View style={styles.modalView}>
+
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
+          </TouchableOpacity>
+
+
+
+            <Text style={styles.modalText}>Tag Number: {pitTag.number}</Text>
+          </View>
+          </View>
+
+      </Modal>
+
+
+
+
+
+
+
+
             <TouchableOpacity onPress={() => navigation.navigate('HelpScreen')}>
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
             </TouchableOpacity>
@@ -121,7 +178,38 @@ const styles = StyleSheet.create({
     textAlign: "center",
     top: "30%",
     alignSelf: 'center',
-    }
+    },
+
+    modalView: {
+      width: "80%",
+      height: "60%",
+      backgroundColor: 'silver',
+      alignSelf: 'center',
+      top: "20%",
+      borderRadius: 30,
+    },
+
+    Modalicon:{
+      height: 50,
+      width: 50,
+      resizeMode: 'contain',
+      top: 10,
+      right:10,
+      position: 'absolute',
+    },
+
+    bgmodal:{
+      height: "100%",
+      width: "100%",
+      backgroundColor: "rgba(0, 0, 0, .7)",
+    },
+
+    modalText:{
+      fontWeight: "bold",
+      marginTop: 30,
+      marginLeft: 20,
+      fontSize: 15,
+    },
   
   });
   
