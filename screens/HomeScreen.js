@@ -9,6 +9,10 @@ export default function HomeScreen({navigation}) {
   // pit constant
   const [pitTag, setPit] = useState({
     number: '',
+    lastCaught: '',
+    length: 0,
+    rivermile: 0,
+    species: '',
   });
 
 
@@ -18,17 +22,41 @@ export default function HomeScreen({navigation}) {
   {
   const db = SQLite.openDatabase("fish.db");
 
-    // testing function that prints out whatever index of data your tryna see. Can also print whole thing
+    // this const runs when it gets a valid code from DB
     const printInfo = (_array) => {
-    //console.log(Object.values(_array[1]));
+
 
     var count = Object.keys(_array).length;
 
     // if entry found
-    if (count >= 1)
+    if (count == 1)
     {
-      console.log("got em");
+      var key = Object.values(_array[0]);
+
+
+      // set data retrieved
+      if (key[5] == 'RBT')
+      {
+        setPit({ number: key[0], species: "Rainbow Trout", lastCaught: key[1], length: key[2], rivermile: key[4]});
+      }
+      else if (key[5] = "BNT")
+      {
+        setPit({ number: key[0], species: "Brown Trout", lastCaught: key[1], length: key[2], rivermile: key[4]});
+      }
+      // make screen visible
       setModalVisible(true);
+
+
+
+
+
+
+
+
+
+
+
+
     }
     else
     {
@@ -40,8 +68,8 @@ export default function HomeScreen({navigation}) {
       ]
     );
     }
-    console.log(count);
-    console.log(_array);
+    // console.log(count);
+    // console.log(_array);
 
     //9891031619722
     };
@@ -81,9 +109,34 @@ export default function HomeScreen({navigation}) {
                 <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
           </TouchableOpacity>
 
+          <Text style={styles.modalText}>View Data</Text>
 
 
-            <Text style={styles.modalText}>Tag Number: {pitTag.number}</Text>
+            <View style = {styles.displayData}>
+
+
+              <Text style={styles.headerText}>Tag Number</Text>
+              <Text style={styles.dataText}>{pitTag.number}</Text>
+
+              <Text style={styles.headerText}>Species</Text>
+              <Text style={styles.dataText}>{pitTag.species}</Text>
+
+              <Text style={styles.headerText}>Last Caught</Text>
+              <Text style={styles.dataText}>{pitTag.lastCaught}</Text>
+
+              <Text style={styles.headerText}>River Mile</Text>
+              <Text style={styles.dataText}>{pitTag.rivermile}</Text>
+
+              <Text style={styles.headerText}>Last Recorded Length</Text>
+              <Text style={styles.dataText}>{pitTag.length}</Text>
+
+              <TouchableOpacity style={styles.nextButton} onPress={() => enterTag(pitTag.number)}>
+                <Text style={styles.updateText}>Update Data  ⮕</Text>
+              </TouchableOpacity>
+
+            </View>
+
+
           </View>
           </View>
 
@@ -178,6 +231,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     top: "30%",
     alignSelf: 'center',
+    borderRadius: 10,
     },
 
     modalView: {
@@ -206,9 +260,45 @@ const styles = StyleSheet.create({
 
     modalText:{
       fontWeight: "bold",
-      marginTop: 30,
-      marginLeft: 20,
+      fontSize: 25,
+      top: "5%",
+      alignSelf: 'center',
+      marginBottom: 40,
+    },
+
+    headerText:{
+      fontWeight: "bold",
       fontSize: 15,
+      alignSelf: 'center',
+      marginTop: 10,
+    },
+    dataText:{
+      fontSize: 15,
+      alignSelf: 'center',
+    },
+
+    nextButton:{
+      alignSelf: 'center',
+      backgroundColor: 'lightblue',
+      height: '10%',
+      width: '50%',
+      justifyContent: 'center',
+      borderRadius: 50,
+      marginTop: 20,
+    },
+
+    displayData:{
+      width: "100%",
+      height: "80%",
+      display: "flex",
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
+
+    updateText:{
+      color: 'black',
+      fontSize: 15,
+      textAlign: 'center',
     },
   
   });
