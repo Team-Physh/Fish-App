@@ -10,7 +10,6 @@ export default function HelpScreen({navigation}) {
             </TouchableOpacity>
 
             <Text style={styles.boxText}>Help</Text>
-            <Footer />
         </View>
     )
 }
