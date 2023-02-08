@@ -6,11 +6,12 @@ export default function HelpScreen({navigation}) {
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.container}>
-                <ScrollView style={styles.scrollView}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                     </TouchableOpacity>
                     <Text style={styles.titleText}>Instructions {'\n'}</Text>
+            
+                <ScrollView style={styles.scrollView}>
                     <Text style={styles.headerText}>How to Upload Fish Data</Text>
                     <Text style={styles.boxText}>
                         {'\n'}
@@ -45,25 +46,33 @@ export default function HelpScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'cadetblue',
+      paddingTop: StatusBar.currentHeight,
     },
     boxText:{
         color: 'black',
-        fontSize: 15,
+        fontSize: 20,
         textAlign: 'left',
-        top: "50%"
+        top: "50%",
+        marginLeft: "10%",
+        marginRight: "10%",
+        fontFamily: "Arial"
     },
     headerText: {
         color: 'black',
-        fontSize: 25,
+        fontSize: 30,
+        fontWeight: 'bold',
         textAlign: 'center',
-        top: "50%"
+        top: "50%",
+        fontFamily: "Arial"
     },
     titleText: {
-        color: 'black',
-        fontSize: 35,
+        color: 'oldlace',
+        fontSize: 50,
+        fontWeight: 'bold',
         textAlign: 'center',
-        top: "50%"
+        top: "50%",
+        fontFamily: "Arial",
     },
     icon:{
       height: 50,
@@ -73,12 +82,11 @@ const styles = StyleSheet.create({
       right:20,
       position: 'absolute',
     },
-    ScrollView: {
+    scrollView: {
         margin: 20,
-        padding: 20,
     },  
-    SafeAreaView: {
-        margin: 20,
+    safeAreaView: {
+        marginHorizontal: 20,
         padding: 20,
     }, 
   });
