@@ -26,7 +26,7 @@ export default function HelpScreen({navigation}) {
                             is connected to your PIT scanner.
                             {'\n'}
                             {'\n'}
-                        <Image source={require('../assets/bluetooth_help.jpg')} />
+                        <Image style = {styles.image} source={require('../assets/bluetooth_help.jpg')} />
                             {'\n'}
                             {'\n'}
                             If your device cannot connect to the PIT scanner, you can also 
@@ -35,7 +35,8 @@ export default function HelpScreen({navigation}) {
                             {'\n'}
                             Once you have a value for the PIT tag in the text box, click enter.
                             {'\n'}
-                            <Image source={require('../assets/help_scan_page.png')} />
+                            {'\n'}
+                        <Image style={styles.image} source={require('../assets/help_scan_page.png')} />
                             {'\n'}
                             Next, you will be in the data entry page. If your fish has already been 
                             caught and recorded in our database, some fields may already be filled out.
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     },
     boxText:{
         color: 'black',
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'left',
         marginLeft: "10%",
         marginRight: "10%",
@@ -98,5 +99,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         padding: 20,
     }, 
+    image: {
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+    },
   });
   
