@@ -68,8 +68,6 @@ export default function HomeScreen({navigation}) {
       ]
     );
     }
-    // console.log(count);
-    // console.log(_array);
 
     //9891031619722
     };

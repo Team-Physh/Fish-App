@@ -5,10 +5,11 @@ export default function HelpScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-            <SafeAreaView style={styles.container}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity style ={styles.help} onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                     </TouchableOpacity>
+            <SafeAreaView style={styles.container}>
+
                     <Text style={styles.titleText}>Instructions 
                         {'\n'}
                         {'\n'}
@@ -91,6 +92,9 @@ const styles = StyleSheet.create({
       top: 50,
       right:20,
       position: 'absolute',
+    },
+    help: {
+        zIndex: 1,
     },
     scrollView: {
         margin: 20,
