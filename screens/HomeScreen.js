@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     color: 'black',
-    fontSize: "20px",
+    fontSize: 20,
     textAlign: "center",
     // top: "40%",
     alignSelf: 'center',
