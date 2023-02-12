@@ -23,6 +23,54 @@ export default function HomeScreen({navigation}) {
   const [updateVisible, setUpdateVisible] = useState(false);
 
 
+  // date grabber
+  const getCurrentDate=()=>{
+
+      var date = new Date().getDate();
+      var month = new Date().getMonth() + 1;
+      var year = new Date().getFullYear();
+
+      //Alert.alert(date + '-' + month + '-' + year);
+      // You can turn it in to your desired format
+      return year + '-' + month + '-' + date;//format: d-m-y;
+}
+
+
+function uploadData()
+{
+  // db.transaction(tx => {
+  //
+  //       //upload data to local database
+  //       for (var i = 0; i < data.length; i++)
+  //       {
+  //       const array = data[i];
+  //
+  //       tx.executeSql("UPDATE fishTable (hex, lastCaught, length, pit, riverMile, species) VALUES (?, ?, ?, ?, ?, ?)",
+  //                       [array.hex, array.lastCaught, array.length, array.pit, array.riverMile, array.species])
+  //       }
+  //
+  //       console.log("database download complete");
+  //
+  //
+  //       // // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
+  //       //         tx.executeSql(
+  //       // "select * from fishTable",
+  //       // null,
+  //       // // success
+  //       // (_, { rows: { _array } }) => printInfo(_array),
+  //       // // error
+  //       // () => console.log("error fetching")
+  //       //             );
+  //
+  //   });
+
+
+
+  setModalVisible(false);
+
+
+}
+
 
 
 
@@ -102,7 +150,6 @@ export default function HomeScreen({navigation}) {
     return (
         <View style={styles.container}>
 
-
         <Modal
         animationType="fade"
         transparent={true}
@@ -135,7 +182,7 @@ export default function HomeScreen({navigation}) {
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
 
               <Text style={styles.headerText}>Last Recorded Length</Text>
-              <Text style={styles.dataText}>{pitTag.length}</Text>
+              <Text style={styles.dataText}>{pitTag.length} mm</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => nextModal()}>
                 <Text style={styles.updateText}>Update Data  ⮕</Text>
@@ -148,6 +195,11 @@ export default function HomeScreen({navigation}) {
           </View>
 
       </Modal>
+
+
+
+
+
 
 
        <Modal
@@ -170,15 +222,25 @@ export default function HomeScreen({navigation}) {
 
 
               <Text style={styles.headerText}>New Length</Text>
-              <Text style={styles.dataText}>PLACEHOLDER</Text>
+              <TextInput
+                  style={styles.textInUpdate}
+                  autoCapitalize="none"
+                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile})    }
+                  placeholder="Enter Length (mm)"
+                />
 
               <Text style={styles.headerText}>River Mile</Text>
-              <Text style={styles.dataText}>PLACEHOLDER</Text>
+              <TextInput
+                  style={styles.textInUpdate}
+                  autoCapitalize="none"
+                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text})    }
+                  placeholder="Enter River Mile"
+                />
 
               <Text style={styles.headerText}>Current Date</Text>
-              <Text style={styles.dataText}>PLACEHOLDER</Text>
+              <Text style={styles.dataText}>{getCurrentDate()}</Text>
 
-              <TouchableOpacity style={styles.nextButton} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity style={styles.nextButton} onPress={() => uploadData()}>
                 <Text style={styles.updateText}>Confirm Updates</Text>
               </TouchableOpacity>
 
@@ -215,7 +277,6 @@ export default function HomeScreen({navigation}) {
                   style={styles.textIn}
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: text})}
-                  label={"Username"}
                   placeholder="Enter PIT tag"
                 />
               <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
@@ -379,6 +440,17 @@ const styles = StyleSheet.create({
       height: "100%",
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, .7)",
+    },
+    textInUpdate: {
+    borderWidth: 2,
+    alignSelf: 'center',
+    width: "70%",
+    height: 40,
+    color: 'black',
+    fontSize: 20,
+    textAlign: "center",
+    alignSelf: 'center',
+    borderRadius: 10,
     },
   
   });
