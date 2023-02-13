@@ -7,6 +7,18 @@ export default function ViewScreen({navigation}) {
 
   const [data, setData] = useState([]);
 
+  const getSpecies=(species)=>{
+
+    if(species=="RBT")
+    {
+      return "Rainbow Trout";
+    }
+    else if (species == "BNT")
+    {
+      return "Brown Trout";
+    }
+  }
+
   useEffect(() => {
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
@@ -56,8 +68,8 @@ export default function ViewScreen({navigation}) {
               data={data}
               renderItem={({item}) => (
                 <View style={styles.itemRow}>
-                  <Text>
-                  {item.hex}, {item.species}
+                  <Text style={styles.rowText}>
+                  {item.hex}, {getSpecies(item.species)}, {item.lastCaught}
                   </Text>
                 </View>
               )}
@@ -87,20 +99,15 @@ const styles = StyleSheet.create({
     },
 
     itemRow:{
-      justifyContent:'center',
-    },
-
-    page:{
+      borderBottomColor: 'green',
+      borderLeftColor: 'white',
+      borderRightColor: 'white',
+      borderTopColor: 'white',
+      borderWidth: 3,
+      width: "90%",
+      height: 80,
+      alignSelf: 'center',
       justifyContent: 'center',
-      width: "100%",
-      height: "100%",
-    },
-
-    page:{
-      backgroundColor: 'pink',
-      justifyContent: 'center',
-      width: "100%",
-      height: "100%",
     },
 
     header:{
@@ -119,6 +126,22 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       fontSize: 30,
       
+    },
+
+    rowText:{
+      textAlign: 'left',
+      fontSize:20,
+      marginTop: 0,
+      marginBottom: 0,
+      marginLeft: 0,
+    },
+
+    listHead:{
+      width: "100%",
+      height: 50,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      backgroundColor: "pink",
     }
 
   
