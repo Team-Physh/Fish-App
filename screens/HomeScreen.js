@@ -5,7 +5,7 @@ import * as SQLite from 'expo-sqlite'
 import {downloadDatabase} from '../database/databasefunctions'
 
 export default function HomeScreen({navigation}) {
-
+    //9891031619722
   // pit constant
   const [pitTag, setPit] = useState({
     number: '',
@@ -13,6 +13,8 @@ export default function HomeScreen({navigation}) {
     length: 0,
     rivermile: 0,
     species: '',
+    // remove?
+    temp: '1',
   });
 
 
@@ -35,38 +37,49 @@ export default function HomeScreen({navigation}) {
       return year + '-' + month + '-' + date;//format: d-m-y;
 }
 
+// species grabber
+const getSpecies=(species)=>{
+
+  if(species=="RBT")
+  {
+    return "Rainbow Trout";
+  }
+  else if (species == "BNT")
+  {
+    return "Brown Trout";
+  }
+}
+
 
 function uploadData()
 {
-  // db.transaction(tx => {
-  //
-  //       //upload data to local database
-  //       for (var i = 0; i < data.length; i++)
-  //       {
-  //       const array = data[i];
-  //
-  //       tx.executeSql("UPDATE fishTable (hex, lastCaught, length, pit, riverMile, species) VALUES (?, ?, ?, ?, ?, ?)",
-  //                       [array.hex, array.lastCaught, array.length, array.pit, array.riverMile, array.species])
-  //       }
-  //
-  //       console.log("database download complete");
-  //
-  //
-  //       // // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
-  //       //         tx.executeSql(
-  //       // "select * from fishTable",
-  //       // null,
-  //       // // success
-  //       // (_, { rows: { _array } }) => printInfo(_array),
-  //       // // error
-  //       // () => console.log("error fetching")
-  //       //             );
-  //
-  //   });
+  const db = SQLite.openDatabase("fish.db");
+  db.transaction(tx => {
+  
+        //upload data to local database
+  
+        tx.executeSql("UPDATE fishTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
+                        [getCurrentDate(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        );
+
+    });
+    db.transaction(tx => {
+  
+      //upload data to local database
+
+      // check if local table exists first
+      tx.executeSql(
+        "create table if not exists catchTable (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
+        []
+        );
+
+        tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?)",
+        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+
+  });
 
 
-
-  setModalVisible(false);
+  setUpdateVisible(false);
 
 
 }
@@ -90,19 +103,11 @@ function uploadData()
       var key = Object.values(_array[0]);
 
 
-      // set data retrieved
-      if (key[5] == 'RBT')
-      {
-        setPit({ number: key[0], species: "Rainbow Trout", lastCaught: key[1], length: key[2], rivermile: key[4]});
-      }
-      else if (key[5] = "BNT")
-      {
-        setPit({ number: key[0], species: "Brown Trout", lastCaught: key[1], length: key[2], rivermile: key[4]});
-      }
+      // set data retrieved (3 is hex?)
+      setPit({ number: key[0], species: key[5], lastCaught: key[1], length: key[2], rivermile: key[4], temp: key[3]});
+
       // make screen visible
       setModalVisible(true);
-
-
 
 
     }
@@ -117,7 +122,7 @@ function uploadData()
     );
     }
 
-    //9891031619722
+
     };
 
   db.transaction(tx => {
@@ -173,7 +178,7 @@ function uploadData()
               <Text style={styles.dataText}>{pitTag.number}</Text>
 
               <Text style={styles.headerText}>Species</Text>
-              <Text style={styles.dataText}>{pitTag.species}</Text>
+              <Text style={styles.dataText}>{getSpecies(pitTag.species)}</Text>
 
               <Text style={styles.headerText}>Last Caught</Text>
               <Text style={styles.dataText}>{pitTag.lastCaught}</Text>
@@ -182,7 +187,7 @@ function uploadData()
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
 
               <Text style={styles.headerText}>Last Recorded Length</Text>
-              <Text style={styles.dataText}>{pitTag.length} mm</Text>
+              <Text style={styles.dataText}>{pitTag.length}mm</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => nextModal()}>
                 <Text style={styles.updateText}>Update Data  ⮕</Text>
@@ -225,7 +230,7 @@ function uploadData()
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile})    }
+                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
                   placeholder="Enter Length (mm)"
                 />
 
@@ -233,7 +238,7 @@ function uploadData()
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text})    }
+                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
                 />
 

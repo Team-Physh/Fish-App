@@ -11,11 +11,11 @@ export default function Footer(){
                       <Text style={style.iconText}>Scan</Text>
                      </TouchableOpacity> 
                      <TouchableOpacity onPress={() => navigation.navigate('View')}>
-                      <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
+                      <Image style={ style.icon } source={require('../assets/catches.png')}></Image>
                       <Text style={style.iconText}>View</Text>
                      </TouchableOpacity>
                      <TouchableOpacity onPress={() => navigation.navigate('More')}>
-                      <Image style={ style.icon } source={require('../assets/PHYSH.png')}></Image>
+                      <Image style={ style.icon } source={require('../assets/more.png')}></Image>
                       <Text style={style.iconText}>More</Text>
                      </TouchableOpacity>
                      
