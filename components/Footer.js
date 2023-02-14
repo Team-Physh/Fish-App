@@ -26,14 +26,15 @@ export default function Footer(){
 const style = StyleSheet.create({
    footer:{
      flex: 1,
-     backgroundColor: 'rgba(1, 1, 1, .1)',
+     backgroundColor: 'white',
      position: 'absolute',
      left: 0,
      right: 0,
      bottom: 0,
      height: '12%',
-     borderTopColor: '#ccc',
-     borderTopWidth: 1,
+     borderColor: '#ccc',
+     borderWidth: 1,
+     borderRadius: 20,
   },
 
   textAlign:{

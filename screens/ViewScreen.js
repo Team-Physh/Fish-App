@@ -61,6 +61,7 @@ export default function ViewScreen({navigation}) {
 
 
             <FlatList
+            style ={styles.flatlister}
               ListHeaderComponent={() => (
                 <View style={styles.listHead}>
                 </View>
@@ -68,9 +69,26 @@ export default function ViewScreen({navigation}) {
               data={data}
               renderItem={({item}) => (
                 <View style={styles.itemRow}>
-                  <Text style={styles.rowText}>
-                  {item.hex}, {getSpecies(item.species)}, {item.lastCaught}
-                  </Text>
+                    <View style={styles.leftSide}>
+                      <Text style={styles.rowText}>
+                      PIT: {item.hex}
+                      </Text>
+                    </View>
+
+                    <View style={styles.rightSide}>
+                      <Text style={styles.rightText}>
+                        Length: {item.length}mm
+                        </Text>
+                        <Text style={styles.rightText}>
+                        Species: {getSpecies(item.species)}
+                        </Text>
+                        <Text style={styles.rightText}>
+                      Date: {item.lastCaught}
+                      </Text>
+                      <Text style={styles.rightText}>
+                      Mile: {item.riverMile}
+                      </Text>
+                    </View>
                 </View>
               )}
               keyExtractor={(item) => item.hex}
@@ -105,17 +123,18 @@ const styles = StyleSheet.create({
       borderTopColor: 'white',
       borderWidth: 3,
       width: "90%",
-      height: 80,
+      height: 100,
       alignSelf: 'center',
       justifyContent: 'center',
+      zIndex: 0,
     },
 
     header:{
       width: "100%",
       height: "15%",
-      borderBottomColor: '#ccc',
-      borderBottomWidth: 1,
-      backgroundColor: 'rgba(1, 1, 1, .1)',
+      borderColor: '#ccc',
+      borderWidth: 1,
+      backgroundColor: 'white',
       borderRadius: 20,
     },
 
@@ -130,19 +149,39 @@ const styles = StyleSheet.create({
 
     rowText:{
       textAlign: 'left',
-      fontSize:20,
+      fontSize:18,
       marginTop: 0,
       marginBottom: 0,
       marginLeft: 0,
+      fontWeight: 'bold',
     },
 
-    listHead:{
-      width: "100%",
-      height: 50,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      backgroundColor: "pink",
-    }
+    leftSide: {
+      display: "flex",
+      flexDirection: "column",
+      left: 0,
+      position: 'absolute',
+    },
+
+    rightSide: {
+      display: "flex",
+      flexDirection: "column",
+      right: 0,
+      position: 'absolute',
+    },
+    
+    rightText:{
+      textAlign: 'left',
+      fontSize:12,
+    },
+
+    // listHead:{
+    //   width: "100%",
+    //   height: 50,
+    //   alignSelf: 'center',
+    //   justifyContent: 'center',
+    //   backgroundColor: "pink",
+    // }
 
   
   });
