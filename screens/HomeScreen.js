@@ -119,6 +119,16 @@ function uploadData()
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?)",
         [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
 
+
+      // check if history table exists first
+      tx.executeSql(
+        "create table if not exists history (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
+        []
+        );
+
+        tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?)",
+        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+
   });
 
 
@@ -387,7 +397,7 @@ const styles = StyleSheet.create({
 
     syncButton:{
       backgroundColor: '#c6d9fd',
-      height: 70,
+      height: 60,
       width: 70,
       justifyContent: 'center',
       borderRadius: 20,

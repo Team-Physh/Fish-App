@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
       borderLeftColor: 'white',
       borderRightColor: 'white',
       borderTopColor: 'white',
-      borderWidth: 3,
+      borderBottomWidth: 3,
       width: "90%",
       height: 100,
       alignSelf: 'center',
