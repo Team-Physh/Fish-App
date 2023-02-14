@@ -21,11 +21,11 @@ export default function MoreScreen({navigation}) {
             </TouchableOpacity>
 
             <TouchableOpacity  style ={styles.otherOne} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>Temp One</Text>
+            <Text style={styles.buttonText}>Unused One</Text>
             </TouchableOpacity>
 
             <TouchableOpacity  style ={styles.otherTwo} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>Temp Two</Text>
+            <Text style={styles.buttonText}>Unused Two</Text>
             </TouchableOpacity>
 
               </View>

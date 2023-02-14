@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
@@ -37,7 +37,7 @@ export default function HomeScreen({navigation}) {
       return year + '-' + month + '-' + date;//format: d-m-y;
 }
 
-// species grabber
+// species grabber. converts abbrev to string
 const getSpecies=(species)=>{
 
   if(species=="RBT")
@@ -51,6 +51,49 @@ const getSpecies=(species)=>{
 }
 
 
+// THIS CHECKS IF IT IS USERS FIRST TIME OPENING APP. IF SO, DOWNLOAD DATABASE
+useEffect(() => {
+  const db = SQLite.openDatabase("fish.db");
+  db.transaction(tx => {
+
+    //upload data to local database
+    const checkinfo = (_array) => {
+      //var count = Object.keys(_array).length;
+      //console.log(_array);
+      //9891031619722
+
+      var count = Object.keys(_array).length;
+
+      // if catch table not empty, store in data field
+      if(count > 0)
+      {
+        console.log("DB Populated");
+      }
+
+      };
+
+    
+
+      tx.executeSql(
+        "select * from fishTable",
+        [],
+        // success
+        (_, { rows: { _array } }) => checkinfo(_array),
+        // error
+        () => downloadDatabase()
+                    );
+  });
+}, []);
+
+
+
+
+
+
+
+
+
+// this updates entries 
 function uploadData()
 {
   const db = SQLite.openDatabase("fish.db");
@@ -86,7 +129,7 @@ function uploadData()
 
 
 
-
+// this runs when u hit enter,
   function enterTag(number)
   {
   const db = SQLite.openDatabase("fish.db");
@@ -140,7 +183,7 @@ function uploadData()
     });
   }
 
-
+  // goes to next modal 
   const nextModal = () => {
     setUpdateVisible(true);
     setModalVisible(false);
