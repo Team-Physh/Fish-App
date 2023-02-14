@@ -56,7 +56,7 @@ export default function ViewScreen({navigation}) {
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
           </TouchableOpacity>
           <View style={styles.header}>
-            <Text style={styles.headerText}>Stored Catches</Text>
+            <Text style={styles.headerText}>Recent Catches</Text>
           </View>
 
 
@@ -67,6 +67,17 @@ export default function ViewScreen({navigation}) {
                 </View>
               )}
               data={data}
+
+              ListEmptyComponent={() => (
+                <View style={styles.emptyView}>
+                  <Text style={styles.emptyText}>
+                     No stored catches
+                  </Text>
+                </View>
+              )}
+
+
+
               renderItem={({item}) => (
                 <View style={styles.itemRow}>
                     <View style={styles.leftSide}>
@@ -175,13 +186,22 @@ const styles = StyleSheet.create({
       fontSize:12,
     },
 
-    // listHead:{
-    //   width: "100%",
-    //   height: 50,
-    //   alignSelf: 'center',
-    //   justifyContent: 'center',
-    //   backgroundColor: "pink",
-    // }
+    emptyView:{
+      width: "100%",
+      height: 100,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      backgroundColor: "",
+      
+    },
+
+    emptyText:{
+      textAlign: 'left',
+      fontSize:20,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      color: "#999",
+    },
 
   
   });

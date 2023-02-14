@@ -285,11 +285,11 @@ function uploadData()
                   placeholder="Enter PIT tag"
                 />
               <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
-                <Text style={styles.buttonText}>ENTER </Text>
+                <Text style={styles.buttonText}>Enter </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
-                <Text style={styles.buttonText}>Download DB </Text>
+                <Text style={styles.buttonText}>Sync Data </Text>
               </TouchableOpacity>
 
             </View>
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
       borderRadius: 50,
       // top: "45%",
       alignSelf: 'center',
-      marginTop: 10,
+      marginTop: 80,
     },
 
     buttonText:{
