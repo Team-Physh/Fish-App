@@ -19,6 +19,20 @@ export default function ViewScreen({navigation}) {
     }
   }
 
+  const rowStyle = (index) => ({
+    borderBottomColor: 'green',
+    borderLeftColor: 'white',
+    borderRightColor: 'white',
+    borderTopColor: 'white',
+    borderBottomWidth: 3,
+    width: "100%",
+    height: 100,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    zIndex: 0,
+    backgroundColor: index % 2 === 0 ? 'white' : '#ccc',
+  });
+
   useEffect(() => {
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
@@ -78,8 +92,8 @@ export default function ViewScreen({navigation}) {
 
 
 
-              renderItem={({item}) => (
-                <View style={styles.itemRow}>
+              renderItem={({item, index}) => (
+                <View style={rowStyle(index)}>
                     <View style={styles.leftSide}>
                       <Text style={styles.rowText}>
                       PIT: {item.hex}
@@ -148,8 +162,9 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
-      shadowRadius: 2,  
+      shadowRadius: 1,  
       elevation: 5,
+      marginBottom: 2,
     },
 
     headerText:{
@@ -173,14 +188,14 @@ const styles = StyleSheet.create({
     leftSide: {
       display: "flex",
       flexDirection: "column",
-      left: 0,
+      left: 10,
       position: 'absolute',
     },
 
     rightSide: {
       display: "flex",
       flexDirection: "column",
-      right: 0,
+      right: 10,
       position: 'absolute',
     },
     
