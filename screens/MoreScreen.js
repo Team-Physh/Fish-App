@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
-      borderRadius: 50,
+      borderRadius: 20,
       alignSelf: 'center',
     },
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
-      borderRadius: 50,
+      borderRadius: 20,
       alignSelf: 'center',
     },
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
-      borderRadius: 50,
+      borderRadius: 20,
       alignSelf: 'center',
     },
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
-      borderRadius: 50,
+      borderRadius: 20,
       alignSelf: 'center',
     },
 

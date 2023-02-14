@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-      fontWeight: 'bold',
+      fontWeight: '',
       bottom: 0,
       position: 'absolute',
       alignSelf: 'center',
