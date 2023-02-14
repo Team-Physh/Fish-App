@@ -430,6 +430,7 @@ const styles = StyleSheet.create({
     // top: "40%",
     alignSelf: 'center',
     borderRadius: 10,
+    
     },
 
     modalView: {

@@ -32,9 +32,12 @@ const style = StyleSheet.create({
      right: 0,
      bottom: 0,
      height: '12%',
-     borderColor: '#ccc',
-     borderWidth: 1,
      borderRadius: 20,
+     shadowColor: '#000',
+     shadowOffset: { width: 0, height: 1 },
+     shadowOpacity: 0.8,
+     shadowRadius: 2,  
+     elevation: 5,
   },
 
   textAlign:{

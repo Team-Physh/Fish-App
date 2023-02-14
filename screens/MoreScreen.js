@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 20,
       alignSelf: 'center',
+      
     },
 
     history:{
@@ -311,9 +312,13 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      borderColor: '',
       backgroundColor: '#f4b5ab',
       borderRadius: 10,
+      shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,  
+    elevation: 5,
     },
 
     headerText:{

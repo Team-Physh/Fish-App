@@ -143,10 +143,13 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "15%",
-      borderColor: '#ccc',
-      borderWidth: 1,
       backgroundColor: 'white',
       borderRadius: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,  
+      elevation: 5,
     },
 
     headerText:{
