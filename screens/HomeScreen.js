@@ -289,7 +289,7 @@ function uploadData()
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
-                <Text style={styles.buttonText}>Sync Data </Text>
+                <Text style={styles.buttonText}>Sync</Text>
               </TouchableOpacity>
 
             </View>
@@ -333,9 +333,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     sendButton:{
-      backgroundColor: 'lightblue',
+      backgroundColor: '#89ca97',
       height: '10%',
-      width: '50%',
+      width: '70%',
       justifyContent: 'center',
       borderRadius: 50,
       // top: "40%",
@@ -343,14 +343,19 @@ const styles = StyleSheet.create({
     },
 
     syncButton:{
-      backgroundColor: 'lightgreen',
-      height: '10%',
-      width: '50%',
+      backgroundColor: '#c6d9fd',
+      height: 70,
+      width: 70,
       justifyContent: 'center',
-      borderRadius: 50,
+      borderRadius: 20,
       // top: "45%",
       alignSelf: 'center',
-      marginTop: 80,
+      top: 50,
+      left: 20,
+      position: 'absolute',
+      borderWith: 5,
+      borderWidth: 0,
+      borderColor: 'black',
     },
 
     buttonText:{

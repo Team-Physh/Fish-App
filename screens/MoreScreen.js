@@ -16,6 +16,18 @@ export default function MoreScreen({navigation}) {
             <Text style={styles.buttonText}>Our Website</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity  style ={styles.history} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
+            <Text style={styles.buttonText}>View Catch History</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity  style ={styles.otherOne} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
+            <Text style={styles.buttonText}>Temp One</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity  style ={styles.otherTwo} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
+            <Text style={styles.buttonText}>Temp Two</Text>
+            </TouchableOpacity>
+
               </View>
 
             
@@ -49,12 +61,42 @@ const styles = StyleSheet.create({
     },
 
     learn:{
-      backgroundColor: 'lightblue',
+      backgroundColor: '#fddfba',
       height: '10%',
-      width: '50%',
+      width: '80%',
+      marginBottom: 10,
       justifyContent: 'center',
       borderRadius: 50,
-      // top: "40%",
+      alignSelf: 'center',
+    },
+
+    history:{
+      backgroundColor: '#fbd6f3',
+      height: '10%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 50,
+      alignSelf: 'center',
+    },
+
+    otherOne:{
+      backgroundColor: '#8acc98',
+      height: '10%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 50,
+      alignSelf: 'center',
+    },
+
+    otherTwo:{
+      backgroundColor: '#c6d9fd',
+      height: '10%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 50,
       alignSelf: 'center',
     },
 
