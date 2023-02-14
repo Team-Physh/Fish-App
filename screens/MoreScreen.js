@@ -17,7 +17,7 @@ export default function MoreScreen({navigation}) {
             </TouchableOpacity>
 
             <TouchableOpacity  style ={styles.history} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>View Catch History</Text>
+            <Text style={styles.buttonText}>Total Catch History</Text>
             </TouchableOpacity>
 
             <TouchableOpacity  style ={styles.otherOne} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
