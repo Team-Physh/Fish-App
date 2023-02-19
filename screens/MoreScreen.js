@@ -353,8 +353,7 @@ const styles = StyleSheet.create({
       textAlign: 'left',
       fontSize:20,
       textAlign: 'center',
-      fontWeight: 'bold',
-      color: "#999",
+      color: "black",
     },
 
 

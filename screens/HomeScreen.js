@@ -37,6 +37,73 @@ export default function HomeScreen({navigation}) {
       return year + '-' + month + '-' + date;//format: d-m-y;
 }
 
+
+// const that does some stuff (ask me and ill explain it lol)
+const keyExistHistory = (_array) => {
+
+    const db = SQLite.openDatabase("fish.db");
+
+    var count = Object.keys(_array).length;
+
+    console.log("KEYS:");
+    console.log(count);
+
+
+    db.transaction(tx => {
+
+
+      if( count == 0)
+      {
+        tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
+        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+      }
+
+      else if ( count > 0)
+      {
+        tx.executeSql("UPDATE history SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
+                        [getCurrentDate(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        );
+      }
+
+
+
+  });
+
+    };
+
+// another const that does some stuff (ask me and ill explain it lol)
+const keyExistCatch = (_array) => {
+
+    const db = SQLite.openDatabase("fish.db");
+
+    var count = Object.keys(_array).length;
+
+    console.log("KEYS:");
+    console.log(count);
+
+
+    db.transaction(tx => {
+
+
+      if( count == 0)
+      {
+        tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
+        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+      }
+
+      else if ( count > 0)
+      {
+        tx.executeSql("UPDATE catchTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
+                        [getCurrentDate(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        );
+      }
+
+  });
+
+    };
+
+
+
 // species grabber. converts abbrev to string
 const getSpecies=(species)=>{
 
@@ -50,40 +117,6 @@ const getSpecies=(species)=>{
   }
 }
 
-
-// THIS CHECKS IF IT IS USERS FIRST TIME OPENING APP. IF SO, DOWNLOAD DATABASE
-useEffect(() => {
-  const db = SQLite.openDatabase("fish.db");
-  db.transaction(tx => {
-
-    //upload data to local database
-    const checkinfo = (_array) => {
-      //var count = Object.keys(_array).length;
-      //console.log(_array);
-      //9891031619722
-
-      var count = Object.keys(_array).length;
-
-      // if catch table not empty, store in data field
-      if(count > 0)
-      {
-        console.log("DB Populated");
-      }
-
-      };
-
-    
-
-      tx.executeSql(
-        "select * from fishTable",
-        [],
-        // success
-        (_, { rows: { _array } }) => checkinfo(_array),
-        // error
-        () => downloadDatabase()
-                    );
-  });
-}, []);
 
 
 
@@ -116,8 +149,19 @@ function uploadData()
         []
         );
 
-        tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?)",
-        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+
+
+        // check if key exist locally
+        tx.executeSql(
+        "select * from catchTable where hex = ?",
+        [pitTag.number],
+        // success
+        (_, { rows: { _array } }) => keyExistCatch(_array),
+        // error
+        () => console.log("Error with key conflict stuff (catchtable)")
+                    );
+
+
 
 
       // check if history table exists first
@@ -126,8 +170,20 @@ function uploadData()
         []
         );
 
-        tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?)",
-        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+
+      // check if key exist locally
+      tx.executeSql(
+        "select * from history where hex = ?",
+        [pitTag.number],
+        // success
+        (_, { rows: { _array } }) => keyExistHistory(_array),
+        // error
+        () => console.log("Error with key conflict stuff (history)")
+                    );
+
+
+
+
 
   });
 

@@ -40,7 +40,7 @@ export default function ViewScreen({navigation}) {
       //upload data to local database
       const storeInfo = (_array) => {
         //var count = Object.keys(_array).length;
-        //console.log(_array);
+        console.log(_array);
         //9891031619722
 
         var count = Object.keys(_array).length;
@@ -59,7 +59,7 @@ export default function ViewScreen({navigation}) {
           // success
           (_, { rows: { _array } }) => storeInfo(_array),
           // error
-          () => console.log("error fetching")
+          () => console.log("No values grabbed")
                       );
     });
   }, []);

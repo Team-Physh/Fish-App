@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite'
 // API call to get data
 export async function getAllData()
     {
-    const response = await fetch('http://api.vlexum.com:3000/fish')
+    const response = await fetch('http://api.teamphysh.com:3000/fish')
     const data = await response.json()
 
     return data;
@@ -29,7 +29,7 @@ export async function downloadDatabase()
     db.transaction(tx => {
 
         // drop old table on app start (MIGHT REMOVE)
-        tx.executeSql("DROP TABLE IF EXISTS fishTable;", [])
+        tx.executeSql("DROP TABLE IF EXISTS fishTable;", []);
 
         // check if local table exists first
         tx.executeSql(
@@ -59,7 +59,14 @@ export async function downloadDatabase()
         // () => console.log("error fetching")
         //             );
 
+        // drop everything test
+        // tx.executeSql("DROP TABLE IF EXISTS catchTable;", []);
+        // tx.executeSql("DROP TABLE IF EXISTS fishTable;", []);
+        // tx.executeSql("DROP TABLE IF EXISTS history;", []);
+
     });
+
+
     }
 
 
