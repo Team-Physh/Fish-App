@@ -333,12 +333,13 @@ function uploadData()
 
           <View style={styles.modalView}>
 
-          <TouchableOpacity onPress={() => setModalVisible(false)}>
+          <TouchableOpacity style={styles.zraiser} onPress={() => setModalVisible(false)}>
                 <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
           </TouchableOpacity>
 
+          <View style={styles.modalHeader}>
           <Text style={styles.modalText}>View Data</Text>
-
+          </View>
 
             <View style = {styles.displayData}>
 
@@ -390,17 +391,18 @@ function uploadData()
               android: () => 0
             })() }        style={styles.modalView}>
 
-          <TouchableOpacity onPress={() => setUpdateVisible(false)}>
+          <TouchableOpacity style={styles.zraiser} onPress={() => setUpdateVisible(false)}>
                 <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
           </TouchableOpacity>
 
+          <View style={styles.modalHeader}>
           <Text style={styles.modalText}>Update Data</Text>
-
+          </View>
 
             <View style = {styles.displayData}>
 
 
-              <Text style={styles.headerText}>New Length</Text>
+              <Text style={styles.headerTextUpdate}>New Length</Text>
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
@@ -408,7 +410,7 @@ function uploadData()
                   placeholder="Enter Length (mm)"
                 />
 
-              <Text style={styles.headerText}>River Mile</Text>
+              <Text style={styles.headerTextUpdate}>River Mile</Text>
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
@@ -416,7 +418,7 @@ function uploadData()
                   placeholder="Enter River Mile"
                 />
 
-              <Text style={styles.headerText}>Current Date</Text>
+              <Text style={styles.headerTextUpdate}>Current Date</Text>
               <Text style={styles.dataText}>{getCurrentDate()}</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => uploadData()}>
@@ -560,7 +562,7 @@ const styles = StyleSheet.create({
     modalView: {
       width: "80%",
       height: "60%",
-      backgroundColor: 'silver',
+      backgroundColor: 'rgb(255, 255, 255)',
       alignSelf: 'center',
       top: "20%",
       borderRadius: 30,
@@ -584,17 +586,22 @@ const styles = StyleSheet.create({
     modalText:{
       fontWeight: "bold",
       fontSize: 25,
-      top: "5%",
       alignSelf: 'center',
-      marginBottom: 40,
     },
 
     headerText:{
       fontWeight: "bold",
       fontSize: 15,
       alignSelf: 'center',
-      marginTop: 10,
     },
+
+    headerTextUpdate: {
+      fontWeight: "bold",
+      fontSize: 15,
+      alignSelf: 'center',
+      marginBottom: -20
+    },
+
     dataText:{
       fontSize: 15,
       alignSelf: 'center',
@@ -607,7 +614,7 @@ const styles = StyleSheet.create({
       width: '50%',
       justifyContent: 'center',
       borderRadius: 50,
-      marginTop: 20,
+      marginTop: 30,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
@@ -620,6 +627,7 @@ const styles = StyleSheet.create({
       height: "80%",
       flexDirection: 'column',
       justifyContent: 'space-between',
+      marginTop: 5,
     },
 
     updateText:{
@@ -665,6 +673,25 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       fontSize: 25,
       
+    },
+
+    modalHeader: {
+      width: "100%",
+      height: "15%",
+      backgroundColor: "lightblue",
+      justifyContent: 'center',
+      zIndex: 0,
+      borderRadius: 20,
+      marginBottom: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 5,
+    },
+
+    zraiser: {
+      zIndex: 1,
     },
   
   });
