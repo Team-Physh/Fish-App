@@ -30,20 +30,12 @@ export default function HomeScreen({navigation}) {
   // date grabber
   const getCurrentDate=()=>{
 
-      // var date = new Date().getDate();
-      // var month = new Date().getMonth() + 1;
-      // var year = new Date().getFullYear();
-
-
       var date;
       date = new Date();
       date = date.getUTCFullYear() + '-' +
       ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
       ('00' + date.getUTCDate()).slice(-2);
-      //console.log(date);
-
-      //Alert.alert(date + '-' + month + '-' + year);
-      // You can turn it in to your desired format
+ 
       return date;//format: d-m-y;
 }
 
