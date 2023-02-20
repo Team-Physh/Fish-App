@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import { Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {downloadDatabase} from '../database/databasefunctions'
+import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
 
 export default function HomeScreen({navigation}) {
     //9891031619722
@@ -24,17 +24,27 @@ export default function HomeScreen({navigation}) {
   // update modal
   const [updateVisible, setUpdateVisible] = useState(false);
 
+  // data to be uploaded
+  const [readyData, setData] = useState([]);
 
   // date grabber
   const getCurrentDate=()=>{
 
-      var date = new Date().getDate();
-      var month = new Date().getMonth() + 1;
-      var year = new Date().getFullYear();
+      // var date = new Date().getDate();
+      // var month = new Date().getMonth() + 1;
+      // var year = new Date().getFullYear();
+
+
+      var date;
+      date = new Date();
+      date = date.getUTCFullYear() + '-' +
+      ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+      ('00' + date.getUTCDate()).slice(-2);
+      //console.log(date);
 
       //Alert.alert(date + '-' + month + '-' + year);
       // You can turn it in to your desired format
-      return year + '-' + month + '-' + date;//format: d-m-y;
+      return date;//format: d-m-y;
 }
 
 
@@ -55,7 +65,7 @@ const keyExistHistory = (_array) => {
       if( count == 0)
       {
         tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
       else if ( count > 0)
@@ -88,7 +98,7 @@ const keyExistCatch = (_array) => {
       if( count == 0)
       {
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, pitTag.lastCaught, pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
       else if ( count > 0)
@@ -118,10 +128,64 @@ const getSpecies=(species)=>{
 }
 
 
+const syncStyle = () => ({
+  backgroundColor: '#c6d9fd',
+  height: 50,
+  width: 80,
+  justifyContent: 'center',
+  borderRadius: 100,
+  // top: "45%",
+  alignSelf: 'center',
+  top: 50,
+  left: 20,
+  position: 'absolute',
+  borderWith: 5,
+  borderWidth: 0,
+  borderColor: 'black',
+  
+});
 
 
 
 
+// uploads recent catches, then downloaded new database. Should only be done once in a while
+function syncUp()
+{
+  // UPLOAD DATA FIRST
+  const db = SQLite.openDatabase("fish.db");
+  db.transaction(tx => {
+
+    //upload data to local database
+    const storeInfo = (_array) => {
+      //var count = Object.keys(_array).length;
+      console.log(_array);
+      //9891031619722
+
+      var count = Object.keys(_array).length;
+
+      // if catch table not empty, store in data field and upload
+      if(count >= 0)
+      {
+        setData(_array);
+        uploadDatabase(data);
+      }
+
+      };
+
+      tx.executeSql(
+        "select * from catchTable",
+        [],
+        // success
+        (_, { rows: { _array } }) => storeInfo(_array),
+        // error
+        () => console.log("No values grabbed")
+                    );
+  });
+
+  // download database
+  downloadDatabase();
+
+}
 
 
 
@@ -204,32 +268,32 @@ function uploadData()
     const printInfo = (_array) => {
 
 
-    var count = Object.keys(_array).length;
-
-    // if entry found
-    if (count == 1)
-    {
-      var key = Object.values(_array[0]);
-
-
-      // set data retrieved (3 is hex?)
-      setPit({ number: key[0], species: key[5], lastCaught: key[1], length: key[2], rivermile: key[4], temp: key[3]});
-
-      // make screen visible
-      setModalVisible(true);
+      var count = Object.keys(_array).length;
+      console.log(count);
+      // if entry found
+      if (count >= 1)
+      {
+        var key = Object.values(_array[0]);
 
 
-    }
-    else
-    {
-      Alert.alert(
-      "Invalid PIT code",
-      "This will change to new entry screen maybe",
-      [
-        { text: "Ok" }
-      ]
-    );
-    }
+        // set data retrieved (3 is hex?)
+        setPit({ number: key[0], species: key[5], lastCaught: key[1], length: key[2], rivermile: key[4], temp: key[3]});
+
+        // make screen visible
+        setModalVisible(true);
+
+
+      }
+      else
+      {
+        Alert.alert(
+        "PIT code not found",
+        "Try again",
+        [
+          { text: "Ok" }
+        ]
+      );
+      }
 
 
     };
@@ -238,7 +302,7 @@ function uploadData()
 
         // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
         tx.executeSql(
-        "select * from fishTable where hex = ?",
+        "select * from fishTable where hex = ? ORDER BY lastCaught DESC",
         [number],
         // success
         (_, { rows: { _array } }) => printInfo(_array),
@@ -292,7 +356,7 @@ function uploadData()
               <Text style={styles.headerText}>Last Caught</Text>
               <Text style={styles.dataText}>{pitTag.lastCaught}</Text>
 
-              <Text style={styles.headerText}>River Mile</Text>
+              <Text style={styles.headerText}>Last River Mile</Text>
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
 
               <Text style={styles.headerText}>Last Recorded Length</Text>
@@ -383,6 +447,14 @@ function uploadData()
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
             </TouchableOpacity>
 
+            <View style={styles.header}>
+
+              <TouchableOpacity style={syncStyle()} onPress={() => syncUp()}>
+                <Text style={styles.buttonText}>Sync</Text>
+              </TouchableOpacity>
+            <Text style={styles.topHeader}>View and Update</Text>
+          </View>
+
 
             <View style={styles.itemsHome}>
 
@@ -397,11 +469,10 @@ function uploadData()
                 <Text style={styles.buttonText}>Enter </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.syncButton} onPress={() => downloadDatabase()}>
-                <Text style={styles.buttonText}>Sync</Text>
-              </TouchableOpacity>
-
             </View>
+
+
+
 
 
             <Footer />
@@ -417,7 +488,7 @@ const styles = StyleSheet.create({
 
     itemsHome: {
       width: "100%",
-      height: "100%",
+      height: "70%",
       justifyContent: "center",
     },
 
@@ -438,7 +509,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 15,
         textAlign: 'center',
-        // top: "40%",
         alignSelf: 'center',
     },
     sendButton:{
@@ -447,24 +517,7 @@ const styles = StyleSheet.create({
       width: '70%',
       justifyContent: 'center',
       borderRadius: 50,
-      // top: "40%",
       alignSelf: 'center',
-    },
-
-    syncButton:{
-      backgroundColor: '#c6d9fd',
-      height: 60,
-      width: 70,
-      justifyContent: 'center',
-      borderRadius: 20,
-      // top: "45%",
-      alignSelf: 'center',
-      top: 50,
-      left: 20,
-      position: 'absolute',
-      borderWith: 5,
-      borderWidth: 0,
-      borderColor: 'black',
     },
 
     buttonText:{
@@ -472,6 +525,7 @@ const styles = StyleSheet.create({
       fontSize: 25,
       textAlign: 'center',
     },
+    
 
     textIn: {
     borderWidth: 2,
@@ -484,7 +538,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     // top: "40%",
-    alignSelf: 'center',
     borderRadius: 10,
     
     },
@@ -571,6 +624,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: 'center',
     borderRadius: 10,
+    },
+
+    header:{
+      width: "100%",
+      height: "15%",
+      backgroundColor: 'white',
+      borderRadius: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 5,
+      marginBottom: 2,
+    },
+
+    topHeader:{
+      fontWeight: '',
+      bottom: 0,
+      position: 'absolute',
+      alignSelf: 'center',
+      fontSize: 25,
+      
     },
   
   });

@@ -1,7 +1,9 @@
-import { FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
+import { Alert, FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
 import Footer from '../components/Footer'
 import {useState, useEffect} from 'react';
-import * as SQLite from 'expo-sqlite'
+import * as SQLite from 'expo-sqlite';
+import {clearLocal, clearRecent} from '../database/databasefunctions';
+
 
 export default function MoreScreen({navigation}) {
   // history modal
@@ -9,6 +11,9 @@ export default function MoreScreen({navigation}) {
 
   // data for history
   const [data, setData] = useState([]);
+
+  // data for clearing
+  const [cleared, setCleared] = useState(false);
 
   // species
   const getSpecies=(species)=>{
@@ -37,6 +42,21 @@ export default function MoreScreen({navigation}) {
     backgroundColor: index % 2 === 0 ? '#d8fafb' : '#b6d8dc',
   });
 
+
+  function clearHistory()
+  {
+    const db = SQLite.openDatabase("fish.db");
+
+      db.transaction(tx => {
+  
+        // drop old table on app start (MIGHT REMOVE)
+        tx.executeSql("DROP TABLE IF EXISTS history;", []);
+    });
+
+    setData([]); openHistory();
+
+    
+  }
 
   function openHistory()
   {
@@ -74,7 +94,7 @@ export default function MoreScreen({navigation}) {
     // make visible
     setHistoryVisible(true);
 
-
+    
   }
 
 
@@ -100,8 +120,23 @@ export default function MoreScreen({navigation}) {
           </TouchableOpacity>
 
 
+          
 
           <View style={styles.header}>
+
+          <TouchableOpacity style={styles.clearIcon} onPress={() => {Alert.alert(
+                                                                      "Clearing History",
+                                                                      "This will clear your fishing history. Are you sure you want to continue?",
+                                                                      [
+                                                                        { text: "Cancel" },
+                                                                        { text: "Clear",
+                                                                          onPress: () => clearHistory()}
+                                                                      ]
+                                                                    );} }>
+            <Text style={styles.headerText}>Clear</Text>
+          </TouchableOpacity>
+          
+
             <Text style={styles.headerText}>History</Text>
           </View>
 
@@ -188,12 +223,28 @@ export default function MoreScreen({navigation}) {
             <Text style={styles.buttonText}>Total Catch History</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity  style ={styles.otherOne} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>Unused One</Text>
+            <TouchableOpacity  style ={styles.otherOne} onPress={() => {Alert.alert(
+                                                                      "Clearing History",
+                                                                      "This will clear your recent catches. Are you sure you want to continue?",
+                                                                      [
+                                                                        { text: "Cancel" },
+                                                                        { text: "Clear",
+                                                                          onPress: () => clearRecent()}
+                                                                      ]
+                                                                    );}}>
+            <Text style={styles.buttonText}>Clear Recent Catches</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity  style ={styles.otherTwo} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>Unused Two</Text>
+            <TouchableOpacity  style ={styles.otherTwo} onPress={() => {Alert.alert(
+                                                                      "Clearing History",
+                                                                      "This will clear your whole local database. Are you sure you want to continue?",
+                                                                      [
+                                                                        { text: "Cancel" },
+                                                                        { text: "Clear",
+                                                                          onPress: () => clearLocal()}
+                                                                      ]
+                                                                    );}}>
+            <Text style={styles.buttonText}>Clear Local Database</Text>
             </TouchableOpacity>
 
               </View>
@@ -396,6 +447,22 @@ const styles = StyleSheet.create({
     rightText:{
       textAlign: 'left',
       fontSize:12,
+    },
+
+    clearIcon:{
+    backgroundColor: '#b73a40',
+    height: 50,
+    width: 100,
+    justifyContent: 'center',
+    borderRadius: 100,
+    // top: "45%",
+    alignSelf: 'center',
+    top: 10,
+    left: 10,
+    position: 'absolute',
+    borderWith: 5,
+    borderWidth: 3,
+    borderColor: 'maroon',
     },
 
 

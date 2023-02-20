@@ -1,4 +1,6 @@
 import * as SQLite from 'expo-sqlite'
+import { Alert } from 'react-native';
+import React, {useState} from "react";
 
 // API call to get data
 export async function getAllData()
@@ -67,6 +69,52 @@ export async function downloadDatabase()
     });
 
 
-    }
+}
+
+// function to download db to local db
+export async function uploadDatabase(data)
+{
+    await fetch( "http://api.teamphysh.com:3000/fish/data" , {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify(data)
+  }).then( response => {
+    // return response.json();
+      console.log("Sent Data");
+      // console.log(response.json());
+  })
+  .catch(error => {
+    console.log("ERROR");
+  })
+}
+
+export async function clearRecent()
+{
+    const db = SQLite.openDatabase("fish.db");
+    
+    // start DATABASE transaction
+    db.transaction(tx => {
+
+      // drop old table on app start (MIGHT REMOVE)
+      tx.executeSql("DROP TABLE IF EXISTS catchTable;", []);
+  });
+}
+
+export async function clearLocal()
+{
+  const db = SQLite.openDatabase("fish.db");
+    
+  // start DATABASE transaction
+  db.transaction(tx => {
+
+    // drop old table on app start (MIGHT REMOVE)
+    tx.executeSql("DROP TABLE IF EXISTS fishTable;", []);
+});
+}
+
 
 

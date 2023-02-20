@@ -2,10 +2,24 @@ import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react
 import Footer from '../components/Footer';
 import {useEffect, useState} from 'react';
 import * as SQLite from 'expo-sqlite'
+import {uploadDatabase} from '../database/databasefunctions';
 
 export default function ViewScreen({navigation}) {
 
   const [data, setData] = useState([]);
+
+  const [uploadReady, setUploadReady] = useState(false);
+
+
+  // test one
+  const testEntry = {
+      "pit": 1111111111111,
+      "hex": 1111111111111,
+      "lastCaught": "2023-01-01",
+      "species": "RBT",
+      "length": 2,
+      "riverMile": 5
+  }
 
   const getSpecies=(species)=>{
 
@@ -19,6 +33,22 @@ export default function ViewScreen({navigation}) {
     }
   }
 
+  const syncStyle = () => ({
+    backgroundColor: '#c6d9fd',
+    height: uploadReady == true ? 50 : 0,
+    width: uploadReady == true ? 50 : 0,
+    justifyContent: 'center',
+    borderRadius: 100,
+    // top: "45%",
+    alignSelf: 'center',
+    top: 50,
+    left: 20,
+    position: 'absolute',
+    borderWith: 5,
+    borderWidth: 0,
+    borderColor: 'black',
+    
+  });
   const rowStyle = (index) => ({
     borderBottomColor: 'green',
     borderLeftColor: 'white',
@@ -48,6 +78,7 @@ export default function ViewScreen({navigation}) {
         // if catch table not empty, store in data field
         if(count >= 0)
         {
+          setUploadReady(true);
           setData(_array);
         }
 
@@ -70,6 +101,10 @@ export default function ViewScreen({navigation}) {
                       <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
           </TouchableOpacity>
           <View style={styles.header}>
+
+              <TouchableOpacity style={syncStyle()} onPress={() => uploadDatabase(data)}>
+                <Text style={styles.buttonText}>↑</Text>
+              </TouchableOpacity>
             <Text style={styles.headerText}>Recent Catches</Text>
           </View>
 
@@ -172,7 +207,7 @@ const styles = StyleSheet.create({
       bottom: 0,
       position: 'absolute',
       alignSelf: 'center',
-      fontSize: 30,
+      fontSize: 25,
       
     },
 
@@ -219,6 +254,15 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontWeight: 'bold',
       color: "#999",
+    },
+
+
+
+    buttonText:{
+      color: 'black',
+      fontSize: 25,
+      textAlign: 'center',
+      fontWeight: 'bold',
     },
 
   
