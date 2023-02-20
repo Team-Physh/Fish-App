@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
+import {  KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
@@ -387,7 +387,12 @@ function uploadData()
         >
         <View style={styles.bgmodal}>
 
-          <View style={styles.modalView}>
+          <KeyboardAvoidingView behavior='padding'
+  keyboardVerticalOffset={
+            Platform.select({
+              ios: () => 0,
+              android: () => 0
+            })() }        style={styles.modalView}>
 
           <TouchableOpacity onPress={() => setUpdateVisible(false)}>
                 <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
@@ -425,7 +430,7 @@ function uploadData()
             </View>
 
 
-          </View>
+          </KeyboardAvoidingView>
           </View>
 
       </Modal>
@@ -456,9 +461,13 @@ function uploadData()
           </View>
 
 
-            <View style={styles.itemsHome}>
-
-              <Text style={styles.boxText}>Scan</Text>
+            <KeyboardAvoidingView behavior='padding'
+  keyboardVerticalOffset={
+            Platform.select({
+              ios: () => -250,
+              android: () => -250
+            })() }           
+            style={styles.itemsHome}>
               <TextInput
                   style={styles.textIn}
                   autoCapitalize="none"
@@ -469,7 +478,7 @@ function uploadData()
                 <Text style={styles.buttonText}>Enter </Text>
               </TouchableOpacity>
 
-            </View>
+            </KeyboardAvoidingView>
 
 
 
@@ -488,8 +497,9 @@ const styles = StyleSheet.create({
 
     itemsHome: {
       width: "100%",
-      height: "70%",
+      height: "100%",
       justifyContent: "center",
+      flex: 1,
     },
 
     icon:{
@@ -503,13 +513,6 @@ const styles = StyleSheet.create({
 
     help:{
       zIndex: 1,
-    },
-
-    boxText:{
-        color: 'black',
-        fontSize: 15,
-        textAlign: 'center',
-        alignSelf: 'center',
     },
     sendButton:{
       backgroundColor: '#89ca97',
@@ -598,7 +601,6 @@ const styles = StyleSheet.create({
     displayData:{
       width: "100%",
       height: "80%",
-      display: "flex",
       flexDirection: 'column',
       justifyContent: 'space-between',
     },
