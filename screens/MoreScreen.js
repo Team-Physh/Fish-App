@@ -29,7 +29,7 @@ export default function MoreScreen({navigation}) {
   }
 
   const rowStyle = (index) => ({
-    borderBottomColor: '#4a5760',
+    borderBottomColor: 'rgba(100, 100, 100, .5)',
     borderLeftColor: 'white',
     borderRightColor: 'white',
     borderTopColor: 'white',
@@ -39,7 +39,7 @@ export default function MoreScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? '#d8fafb' : '#b6d8dc',
+    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .8)' : 'rgba(200, 200, 200, 0.8)',
   });
 
 
@@ -133,7 +133,7 @@ export default function MoreScreen({navigation}) {
                                                                           onPress: () => clearHistory()}
                                                                       ]
                                                                     );} }>
-            <Text style={styles.headerText}>Clear</Text>
+            <Text style={styles.buttonTextClear}>Clear</Text>
           </TouchableOpacity>
           
 
@@ -288,6 +288,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 20,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
       
     },
 
@@ -299,6 +304,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 20,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     otherOne:{
@@ -309,6 +319,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 20,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     otherTwo:{
@@ -319,6 +334,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 20,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     buttonText:{
@@ -334,15 +354,17 @@ const styles = StyleSheet.create({
     modalView: {
       width: "100%",
       height: "100%",
-      backgroundColor: '#8da5b3',
+      backgroundColor: 'rgba(255, 255, 255, .8)',
+      
       alignSelf: 'center',
       top: "10%",
-      shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,  
-    elevation: 5,
       borderRadius: 30,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 5,
+      marginBottom: 2,
     },
 
     Modalicon:{
@@ -357,6 +379,11 @@ const styles = StyleSheet.create({
 
     closeIcon: {
       zIndex: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     bgmodal:{
@@ -377,9 +404,15 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#8da5b3',
+      backgroundColor: '#f8caf0',
       borderRadius: 0,
       borderRadius: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 5,
+      marginBottom: 2,
     },
 
     headerText:{
@@ -450,9 +483,9 @@ const styles = StyleSheet.create({
     },
 
     clearIcon:{
-    backgroundColor: '#b73a40',
+    backgroundColor: '#fc6666',
     height: 50,
-    width: 100,
+    width: 70,
     justifyContent: 'center',
     borderRadius: 100,
     // top: "45%",
@@ -460,10 +493,18 @@ const styles = StyleSheet.create({
     top: 10,
     left: 10,
     position: 'absolute',
-    borderWith: 5,
-    borderWidth: 3,
-    borderColor: 'maroon',
+    shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
+
+    buttonTextClear: {
+      color: 'black',
+      fontSize: 20,
+      textAlign: 'center',
+    }
 
 
 

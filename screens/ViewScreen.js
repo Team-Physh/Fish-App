@@ -47,6 +47,11 @@ export default function ViewScreen({navigation}) {
     borderWith: 5,
     borderWidth: 0,
     borderColor: 'black',
+    shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     
   });
   const rowStyle = (index) => ({
@@ -61,6 +66,7 @@ export default function ViewScreen({navigation}) {
     justifyContent: 'center',
     zIndex: 0,
     backgroundColor: index % 2 === 0 ? 'white' : '#ccc',
+    
   });
 
   useEffect(() => {
@@ -174,6 +180,11 @@ const styles = StyleSheet.create({
 
       help:{
       zIndex: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     itemRow:{

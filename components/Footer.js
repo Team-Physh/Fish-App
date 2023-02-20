@@ -38,7 +38,7 @@ export default function Footer(){
     });
 
     const boxStyle = (name) => ({
-      height: "115%",
+      height: "100%",
       width: "33.3%",
       resizeMode: 'contain',
       position: 'relative',
@@ -48,7 +48,7 @@ export default function Footer(){
     });
 
     const boxStyleTwo = (name) => ({
-      height: "115%",
+      height: "100%",
       width: "33.3%",
       resizeMode: 'contain',
       position: 'relative',
@@ -58,7 +58,7 @@ export default function Footer(){
     });
 
     const boxStyleThree = (name) => ({
-      height: "115%",
+      height: "100%",
       width: "33.3%",
       resizeMode: 'contain',
       position: 'relative',

@@ -123,7 +123,7 @@ const getSpecies=(species)=>{
 const syncStyle = () => ({
   backgroundColor: '#c6d9fd',
   height: 50,
-  width: 80,
+  width: 70,
   justifyContent: 'center',
   borderRadius: 100,
   // top: "45%",
@@ -134,7 +134,11 @@ const syncStyle = () => ({
   borderWith: 5,
   borderWidth: 0,
   borderColor: 'black',
-  
+  shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
 });
 
 
@@ -447,7 +451,7 @@ function uploadData()
             <View style={styles.header}>
 
               <TouchableOpacity style={syncStyle()} onPress={() => syncUp()}>
-                <Text style={styles.buttonText}>Sync</Text>
+                <Text style={styles.buttonTextSync}>Sync</Text>
               </TouchableOpacity>
             <Text style={styles.topHeader}>View and Update</Text>
           </View>
@@ -505,6 +509,11 @@ const styles = StyleSheet.create({
 
     help:{
       zIndex: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
     sendButton:{
       backgroundColor: '#89ca97',
@@ -513,11 +522,22 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 50,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     buttonText:{
       color: 'black',
       fontSize: 25,
+      textAlign: 'center',
+    },
+
+    buttonTextSync:{
+      color: 'black',
+      fontSize: 20,
       textAlign: 'center',
     },
     
@@ -588,6 +608,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 50,
       marginTop: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
 
     displayData:{

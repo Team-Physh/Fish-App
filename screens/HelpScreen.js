@@ -92,6 +92,11 @@ const styles = StyleSheet.create({
       top: 50,
       right:20,
       position: 'absolute',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 2.5,
     },
     help: {
         zIndex: 1,
