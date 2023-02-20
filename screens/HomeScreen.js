@@ -338,6 +338,11 @@ function uploadData()
           </TouchableOpacity>
 
           <View style={styles.modalHeader}>
+
+
+          <TouchableOpacity style={styles.infoIcon}>
+            <Text style={styles.buttonTextInfo}>More</Text>
+          </TouchableOpacity>
           <Text style={styles.modalText}>View Data</Text>
           </View>
 
@@ -599,12 +604,12 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
       fontSize: 15,
       alignSelf: 'center',
-      marginBottom: -20
     },
 
     dataText:{
       fontSize: 15,
       alignSelf: 'center',
+      marginBottom: 20,
     },
 
     nextButton:{
@@ -626,7 +631,7 @@ const styles = StyleSheet.create({
       width: "100%",
       height: "80%",
       flexDirection: 'column',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       marginTop: 5,
     },
 
@@ -651,6 +656,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: 'center',
     borderRadius: 10,
+    marginBottom: 20,
     },
 
     header:{
@@ -693,6 +699,30 @@ const styles = StyleSheet.create({
     zraiser: {
       zIndex: 1,
     },
+
+    infoIcon:{
+      backgroundColor: '#cfb591',
+      height: 50,
+      width: 70,
+      justifyContent: 'center',
+      borderRadius: 100,
+      // top: "45%",
+      alignSelf: 'center',
+      top: 10,
+      left: 10,
+      position: 'absolute',
+      shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        elevation: 2.5,
+      },
+
+      buttonTextInfo: {
+        color: 'black',
+        fontSize: 20,
+        textAlign: 'center',
+      }
   
   });
   
