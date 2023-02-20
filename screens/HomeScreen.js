@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {  KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
+import {  FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
@@ -24,7 +24,10 @@ export default function HomeScreen({navigation}) {
   // update modal
   const [updateVisible, setUpdateVisible] = useState(false);
 
-  // data to be uploaded
+  // history modal
+  const [fishHistoryVisible, setFishHistoryVisible] = useState(false);
+
+  // data to be uploaded or data to be viewed for fish history
   const [readyData, setData] = useState([]);
 
   // date grabber
@@ -119,7 +122,7 @@ const getSpecies=(species)=>{
   }
 }
 
-
+// sync button
 const syncStyle = () => ({
   backgroundColor: '#c6d9fd',
   height: 50,
@@ -143,7 +146,7 @@ const syncStyle = () => ({
 
 
 
-
+// sync button function WILL CHANGE
 // uploads recent catches, then downloaded new database. Should only be done once in a while
 function syncUp()
 {
@@ -318,9 +321,88 @@ function uploadData()
 
 
 
+  function fishHistory()
+  {
+    // get history
+    const db = SQLite.openDatabase("fish.db");
+    db.transaction(tx => {
+  
+      //upload data to local database
+      const storeInfo = (_array) => {
+        //var count = Object.keys(_array).length;
+        //console.log(_array);
+        //9891031619722
+
+        var count = Object.keys(_array).length;
+
+        // if catch table not empty, store in data field
+        if(count >= 0)
+        {
+          // clear and set
+          setData([]);
+          setData(_array);
+        }
+
+        };
+
+        tx.executeSql(
+          "select * from fishTable where hex = ? ORDER BY lastCaught DESC",
+          [pitTag.number],
+          // success
+          (_, { rows: { _array } }) => storeInfo(_array),
+          // error
+          () => console.log("FISH HISTORY EMPTY ERROR")
+                      );
+    });
+
+    console.log("HELLO")
+    // make visible
+    setFishHistoryVisible(true);
+
+    
+  }
 
 
 
+
+
+
+
+
+
+
+
+  const rowStyle = (index) => ({
+    borderBottomColor: 'rgba(100, 100, 100, .5)',
+    borderLeftColor: 'white',
+    borderRightColor: 'white',
+    borderTopColor: 'white',
+    borderBottomWidth: 3,
+    width: "100%",
+    height: 100,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    zIndex: 0,
+    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .8)' : 'rgba(200, 200, 200, 0.8)',
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // screen begin
     return (
         <View style={styles.container}>
 
@@ -329,6 +411,90 @@ function uploadData()
         transparent={true}
         visible={modalVisible}
         >
+
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={fishHistoryVisible}
+            >
+            <View style={styles.bgmodalHist}>
+
+              <View style={styles.modalViewHist}>
+
+              <TouchableOpacity style={styles.closeIconHist} onPress={() => setFishHistoryVisible(false)}>
+                    <Image style={styles.ModaliconHist} source={require('../assets/exit.png')}></Image>
+              </TouchableOpacity>
+
+
+              
+
+              <View style={styles.headerHist}>
+              
+
+                <Text style={styles.headerTextHist}>Previous Catches:{"\n"}{pitTag.number}</Text>
+              </View>
+
+
+
+              <FlatList
+                style ={styles.flatlisterHist}
+                  ListHeaderComponent={() => (
+                    <View style={styles.listHeadHist}>
+                    </View>
+                  )}
+                  data={readyData}
+
+                  ListEmptyComponent={() => (
+                    <View style={styles.emptyViewHist}>
+                      <Text style={styles.emptyTextHist}>
+                        No stored catches
+                      </Text>
+                    </View>
+                  )}
+
+
+
+                  renderItem={({item,index}) => (
+                    <View style={rowStyle(index)}>
+                        <View style={styles.leftSideHist}>
+                          <Text style={styles.rowTextHist}>
+                          PIT: {item.hex}
+                          </Text>
+                        </View>
+
+                        <View style={styles.rightSideHist}>
+                          <Text style={styles.rightTextHist}>
+                            Length: {item.length}mm
+                            </Text>
+                            <Text style={styles.rightTextHist}>
+                            Species: {getSpecies(item.species)}
+                            </Text>
+                            <Text style={styles.rightTextHist}>
+                          Date: {item.lastCaught}
+                          </Text>
+                          <Text style={styles.rightTextHist}>
+                          Mile: {item.riverMile}
+                          </Text>
+                        </View>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item.pit}
+                />
+
+
+
+
+              </View>
+              </View>
+
+          </Modal>
+
+
+
+
+
+
         <View style={styles.bgmodal}>
 
           <View style={styles.modalView}>
@@ -340,7 +506,7 @@ function uploadData()
           <View style={styles.modalHeader}>
 
 
-          <TouchableOpacity style={styles.infoIcon}>
+          <TouchableOpacity style={styles.infoIcon} onPress={() => fishHistory()}>
             <Text style={styles.buttonTextInfo}>More</Text>
           </TouchableOpacity>
           <Text style={styles.modalText}>View Data</Text>
@@ -375,6 +541,42 @@ function uploadData()
           </View>
 
       </Modal>
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -614,7 +816,7 @@ const styles = StyleSheet.create({
 
     nextButton:{
       alignSelf: 'center',
-      backgroundColor: 'lightblue',
+      backgroundColor: '#b5dcb4',
       height: '10%',
       width: '50%',
       justifyContent: 'center',
@@ -684,7 +886,7 @@ const styles = StyleSheet.create({
     modalHeader: {
       width: "100%",
       height: "15%",
-      backgroundColor: "lightblue",
+      backgroundColor: "#b5dcb4",
       justifyContent: 'center',
       zIndex: 0,
       borderRadius: 20,
@@ -722,7 +924,144 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         textAlign: 'center',
-      }
+      },
+
+
+
+
+
+
+
+      modalViewHist: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: 'rgba(255, 255, 255, .8)',
+        
+        alignSelf: 'center',
+        top: "10%",
+        borderRadius: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        elevation: 5,
+        marginBottom: 2,
+      },
+  
+      ModaliconHist:{
+        height: 50,
+        width: 50,
+        resizeMode: 'contain',
+        top: 10,
+        right:10,
+        position: 'absolute',
+  
+      },
+  
+      closeIconHist: {
+        zIndex: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        elevation: 2.5,
+      },
+  
+      bgmodalHist:{
+        height: "100%",
+        width: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0)",
+      },
+  
+      modalTextHist:{
+        fontSize: 25,
+        top: "5%",
+        alignSelf: 'center',
+        marginBottom: 40,
+      },
+  
+  
+      headerHist:{
+        justifyContent:'center',
+        width: "100%",
+        height: "10%",
+        backgroundColor: '#a7d6a5',
+        borderRadius: 0,
+        borderRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        elevation: 5,
+        marginBottom: 2,
+      },
+  
+      headerTextHist:{
+        fontWeight: '',
+  
+        position: 'absolute',
+        alignSelf: 'center',
+        fontSize: 25,
+        
+      },
+  
+      emptyViewHist:{
+        width: "100%",
+        height: 100,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        backgroundColor: "",
+        
+      },
+  
+      emptyTextHist:{
+        textAlign: 'left',
+        fontSize:20,
+        textAlign: 'center',
+        color: "black",
+      },
+  
+  
+      itemRowHist:{
+        borderBottomColor: '#6e4b78',
+        borderLeftColor: 'white',
+        borderRightColor: 'white',
+        borderTopColor: 'white',
+        borderBottomWidth: 3,
+        width: "90%",
+        height: 80,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        zIndex: 0,
+      },
+  
+      rowTextHist:{
+        textAlign: 'left',
+        fontSize:18,
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: 0,
+        fontWeight: 'bold',
+      },
+  
+      leftSideHist: {
+        display: "flex",
+        flexDirection: "column",
+        left: 10,
+        position: 'absolute',
+      },
+  
+      rightSideHist: {
+        display: "flex",
+        flexDirection: "column",
+        right: 10,
+        position: 'absolute',
+      },
+      
+      rightTextHist:{
+        textAlign: 'left',
+        fontSize:12,
+      },
   
   });
   
