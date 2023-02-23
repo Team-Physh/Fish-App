@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react';
 import {  FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
-import Footer from '../components/Footer'
-import * as SQLite from 'expo-sqlite'
-import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
+import Footer from '../components/Footer';
+import * as SQLite from 'expo-sqlite';
+import {downloadDatabase, uploadDatabase} from '../database/databasefunctions';
+import NetInfo from '@react-native-community/netinfo';
+
 
 export default function HomeScreen({navigation}) {
     //9891031619722
@@ -16,6 +18,14 @@ export default function HomeScreen({navigation}) {
     // remove?
     temp: '1',
   });
+
+
+
+  // NETWORKTESTING
+const unsubscribe = NetInfo.addEventListener(state => {
+  console.log('Connection type', state.type);
+  console.log('Is connected?', state.isConnected);
+});
 
 
   // main modal
@@ -673,6 +683,12 @@ function uploadData()
               android: () => -250
             })() }           
             style={styles.itemsHome}>
+
+
+
+
+
+
               <TextInput
                   style={styles.textIn}
                   autoCapitalize="none"
