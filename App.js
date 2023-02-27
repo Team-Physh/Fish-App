@@ -12,14 +12,18 @@ import * as SQLite from 'expo-sqlite';
 const Stack = createNativeStackNavigator()
 
 export default function App() {
-  console.log("App Start");
 
   // THIS CHECKS IF IT IS USERS FIRST TIME OPENING APP. IF SO, DOWNLOAD DATABASE
   useEffect(() => {
   const db = SQLite.openDatabase("fish.db");
   db.transaction(tx => {
 
-    //upload data to local database
+
+
+
+
+
+    //FUNCTION
     const checkinfo = (_array) => {
       //var count = Object.keys(_array).length;
       //console.log(_array);
@@ -37,6 +41,9 @@ export default function App() {
 
 
 
+
+
+
       tx.executeSql(
         "select * from fishTable",
         [],
@@ -49,9 +56,6 @@ export default function App() {
 }, []);
 
 
-
-  // download function!
-  //downloadDatabase();
 
   return (
     <View style={{ flex: 1,}}>

@@ -122,6 +122,7 @@ const getSpecies=(species)=>{
   }
 }
 
+/// MOVE THIS TO CSS
 // sync button
 const syncStyle = () => ({
   backgroundColor: '#c6d9fd',
@@ -148,8 +149,12 @@ const syncStyle = () => ({
 
 // sync button function WILL CHANGE
 // uploads recent catches, then downloaded new database. Should only be done once in a while
+// TODO MAKE CLEAR CATCHTABLE
 function syncUp()
 {
+
+
+
   // UPLOAD DATA FIRST
   const db = SQLite.openDatabase("fish.db");
   db.transaction(tx => {
@@ -406,6 +411,8 @@ function uploadData()
     return (
         <View style={styles.container}>
 
+
+        {/* FIRST POP UP */}
         <Modal
         animationType="fade"
         transparent={true}
@@ -413,6 +420,7 @@ function uploadData()
         >
 
 
+          {/* INSIDE POP UP */}
           <Modal
             animationType="slide"
             transparent={true}
@@ -583,7 +591,7 @@ function uploadData()
 
 
 
-
+        {/* UPDATE DATA POP UP */}
        <Modal
         animationType="fade"
         transparent={true}
