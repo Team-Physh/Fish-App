@@ -5,17 +5,21 @@ import * as SQLite from 'expo-sqlite'
 import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
 
 export default function HomeScreen({navigation}) {
-    //9891031619722
+  //9891031619722
   // pit constant
   const [pitTag, setPit] = useState({
     number: '',
-    lastCaught: '',
+    lastCaught: '0000-00-00T00:00:00.000Z',
     length: 0,
     rivermile: 0,
     species: '',
     // remove?
     temp: '1',
   });
+
+  const fixDate=(datetime)=>{
+    return datetime.slice(0, 19).replace('T', ' ');;
+  }
 
 
   // main modal
@@ -34,16 +38,27 @@ export default function HomeScreen({navigation}) {
   const getCurrentDate=()=>{
 
       var date;
-      date = new Date();
-      date = date.getUTCFullYear() + '-' +
-      ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-      ('00' + date.getUTCDate()).slice(-2);
+      date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      //date = new Date();
+
+
+      // if we dont want seconds/minutes
+      // date = date.getUTCFullYear() + '-' +
+      // ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+      // ('00' + date.getUTCDate()).slice(-2);
+
+    //   date = date.getUTCFullYear() + '-' +
+    // ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+    // ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+    // ('00' + date.getUTCHours()).slice(-2) + ':' + 
+    // ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+    // ('00' + date.getUTCSeconds()).slice(-2);
  
-      return date;//format: d-m-y;
+      return date;//format: d-m-y H:M:S;
 }
 
 
-// const that does some stuff (ask me and ill explain it lol)
+// Const that checks if we should update or insert to history 
 const keyExistHistory = (_array) => {
 
     const db = SQLite.openDatabase("fish.db");
@@ -76,7 +91,7 @@ const keyExistHistory = (_array) => {
 
     };
 
-// another const that does some stuff (ask me and ill explain it lol)
+// Const that checks if we should update or insert to catchtable 
 const keyExistCatch = (_array) => {
 
     const db = SQLite.openDatabase("fish.db");
@@ -122,38 +137,21 @@ const getSpecies=(species)=>{
   }
 }
 
-/// MOVE THIS TO CSS
-// sync button
-const syncStyle = () => ({
-  backgroundColor: '#c6d9fd',
-  height: 50,
-  width: 70,
-  justifyContent: 'center',
-  borderRadius: 100,
-  // top: "45%",
-  alignSelf: 'center',
-  top: 50,
-  left: 20,
-  position: 'absolute',
-  borderWith: 5,
-  borderWidth: 0,
-  borderColor: 'black',
-  shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
-});
+  // goes to next modal 
+  const nextModal = () => {
+    setUpdateVisible(true);
+    setModalVisible(false);
 
+  }
 
-
+  // format datetime
+  const formateDateTime = () => {
+    
+  }
 // sync button function WILL CHANGE
 // uploads recent catches, then downloaded new database. Should only be done once in a while
-// TODO MAKE CLEAR CATCHTABLE
 function syncUp()
 {
-
-
 
   // UPLOAD DATA FIRST
   const db = SQLite.openDatabase("fish.db");
@@ -171,7 +169,7 @@ function syncUp()
       if(count >= 0)
       {
         setData(_array);
-        uploadDatabase(data);
+        uploadDatabase(readyData);
       }
 
       };
@@ -263,7 +261,7 @@ function uploadData()
 
 
 
-// this runs when u hit enter,
+// this runs when u hit green enter button
   function enterTag(number)
   {
   const db = SQLite.openDatabase("fish.db");
@@ -317,17 +315,11 @@ function uploadData()
     });
   }
 
-  // goes to next modal 
-  const nextModal = () => {
-    setUpdateVisible(true);
-    setModalVisible(false);
 
-  }
-
-
-
+  // stores data of a fishes history in data const for display in the history modal
   function fishHistory()
   {
+    setData([]);
     // get history
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
@@ -339,12 +331,11 @@ function uploadData()
         //9891031619722
 
         var count = Object.keys(_array).length;
-
+        
         // if catch table not empty, store in data field
         if(count >= 0)
         {
           // clear and set
-          setData([]);
           setData(_array);
         }
 
@@ -367,16 +358,7 @@ function uploadData()
     
   }
 
-
-
-
-
-
-
-
-
-
-
+  // style for rows of history from first modal
   const rowStyle = (index) => ({
     borderBottomColor: 'rgba(100, 100, 100, .5)',
     borderLeftColor: 'white',
@@ -392,20 +374,27 @@ function uploadData()
   });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // sync button (styling is up here in case we want to add functionality)
+  const syncStyle = () => ({
+    backgroundColor: '#c6d9fd',
+    height: 50,
+    width: 70,
+    justifyContent: 'center',
+    borderRadius: 100,
+    // top: "45%",
+    alignSelf: 'center',
+    top: 50,
+    left: 20,
+    position: 'absolute',
+    borderWith: 5,
+    borderWidth: 0,
+    borderColor: 'black',
+    shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
+        elevation: 2.5,
+  });
 
     // screen begin
     return (
@@ -479,7 +468,7 @@ function uploadData()
                             Species: {getSpecies(item.species)}
                             </Text>
                             <Text style={styles.rightTextHist}>
-                          Date: {item.lastCaught}
+                          Date: {fixDate(item.lastCaught)}
                           </Text>
                           <Text style={styles.rightTextHist}>
                           Mile: {item.riverMile}
@@ -487,7 +476,7 @@ function uploadData()
                         </View>
                     </View>
                   )}
-                  keyExtractor={(item) => item.pit}
+                  keyExtractor={(item) => item.hex+ ' '+item.pit+' '+item.lastCaught}
                 />
 
 
@@ -530,8 +519,8 @@ function uploadData()
               <Text style={styles.dataText}>{getSpecies(pitTag.species)}</Text>
 
               <Text style={styles.headerText}>Last Caught</Text>
-              <Text style={styles.dataText}>{pitTag.lastCaught}</Text>
-
+              <Text style={styles.dataText}>{fixDate(pitTag.lastCaught)}</Text>
+              
               <Text style={styles.headerText}>Last River Mile</Text>
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
 
@@ -633,8 +622,8 @@ function uploadData()
                   placeholder="Enter River Mile"
                 />
 
-              <Text style={styles.headerTextUpdate}>Current Date</Text>
-              <Text style={styles.dataText}>{getCurrentDate()}</Text>
+              <Text style={styles.headerTextUpdate}>Current Timestamp</Text>
+              <Text style={styles.dataText}>{getCurrentDate()} UTC</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => uploadData()}>
                 <Text style={styles.updateText}>Confirm Updates</Text>
@@ -684,7 +673,7 @@ function uploadData()
               <TextInput
                   style={styles.textIn}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: text})}
+                  onChangeText={text => setPit({ number: text, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.riverMile, temp: pitTag.temp})}
                   placeholder="Enter PIT tag"
                 />
               <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
@@ -739,11 +728,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 50,
       alignSelf: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
     },
 
     buttonText:{
