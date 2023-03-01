@@ -25,7 +25,20 @@ export default function HomeScreen({navigation}) {
 const unsubscribe = NetInfo.addEventListener(state => {
   console.log('Connection type', state.type);
   console.log('Is connected?', state.isConnected);
+
+  if( state.type == 'cellular')
+  {
+   console.log('Connection Type: Cellular');
+  }
+  else if( state.type == 'wifi')
+  {
+   console.log('Connection Type: Wifi') 
+  }
+
+  return state.isConnected;
 });
+
+
 
 
   // main modal
@@ -160,39 +173,53 @@ const syncStyle = () => ({
 // uploads recent catches, then downloaded new database. Should only be done once in a while
 function syncUp()
 {
-  // UPLOAD DATA FIRST
-  const db = SQLite.openDatabase("fish.db");
-  db.transaction(tx => {
+  if(unsubscribe)
+  {
+   // UPLOAD DATA FIRST
+   const db = SQLite.openDatabase("fish.db");
+   db.transaction(tx => {
 
-    //upload data to local database
-    const storeInfo = (_array) => {
-      //var count = Object.keys(_array).length;
-      console.log(_array);
-      //9891031619722
+     //upload data to local database
+     const storeInfo = (_array) => {
+       //var count = Object.keys(_array).length;
+       console.log(_array);
+       //9891031619722
 
-      var count = Object.keys(_array).length;
+       var count = Object.keys(_array).length;
 
-      // if catch table not empty, store in data field and upload
-      if(count >= 0)
-      {
-        setData(_array);
-        uploadDatabase(data);
-      }
+       // if catch table not empty, store in data field and upload
+       if(count >= 0)
+       {
+         setData(_array);
+         uploadDatabase(data);
+       }
 
-      };
+       };
 
-      tx.executeSql(
-        "select * from catchTable",
-        [],
-        // success
-        (_, { rows: { _array } }) => storeInfo(_array),
-        // error
-        () => console.log("No values grabbed")
-                    );
-  });
+       tx.executeSql(
+         "select * from catchTable",
+         [],
+         // success
+         (_, { rows: { _array } }) => storeInfo(_array),
+         // error
+         () => console.log("No values grabbed")
+                     );
+   });
 
-  // download database
-  downloadDatabase();
+   // download database
+   downloadDatabase();
+  }
+  else
+  {
+    Alert.alert(
+      "No data connection",
+      "Try again",
+      [
+        { text: "Ok" }
+      ]
+    );
+  }
+  
 
 }
 
