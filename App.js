@@ -7,49 +7,44 @@ import HomeScreen from './screens/HomeScreen';
 import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
 import * as SQLite from 'expo-sqlite';
- import { getAllData, downloadDatabase } from './database/databasefunctions.js';
+import { getAllData, downloadDatabase } from './database/databasefunctions.js';
 
+// creates stack for stack navigator
 const Stack = createNativeStackNavigator()
 
 export default function App() {
 
-  // THIS CHECKS IF IT IS USERS FIRST TIME OPENING APP. IF SO, DOWNLOAD DATABASE
+  // useEffect function that checks if user has database downloaded. If not, it will download the database.
+  // This is mainly for first time users opening the app.
   useEffect(() => {
+
+  // make db object
   const db = SQLite.openDatabase("fish.db");
+
+  // start transaction
   db.transaction(tx => {
 
-
-
-
-
-
-    //FUNCTION
+    //FUNCTION that just runs if db is populated. doesn't do anything, just here for testing
     const checkinfo = (_array) => {
-      //var count = Object.keys(_array).length;
-      //console.log(_array);
-      //9891031619722
 
+      // get keycount
       var count = Object.keys(_array).length;
 
-      // if catch table not empty, store in data field
-      if(count > 0)
-      {
-        console.log("DB Populated");
-      }
+      // TESTING FUNCTION if local table not empty, just log that it is populated
+      // if(count > 0)
+      // {
+      //   console.log("DB Populated");
+      // }
 
       };
 
-
-
-
-
-
+      // grab all fish
       tx.executeSql(
         "select * from fishTable",
         [],
-        // success
+        // success: do nothing (runs checkinfo function above)
         (_, { rows: { _array } }) => checkinfo(_array),
-        // error
+        // error: table is empty so download DB
         () => downloadDatabase()
                     );
   });
@@ -99,12 +94,3 @@ export default function App() {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

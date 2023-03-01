@@ -15,7 +15,7 @@ export default function MoreScreen({navigation}) {
   // data for clearing
   const [cleared, setCleared] = useState(false);
 
-  // species
+  // Just converts fish type to readable string for user
   const getSpecies=(species)=>{
 
     if(species=="RBT")
@@ -28,6 +28,7 @@ export default function MoreScreen({navigation}) {
     }
   }
 
+  // style for rows of hisotry
   const rowStyle = (index) => ({
     borderBottomColor: 'rgba(100, 100, 100, .5)',
     borderLeftColor: 'white',
@@ -42,123 +43,113 @@ export default function MoreScreen({navigation}) {
     backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .8)' : 'rgba(200, 200, 200, 0.8)',
   });
 
-
-  function clearHistory()
-  {
+  // This function is for the clear button in the history modal
+  // just clears all the users fishing history
+  function clearHistory() {
+    // start db
     const db = SQLite.openDatabase("fish.db");
 
+      // drop history
       db.transaction(tx => {
   
-        // drop old table on app start (MIGHT REMOVE)
+        // drop history
         tx.executeSql("DROP TABLE IF EXISTS history;", []);
     });
 
-    setData([]); openHistory();
-
-    
+    // set data to empty, then run next function
+    setData([]); 
+    openHistory();    
   }
 
-  function openHistory()
-  {
+  // this function opens the history stored on the app (all catches)
+  // just stores in the constant to be shown by the flatlist
+  function openHistory() {
+
     // get history
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
-  
-      //upload data to local database
-      const storeInfo = (_array) => {
-        //var count = Object.keys(_array).length;
-        //console.log(_array);
-        //9891031619722
 
+      // function for setting history data
+      const storeInfo = (_array) => {
+
+        // get count
         var count = Object.keys(_array).length;
 
-        // if catch table not empty, store in data field
+        // if history table not empty, store in data field
         if(count >= 0)
         {
           setData(_array);
         }
 
-        };
+      };
 
-        tx.executeSql(
-          "select * from history",
-          [],
-          // success
-          (_, { rows: { _array } }) => storeInfo(_array),
-          // error
-          () => console.log("history empty error")
-                      );
+      // select all from history and store
+      tx.executeSql(
+        "select * from history",
+        [],
+        // success
+        (_, { rows: { _array } }) => storeInfo(_array),
+        // error
+        () => console.log("history empty error")
+                    );
     });
 
-
-    // make visible
+    // make modal visible
     setHistoryVisible(true);
-
-    
   }
 
+  return (
+    <View style={styles.container}>
 
-
-    return (
-        <View style={styles.container}>
-            {/* <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
-                      <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
-            </TouchableOpacity> */}
-
-
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={historyVisible}
-        >
+      <Modal
+      animationType="slide"
+      transparent={true}
+      visible={historyVisible}
+      >
         <View style={styles.bgmodal}>
 
           <View style={styles.modalView}>
 
-          <TouchableOpacity style={styles.closeIcon} onPress={() => setHistoryVisible(false)}>
-                <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.closeIcon} onPress={() => setHistoryVisible(false)}>
+                  <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
+            </TouchableOpacity>
 
 
           
 
-          <View style={styles.header}>
+            <View style={styles.header}>
 
-          <TouchableOpacity style={styles.clearIcon} onPress={() => {Alert.alert(
-                                                                      "Clearing History",
-                                                                      "This will clear your fishing history. Are you sure you want to continue?",
-                                                                      [
-                                                                        { text: "Cancel" },
-                                                                        { text: "Clear",
-                                                                          onPress: () => clearHistory()}
-                                                                      ]
-                                                                    );} }>
-            <Text style={styles.buttonTextClear}>Clear</Text>
-          </TouchableOpacity>
-          
+              <TouchableOpacity style={styles.clearIcon} onPress={() => {Alert.alert(
+                                                                          "Clearing History",
+                                                                          "This will clear your fishing history. Are you sure you want to continue?",
+                                                                          [
+                                                                            { text: "Cancel" },
+                                                                            { text: "Clear",
+                                                                              onPress: () => clearHistory()}
+                                                                          ]
+                                                                        );} }>
+                <Text style={styles.buttonTextClear}>Clear</Text>
+              </TouchableOpacity>
+            
 
-            <Text style={styles.headerText}>History</Text>
-          </View>
+              <Text style={styles.headerText}>History</Text>
+            </View>
 
-
-
-          <FlatList
-            style ={styles.flatlister}
-              ListHeaderComponent={() => (
-                <View style={styles.listHead}>
-                </View>
-              )}
-              data={data}
+            <FlatList
+              style ={styles.flatlister}
+                ListHeaderComponent={() => (
+                  <View style={styles.listHead}>
+                  </View>
+                )}
+                data={data}
 
               ListEmptyComponent={() => (
                 <View style={styles.emptyView}>
                   <Text style={styles.emptyText}>
-                     No stored catches
+                      No stored catches
                   </Text>
                 </View>
               )}
-
-
 
               renderItem={({item,index}) => (
                 <View style={rowStyle(index)}>
@@ -184,75 +175,51 @@ export default function MoreScreen({navigation}) {
                     </View>
                 </View>
               )}
-              keyExtractor={(item) => item.hex}
+
+              keyExtractor={(item) => item.hex + item.lastCaught}
             />
-
-
-
-
           </View>
-          </View>
-
+        </View>
       </Modal>
 
+      <View style={styles.moreView}>
 
+        <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
+        <Text style={styles.buttonText}>Our Website</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity  style ={styles.history} onPress={() => openHistory()}>
+        <Text style={styles.buttonText}>Total Catch History</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity  style ={styles.otherOne} onPress={() => {Alert.alert(
+                                                                  "Clearing History",
+                                                                  "This will clear your recent catches. Are you sure you want to continue?",
+                                                                  [
+                                                                    { text: "Cancel" },
+                                                                    { text: "Clear",
+                                                                      onPress: () => clearRecent()}
+                                                                  ]
+                                                                );}}>
+          <Text style={styles.buttonText}>Clear Recent Catches</Text>
+        </TouchableOpacity>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <View style={styles.moreView}>
-
-            <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
-            <Text style={styles.buttonText}>Our Website</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity  style ={styles.history} onPress={() => openHistory()}>
-            <Text style={styles.buttonText}>Total Catch History</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity  style ={styles.otherOne} onPress={() => {Alert.alert(
-                                                                      "Clearing History",
-                                                                      "This will clear your recent catches. Are you sure you want to continue?",
-                                                                      [
-                                                                        { text: "Cancel" },
-                                                                        { text: "Clear",
-                                                                          onPress: () => clearRecent()}
-                                                                      ]
-                                                                    );}}>
-            <Text style={styles.buttonText}>Clear Recent Catches</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity  style ={styles.otherTwo} onPress={() => {Alert.alert(
-                                                                      "Clearing History",
-                                                                      "This will clear your whole local database. Are you sure you want to continue?",
-                                                                      [
-                                                                        { text: "Cancel" },
-                                                                        { text: "Clear",
-                                                                          onPress: () => clearLocal()}
-                                                                      ]
-                                                                    );}}>
-            <Text style={styles.buttonText}>Clear Local Database</Text>
-            </TouchableOpacity>
-
-              </View>
-
-            
-            <Footer />
-        </View>
-    )
+        <TouchableOpacity  style ={styles.otherTwo} onPress={() => {Alert.alert(
+                                                                  "Clearing History",
+                                                                  "This will clear your whole local database. Are you sure you want to continue?",
+                                                                  [
+                                                                    { text: "Cancel" },
+                                                                    { text: "Clear",
+                                                                      onPress: () => clearLocal()}
+                                                                  ]
+                                                                );}}>
+          <Text style={styles.buttonText}>Clear Local Database</Text>
+        </TouchableOpacity>
+      </View>
+          
+      <Footer />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -269,7 +236,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
     },
 
-        help:{
+    help:{
       zIndex: 1,
       
     },
@@ -347,10 +314,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
   
-
-
-
-
     modalView: {
       width: "100%",
       height: "100%",
@@ -505,8 +468,6 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
     }
-
-
 
   });
   

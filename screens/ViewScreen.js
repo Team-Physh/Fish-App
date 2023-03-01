@@ -6,20 +6,11 @@ import {uploadDatabase} from '../database/databasefunctions';
 
 export default function ViewScreen({navigation}) {
 
+  // data that is displayed
   const [data, setData] = useState([]);
 
+  // upload is ready constant
   const [uploadReady, setUploadReady] = useState(false);
-
-
-  // test one
-  const testEntry = {
-      "pit": 1111111111111,
-      "hex": 1111111111111,
-      "lastCaught": "2023-01-01",
-      "species": "RBT",
-      "length": 2,
-      "riverMile": 5
-  }
 
   const getSpecies=(species)=>{
 
@@ -33,6 +24,7 @@ export default function ViewScreen({navigation}) {
     }
   }
 
+  // styling for sync button to appear
   const syncStyle = () => ({
     backgroundColor: '#c6d9fd',
     height: uploadReady == true ? 50 : 0,
@@ -54,6 +46,8 @@ export default function ViewScreen({navigation}) {
       elevation: 2.5,
     
   });
+
+  // styling for alternating row colors
   const rowStyle = (index) => ({
     borderBottomColor: 'green',
     borderLeftColor: 'white',
@@ -69,99 +63,109 @@ export default function ViewScreen({navigation}) {
     
   });
 
+  // this runs when you open screen. loads in recent catches to show in flatlist
   useEffect(() => {
+
+    // open db
     const db = SQLite.openDatabase("fish.db");
+
+    // start transaction
     db.transaction(tx => {
   
-      //upload data to local database
+      // store data in data array
       const storeInfo = (_array) => {
-        //var count = Object.keys(_array).length;
-        console.log(_array);
-        //9891031619722
 
+        // get count
         var count = Object.keys(_array).length;
 
         // if catch table not empty, store in data field
         if(count >= 0)
         {
+          // make button uppear and store
           setUploadReady(true);
           setData(_array);
         }
 
         };
 
+        // select all values and store
         tx.executeSql(
           "select * from catchTable",
           [],
-          // success
+          // success: store
           (_, { rows: { _array } }) => storeInfo(_array),
           // error
-          () => console.log("No values grabbed")
+          () => console.log("No values grabbed (recent catch table)")
                       );
     });
   }, []);
 
-    return (
-        <View style={styles.container}>
-         <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
-                      <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
-          </TouchableOpacity>
-          <View style={styles.header}>
+  return (
+    <View style={styles.container}>
 
-              <TouchableOpacity style={syncStyle()} onPress={() => uploadDatabase(data)}>
-                <Text style={styles.buttonText}>↑</Text>
-              </TouchableOpacity>
-            <Text style={styles.headerText}>Recent Catches</Text>
-          </View>
+      <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
 
+                  <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
 
-            <FlatList
-            style ={styles.flatlister}
-              ListHeaderComponent={() => (
-                <View style={styles.listHead}>
-                </View>
-              )}
-              data={data}
+      </TouchableOpacity>
 
-              ListEmptyComponent={() => (
-                <View style={styles.emptyView}>
-                  <Text style={styles.emptyText}>
-                     No stored catches
+      <View style={styles.header}>
+
+        <TouchableOpacity style={syncStyle()} onPress={() => uploadDatabase(data)}>
+          <Text style={styles.buttonText}>↑</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.headerText}>Recent Catches</Text>
+
+      </View>
+
+        <FlatList
+          style ={styles.flatlister}
+            ListHeaderComponent={() => (
+              <View style={styles.listHead}>
+              </View>
+            )}
+          data={data}
+
+          ListEmptyComponent={() => (
+            <View style={styles.emptyView}>
+              <Text style={styles.emptyText}>
+                  No stored catches
+              </Text>
+            </View>
+          )}
+
+          renderItem={({item, index}) => (
+            <View style={rowStyle(index)}>
+                <View style={styles.leftSide}>
+                  <Text style={styles.rowText}>
+                  PIT: {item.hex}
                   </Text>
                 </View>
-              )}
 
-
-
-              renderItem={({item, index}) => (
-                <View style={rowStyle(index)}>
-                    <View style={styles.leftSide}>
-                      <Text style={styles.rowText}>
-                      PIT: {item.hex}
-                      </Text>
-                    </View>
-
-                    <View style={styles.rightSide}>
-                      <Text style={styles.rightText}>
-                        Length: {item.length}mm
-                        </Text>
-                        <Text style={styles.rightText}>
-                        Species: {getSpecies(item.species)}
-                        </Text>
-                        <Text style={styles.rightText}>
-                      Date: {item.lastCaught}
-                      </Text>
-                      <Text style={styles.rightText}>
-                      Mile: {item.riverMile}
-                      </Text>
-                    </View>
+                <View style={styles.rightSide}>
+                  <Text style={styles.rightText}>
+                    Length: {item.length}mm
+                    </Text>
+                    <Text style={styles.rightText}>
+                    Species: {getSpecies(item.species)}
+                    </Text>
+                    <Text style={styles.rightText}>
+                  Date: {item.lastCaught}
+                  </Text>
+                  <Text style={styles.rightText}>
+                  Mile: {item.riverMile}
+                  </Text>
                 </View>
-              )}
-              keyExtractor={(item) => item.hex}
-            />
-            <Footer />
-        </View>
-    )
+            </View>
+          )}
+
+          keyExtractor={(item) => item.hex}
+
+        />
+      <Footer />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
     },
 
-      help:{
+    help:{
       zIndex: 1,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
@@ -267,15 +271,11 @@ const styles = StyleSheet.create({
       color: "#999",
     },
 
-
-
     buttonText:{
       color: 'black',
       fontSize: 25,
       textAlign: 'center',
       fontWeight: 'bold',
     },
-
-  
-  });
+});
   
