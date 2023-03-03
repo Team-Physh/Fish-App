@@ -8,11 +8,19 @@ import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
 import * as SQLite from 'expo-sqlite';
 import { getAllData, downloadDatabase } from './database/databasefunctions.js';
+import NetInfo from '@react-native-community/netinfo';
+
+
 
 // creates stack for stack navigator
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+  
+  
+  
+
+
 
   // useEffect function that checks if user has database downloaded. If not, it will download the database.
   // This is mainly for first time users opening the app.
