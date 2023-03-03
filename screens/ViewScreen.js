@@ -119,6 +119,8 @@ export default function ViewScreen({navigation}) {
 
       </View>
 
+      <View style = {styles.bgscreen}>
+
         <FlatList
           style ={styles.flatlister}
             ListHeaderComponent={() => (
@@ -163,6 +165,7 @@ export default function ViewScreen({navigation}) {
           keyExtractor={(item) => item.hex}
 
         />
+        </View>
       <Footer />
     </View>
   )
@@ -172,6 +175,11 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
+    },
+
+    bgscreen: {
+      width: "100%",
+      height: "72%",
     },
     icon:{
       height: 50,
@@ -233,6 +241,7 @@ const styles = StyleSheet.create({
       marginBottom: 0,
       marginLeft: 0,
       fontWeight: 'bold',
+      borderWidth: 2,
     },
 
     leftSide: {

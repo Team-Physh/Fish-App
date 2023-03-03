@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {  FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
+import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions'
@@ -225,7 +225,6 @@ export default function HomeScreen({navigation}) {
     setUpdateVisible(false);
   }
 
-  // TODO make grab data by name, not just array index
   // This is run when you press the green enter button.
   // it just stores data for the fish from local database to const so the user can view/edit it
   function enterTag(number) {
@@ -243,10 +242,12 @@ export default function HomeScreen({navigation}) {
         if (count >= 1)
         {
           // get data for the first key (will be most recent since sorted by date)
-          var key = Object.values(_array[0]);
+          //var key = Object.values(_array[0]);
+
+          var key = _array[0];
 
           // set data retrieved (3 is hex?)
-          setPit({ number: key[0], species: key[5], lastCaught: key[1], length: key[2], rivermile: key[4], temp: key[3]});
+          setPit({ number: key.hex, species: key.species, lastCaught: key.lastCaught, length: key.length, rivermile: key.riverMile, temp: key.pit});
 
           // make screen visible to user so they can see the data
           setModalVisible(true);
@@ -368,6 +369,7 @@ export default function HomeScreen({navigation}) {
 
   // screen begin
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       {/* FIRST POP UP */}
       <Modal
@@ -496,6 +498,7 @@ export default function HomeScreen({navigation}) {
       transparent={true}
       visible={updateVisible}
       >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.bgmodal}>
 
           <KeyboardAvoidingView behavior='padding'
@@ -521,6 +524,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
                   placeholder="Enter Length (mm)"
+                  keyboardType="numeric"
                 />
 
               <Text style={styles.headerTextUpdate}>River Mile</Text>
@@ -529,6 +533,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
+                  keyboardType="numeric"
                 />
 
               <Text style={styles.headerTextUpdate}>Current Timestamp</Text>
@@ -542,6 +547,8 @@ export default function HomeScreen({navigation}) {
 
           </KeyboardAvoidingView>
         </View>
+
+        </TouchableWithoutFeedback>
       </Modal>
 
       <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
@@ -561,14 +568,17 @@ export default function HomeScreen({navigation}) {
         ios: () => -250,
         android: () => -250
       })() }           
-      style={styles.itemsHome}>
+      style={styles.itemsHome}
+      >
 
         <TextInput
             style={styles.textIn}
             autoCapitalize="none"
             onChangeText={text => setPit({ number: text, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.riverMile, temp: pitTag.temp})}
             placeholder="Enter PIT tag"
+            keyboardType="numeric"
           />
+
 
         <TouchableOpacity style={styles.sendButton} onPress={() => enterTag(pitTag.number)}>
           <Text style={styles.buttonText}>Enter </Text>
@@ -576,9 +586,11 @@ export default function HomeScreen({navigation}) {
 
       </KeyboardAvoidingView>
 
+
       <Footer />
 
     </View>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -810,7 +822,7 @@ const styles = StyleSheet.create({
     modalViewHist: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, .8)',
+      backgroundColor: 'rgba(255, 255, 255, 1)',
       
       alignSelf: 'center',
       top: "10%",
@@ -843,7 +855,7 @@ const styles = StyleSheet.create({
     },
 
     bgmodalHist:{
-      height: "100%",
+      height: "90%",
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, 0)",
     },
@@ -916,6 +928,7 @@ const styles = StyleSheet.create({
       marginBottom: 0,
       marginLeft: 0,
       fontWeight: 'bold',
+      borderWidth: 2,
     },
 
     leftSideHist: {

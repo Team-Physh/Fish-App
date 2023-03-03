@@ -85,7 +85,7 @@ export default function MoreScreen({navigation}) {
 
       // select all from history and store
       tx.executeSql(
-        "select * from history",
+        "select * from history", 
         [],
         // success
         (_, { rows: { _array } }) => storeInfo(_array),
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     modalView: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, .8)',
+      backgroundColor: 'rgba(255, 255, 255, 1)',
       
       alignSelf: 'center',
       top: "10%",
@@ -424,6 +424,7 @@ const styles = StyleSheet.create({
       marginBottom: 0,
       marginLeft: 0,
       fontWeight: 'bold',
+      borderWidth: 2,
     },
 
     leftSide: {
