@@ -38,8 +38,6 @@ export default function App() {
       // get keycount
       //var count = Object.keys(_array).length;
 
-      console.log("database download not needed");
-
       // TESTING FUNCTION if local table not empty, just log that it is populated
       // if(count > 0)
       // {
