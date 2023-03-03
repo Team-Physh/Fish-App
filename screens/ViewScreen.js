@@ -95,7 +95,7 @@ export default function ViewScreen({navigation}) {
           // success: store
           (_, { rows: { _array } }) => storeInfo(_array),
           // error
-          () => console.log("No values grabbed (recent catch table)")
+          () => console.log("View screen empty")
                       );
     });
   }, []);

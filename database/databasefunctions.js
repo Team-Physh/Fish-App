@@ -268,10 +268,15 @@ export async function updateDatabase() {
 
         // get date
         var retrievedDate = Object.values(_array[0]);
+        
 
         // retrieve data from date
         const data = await getNewData(retrievedDate[1]);
 
+
+        console.log("NEW DATA BEING INSERTED:");
+        console.log(data);
+        
         //upload data to local database
         for (var i = 0; i < data.length; i++)
         {
