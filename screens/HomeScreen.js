@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {  FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase} from '../database/databasefunctions'
+import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions'
 
 export default function HomeScreen({navigation}) {
 
@@ -127,6 +127,7 @@ export default function HomeScreen({navigation}) {
     setModalVisible(false);
   };
 
+  // TODO: WRAP IN NETINFO CHECKER (along with other things requiring online functionality)
   // sync button function. First, checks internet connection. If connected, 
   // it uploads data from recent catches and clears recent catch table
   // then it downloads the database so everything is in sync
@@ -147,24 +148,24 @@ export default function HomeScreen({navigation}) {
         {
 
           // upload data
-          uploadDatabase(_array);
+          uploadDatabaseSync(_array);
         }
 
         };
 
-        // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist
+        // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist (get data anyways)
         tx.executeSql(
           "select * from catchTable",
           [],
           // success
           (_, { rows: { _array } }) => storeInfo(_array),
           // error
-          () => console.log("No values grabbed (sync upload)")
+          () => updateDatabase()
                       );
     });
 
     // download database and then we will be fully in sync
-    updateDatabase();
+    //updateDatabase();
 
   }
 
@@ -180,8 +181,9 @@ export default function HomeScreen({navigation}) {
     db.transaction(tx => {
     
       // upload data to local database. Does this so it isn't out of date while the user doesn't have internet
-      tx.executeSql("INSERT INTO fishTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+      // COMMENTED OUT BECAUSE IT MAKES A DUPE
+      // tx.executeSql("INSERT INTO fishTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
+      //   [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       
 
       // make recent catch table if not exists
@@ -276,7 +278,7 @@ export default function HomeScreen({navigation}) {
           // success, show user the data
           (_, { rows: { _array } }) => printInfo(_array),
           // error, table doesn't exist maybe?
-          () => console.log("Error when finding data for fish")
+          () => console.log("Error when finding data history for fish")
                       );
 
       });
@@ -299,8 +301,6 @@ export default function HomeScreen({navigation}) {
         // get count
         var count = Object.keys(_array).length;
 
-        console.log("HISTORY COUNT:");
-        console.log(count);
         
         // if recent catches exist for fish (they have to at this point)
         if(count >= 0)

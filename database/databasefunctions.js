@@ -11,6 +11,7 @@ export async function getAllData(){
 }
 
 // API call to get newest data than current date
+// This is for updating the local database without having to redownload the whole thing (just gets values newer than given date)
 export async function getNewData(date) {
   const response = await fetch('http://api.teamphysh.com:3000/fish/sync/'+date)
   const data = await response.json()
@@ -18,7 +19,9 @@ export async function getNewData(date) {
   return data;
 }
 
-// function to download db to local db
+// function to download db to local db (downloads ENTIRE THING)
+// This should only run when the app is started for the very first time
+// TODO if user starts the app without internet, what happens? 
 export async function downloadDatabase() {
   // open/make local database
   const db = SQLite.openDatabase("fish.db");
@@ -95,7 +98,8 @@ export async function downloadDatabase() {
 
 }
 
-// Uploads catch data and clears catch table
+// Uploads catch data and clears catch table.
+// This runs from the view screen. just uploads and doesnt sync
 export async function uploadDatabase(data) {
 
   await fetch( "http://api.teamphysh.com:3000/fish/data" , {
@@ -108,7 +112,7 @@ export async function uploadDatabase(data) {
     body: JSON.stringify(data)
   }).then( response => {
     // return response.json();
-      console.log("Sent Data");
+      console.log("Sent Data and done");
       // console.log(response.json());
   })
   .catch(error => {
@@ -119,7 +123,35 @@ export async function uploadDatabase(data) {
   clearRecent()
 }
 
-// clears recent catches
+// Uploads catch data and clears catch table
+// This runs from the home screen sync button. The reason the updateDatabase is called from here
+// is because it is an await function, so i dont want it to update until the post request is finished (so no duplicates get added to local)
+export async function uploadDatabaseSync(data) {
+
+  await fetch( "http://api.teamphysh.com:3000/fish/data" , {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+
+    body: JSON.stringify(data)
+  }).then( response => {
+    // return response.json();
+      console.log("Sent Data now syncing");
+      updateDatabase();
+  })
+  .catch(error => {
+    console.log("ERROR");
+  })
+
+
+  // clear recent catches
+  clearRecent()
+}
+
+
+// clears recent catches table
 export async function clearRecent() {
   const db = SQLite.openDatabase("fish.db");
   
@@ -143,7 +175,8 @@ export async function clearLocal() {
   });
 }
 
-
+// simple local non-async function thats used to insert values non-asynchronously. 
+// it was having problems inserting if called within async function so this was a quick solution
 function inserter(array){
 
   const db = SQLite.openDatabase("fish.db");
@@ -157,7 +190,7 @@ function inserter(array){
 }
 
 // This function first gets the newest data (newer than current last retrieved date)
-// and then it download and stores it and updates the date. 
+// and then it download and stores it and updates the date after.
 export async function updateDatabase() {
     // open/make local database
     const db = SQLite.openDatabase("fish.db");
@@ -169,13 +202,8 @@ export async function updateDatabase() {
         // get date
         var retrievedDate = Object.values(_array[0]);
 
-        console.log("USED DATE:");
-        console.log(retrievedDate[1]);
-
         // retrieve data from date
         const data = await getNewData(retrievedDate[1]);
-        console.log("NEW DATA:");
-        console.log(data);
 
         //upload data to local database
         for (var i = 0; i < data.length; i++)
