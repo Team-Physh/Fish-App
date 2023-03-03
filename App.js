@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import { View } from 'react-native';
+import { Asset } from 'expo-asset';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewScreen from './screens/ViewScreen';
@@ -16,11 +17,33 @@ import NetInfo from '@react-native-community/netinfo';
 const Stack = createNativeStackNavigator()
 
 export default function App() {
-  
-  
-  
 
 
+  // cache icons for faster loading
+  let cacheResources = async () => {
+    const images = [
+    require('./assets/PHYSH.png'),
+    require("./assets/question.png"), 
+    require('./assets/scan.png'),
+    require('./assets/exit.png'),
+    require('./assets/more.png'),
+    require('./assets/catches.png'),
+    require('./assets/splash.png'),
+    ];
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    });
+    return Promise.all(cacheImages);
+  }
+
+  // load the resources
+  useEffect(() => {
+    const loadResources = async () => {
+      await cacheResources();
+    };
+
+    loadResources();
+  }, [])
 
   // useEffect function that checks if user has database downloaded. If not, it will download the database.
   // This is mainly for first time users opening the app.
