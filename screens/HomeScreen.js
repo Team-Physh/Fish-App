@@ -197,10 +197,7 @@ export default function HomeScreen({navigation}) {
       "select * from catchTable where hex = ?",
       [pitTag.number],
       // success
-      (_, { rows: { _array } }) => keyExistCatch(_array),
-      // error
-      () => console.log("Error with catchTable when uploading locally")
-                  );
+      (_, { rows: { _array } }) => keyExistCatch(_array));
 
       // make history catch table if not exists
       tx.executeSql(
@@ -213,10 +210,7 @@ export default function HomeScreen({navigation}) {
         "select * from history where hex = ?",
         [pitTag.number],
         // success
-        (_, { rows: { _array } }) => keyExistHistory(_array),
-        // error
-        () => console.log("Error with history when uploading locally")
-                    );
+        (_, { rows: { _array } }) => keyExistHistory(_array));
 
     });
 
@@ -277,10 +271,7 @@ export default function HomeScreen({navigation}) {
           "select * from fishTable where hex = ? ORDER BY lastCaught DESC",
           [number],
           // success, show user the data
-          (_, { rows: { _array } }) => printInfo(_array),
-          // error, table doesn't exist maybe?
-          () => console.log("Error when finding data history for fish")
-                      );
+          (_, { rows: { _array } }) => printInfo(_array));
 
       });
   }
@@ -317,10 +308,7 @@ export default function HomeScreen({navigation}) {
         "select * from fishTable where hex = ?",
         [pitTag.number],
         // success, store in data so it can be viewed
-        (_, { rows: { _array } }) => storeInfo(_array),
-        // error, this shouldn't show up because table has to exist
-        () => console.log("FISH HISTORY EMPTY ERROR")
-                    );
+        (_, { rows: { _array } }) => storeInfo(_array));
     });
 
     // make visible so user can see history modal slide up

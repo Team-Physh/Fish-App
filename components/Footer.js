@@ -43,7 +43,7 @@ export default function Footer(){
       resizeMode: 'contain',
       position: 'relative',
       justifyContent: 'center',
-      backgroundColor: name == "Home" ? "rgba(127, 107, 98, 0.3)" : 0,
+      backgroundColor: name == "Home" ? "rgba(0, 0, 0, 0.3)" : 0,
       borderRadius: 20,
     });
 
@@ -53,7 +53,7 @@ export default function Footer(){
       resizeMode: 'contain',
       position: 'relative',
       justifyContent: 'center',
-      backgroundColor: name == "View" ? "rgba(127, 107, 98, 0.3)" : 0,
+      backgroundColor: name == "View" ? "rgba(0, 0, 0, 0.3)" : 0,
       borderRadius: 20,
     });
 
@@ -63,7 +63,7 @@ export default function Footer(){
       resizeMode: 'contain',
       position: 'relative',
       justifyContent: 'center',
-      backgroundColor: name == "More" ? "rgba(127, 107, 98, 0.3)" : 0,
+      backgroundColor: name == "More" ? "rgba(0, 0, 0, 0.3)" : 0,
       borderRadius: 20,
     });
 

@@ -88,10 +88,7 @@ export default function MoreScreen({navigation}) {
         "select * from history", 
         [],
         // success
-        (_, { rows: { _array } }) => storeInfo(_array),
-        // error
-        () => console.log("history empty error")
-                    );
+        (_, { rows: { _array } }) => storeInfo(_array));
     });
 
     // make modal visible

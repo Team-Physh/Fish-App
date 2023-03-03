@@ -93,10 +93,7 @@ export default function ViewScreen({navigation}) {
           "select * from catchTable",
           [],
           // success: store
-          (_, { rows: { _array } }) => storeInfo(_array),
-          // error
-          () => console.log("View screen empty")
-                      );
+          (_, { rows: { _array } }) => storeInfo(_array));
     });
   }, []);
 

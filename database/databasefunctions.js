@@ -85,7 +85,6 @@ export async function downloadDatabase() {
                         
         }
 
-        console.log("database download complete");
 
 
         // // function for testing, just selects the table to print it out and stuff. printInfo above is called for this
@@ -140,11 +139,9 @@ export async function uploadDatabase(data) {
         body: JSON.stringify(data)
       }).then( response => {
         // return response.json();
-          console.log("Sent Data and done");
           // console.log(response.json());
       })
       .catch(error => {
-        console.log("ERROR");
       })
 
       // clear recent catches
@@ -183,11 +180,9 @@ export async function uploadDatabaseSync(data) {
         body: JSON.stringify(data)
       }).then( response => {
         // return response.json();
-          console.log("Sent Data now syncing");
           updateDatabase();
       })
       .catch(error => {
-        console.log("ERROR");
       })
 
 
@@ -273,10 +268,10 @@ export async function updateDatabase() {
         // retrieve data from date
         const data = await getNewData(retrievedDate[1]);
 
-
+        // TODO REMOVE THIS
         console.log("NEW DATA BEING INSERTED:");
         console.log(data);
-        
+
         //upload data to local database
         for (var i = 0; i < data.length; i++)
         {
@@ -294,10 +289,7 @@ export async function updateDatabase() {
         "select * from recentDate WHERE idNum = ?",
         [1],
         // success
-        (_, { rows: { _array } }) => useDate(_array),
-        // error
-        () => console.log("date table error when updating")
-                    );
+        (_, { rows: { _array } }) => useDate(_array));
     
 
       // PROBLEM: We upload our data and then try to download the new data with our data in it. our data we just sent isnt included
