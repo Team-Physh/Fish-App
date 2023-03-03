@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     },
 
     bgmodal:{
-      height: "100%",
+      height: "90%",
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, 0)",
     },
@@ -467,7 +467,8 @@ const styles = StyleSheet.create({
       color: 'black',
       fontSize: 20,
       textAlign: 'center',
-    }
+    },
+
 
   });
   

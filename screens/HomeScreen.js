@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {  FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {downloadDatabase, uploadDatabase} from '../database/databasefunctions'
+import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase} from '../database/databasefunctions'
 
 export default function HomeScreen({navigation}) {
 
@@ -31,24 +31,8 @@ export default function HomeScreen({navigation}) {
   // history modal bool
   const [fishHistoryVisible, setFishHistoryVisible] = useState(false);
 
-  // data is stored here temporarily that needs to be uploaded.
+  // data is stored here temporarily that needs to be viewed.
   const [readyData, setData] = useState([]);
-
-  // date grabber function. gets current date/time
-  // commented out block is for if we want to get ride of timestamp and just use date
-  const getCurrentDate=() => {
-
-      var date;
-      date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-      //date = new Date();
-      // if we dont want seconds/minutes
-      // date = date.getUTCFullYear() + '-' +
-      // ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-      // ('00' + date.getUTCDate()).slice(-2);
-
-      return date;//format: d-m-y H:M:S;
-  };
 
   // Just converts fish type to readable string for user
   const getSpecies=(species)=>{
@@ -75,9 +59,6 @@ export default function HomeScreen({navigation}) {
 
     // gets count
     var count = Object.keys(_array).length;
-
-    console.log("KEYS:");
-    console.log(count);
 
     // start transaction
     db.transaction(tx => {
@@ -117,15 +98,13 @@ export default function HomeScreen({navigation}) {
 
     var count = Object.keys(_array).length;
 
-    console.log("KEYS:");
-    console.log(count);
-
 
     db.transaction(tx => {
 
 
       if( count == 0)
       {
+        // inserting catch
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
         [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
@@ -153,10 +132,6 @@ export default function HomeScreen({navigation}) {
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
   function syncUp() {
-
-    // empty array 
-    setData([]);
-
     // UPLOAD DATA FIRST
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
@@ -164,20 +139,15 @@ export default function HomeScreen({navigation}) {
       //upload data to local database. runs on success of select from catchTable
       const storeInfo = (_array) => {
 
-        // print data updloaded
-        console.log(_array);
-
         // get count
         var count = Object.keys(_array).length;
 
         // if catch table not empty, store in data field and upload
         if(count >= 0)
         {
-          // set data in field
-          setData(_array);
 
           // upload data
-          uploadDatabase(readyData);
+          uploadDatabase(_array);
         }
 
         };
@@ -189,12 +159,12 @@ export default function HomeScreen({navigation}) {
           // success
           (_, { rows: { _array } }) => storeInfo(_array),
           // error
-          () => console.log("No values grabbed")
+          () => console.log("No values grabbed (sync upload)")
                       );
     });
 
     // download database and then we will be fully in sync
-    downloadDatabase();
+    updateDatabase();
 
   }
 
@@ -209,11 +179,10 @@ export default function HomeScreen({navigation}) {
     // start transaction
     db.transaction(tx => {
     
-      //upload data to local database. Does this so it isn't out of date while the user doesn't have internet
-      tx.executeSql("UPDATE fishTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
-                      [getCurrentDate(), pitTag.length, pitTag.rivermile, pitTag.number]
-                      );
-      });
+      // upload data to local database. Does this so it isn't out of date while the user doesn't have internet
+      tx.executeSql("INSERT INTO fishTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
+        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+      
 
       // make recent catch table if not exists
       tx.executeSql(
@@ -247,6 +216,9 @@ export default function HomeScreen({navigation}) {
         () => console.log("Error with history when uploading locally")
                     );
 
+    });
+
+
     // finally, close modal
     setUpdateVisible(false);
   }
@@ -264,9 +236,6 @@ export default function HomeScreen({navigation}) {
         
         // get count of keys retrieved
         var count = Object.keys(_array).length;
-
-        // print count
-        console.log(count);
 
         // if entry found (count>1)
         if (count >= 1)
@@ -316,10 +285,7 @@ export default function HomeScreen({navigation}) {
   // This function is run for when the user wants to view the history of a fish. (all of its catches)
   // shows a list of every catch of a single given fish
   function fishHistory() {
-
-    // empty local data array
     setData([]);
-
     // get history
     // open db
     const db = SQLite.openDatabase("fish.db");
@@ -332,6 +298,9 @@ export default function HomeScreen({navigation}) {
         
         // get count
         var count = Object.keys(_array).length;
+
+        console.log("HISTORY COUNT:");
+        console.log(count);
         
         // if recent catches exist for fish (they have to at this point)
         if(count >= 0)
@@ -344,7 +313,7 @@ export default function HomeScreen({navigation}) {
 
       // select a given fish and get its history 
       tx.executeSql(
-        "select * from fishTable where hex = ? ORDER BY lastCaught DESC",
+        "select * from fishTable where hex = ?",
         [pitTag.number],
         // success, store in data so it can be viewed
         (_, { rows: { _array } }) => storeInfo(_array),
@@ -467,7 +436,7 @@ export default function HomeScreen({navigation}) {
                         </View>
                     </View>
                   )}
-                  keyExtractor={(item) => item.hex+ ' '+item.pit+' '+item.lastCaught}
+                  keyExtractor={(item) => item.hex+ ' '+item.lastCaught}
               />
 
             </View>
