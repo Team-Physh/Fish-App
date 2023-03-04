@@ -2,7 +2,8 @@ import {useState, useEffect} from 'react';
 import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions'
+import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import Svg, { Path, Circle, Rect } from 'react-native-svg';
 
 export default function HomeScreen({navigation}) {
 
@@ -318,7 +319,7 @@ export default function HomeScreen({navigation}) {
   // style for rows of history from first modal.
   // this is here because of the functionality from the background colors alternating
   const rowStyle = (index) => ({
-    borderBottomColor: 'rgba(100, 100, 100, .5)',
+    borderBottomColor: 'rgba(100, 100, 100, .7)',
     borderLeftColor: 'white',
     borderRightColor: 'white',
     borderTopColor: 'white',
@@ -328,14 +329,14 @@ export default function HomeScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .8)' : 'rgba(200, 200, 200, 0.8)',
+    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, 0.7)',
   });
 
 
   // sync button (styling is up here in case we want to add functionality to it. (ex: making it only appear when a sync is needed?))
   // currently serves no purpose other than styling, but its up here because i may want to add some functionality later
   const syncStyle = () => ({
-    backgroundColor: '#c6d9fd',
+    backgroundColor: 'rgba(255, 253, 250, .5)',
     height: 50,
     width: 70,
     justifyContent: 'center',
@@ -348,16 +349,12 @@ export default function HomeScreen({navigation}) {
     borderWith: 5,
     borderWidth: 0,
     borderColor: 'black',
-    shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 1,  
-        elevation: 2.5,
   });
 
   // screen begin
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
     <View style={styles.container}>
       {/* FIRST POP UP */}
       <Modal
@@ -492,8 +489,8 @@ export default function HomeScreen({navigation}) {
           <KeyboardAvoidingView behavior='padding'
             keyboardVerticalOffset={
             Platform.select({
-              ios: () => 0,
-              android: () => 0
+              ios: () => -30,
+              android: () => -30
             })() }        style={styles.modalView}>
 
             <TouchableOpacity style={styles.zraiser} onPress={() => setUpdateVisible(false)}>
@@ -501,7 +498,7 @@ export default function HomeScreen({navigation}) {
             </TouchableOpacity>
 
             <View style={styles.modalHeader}>
-              <Text style={styles.modalText}>Update Data</Text>
+              <Text style={styles.modalText}>Update</Text>
             </View>
 
             <View style = {styles.displayData}>
@@ -512,6 +509,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
                   placeholder="Enter Length (mm)"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
 
@@ -521,6 +519,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
 
@@ -542,12 +541,16 @@ export default function HomeScreen({navigation}) {
       <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
         <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
       </TouchableOpacity>
+      
 
       <View style={styles.header}>
         <TouchableOpacity style={syncStyle()} onPress={() => syncUp()}>
           <Text style={styles.buttonTextSync}>Sync</Text>
         </TouchableOpacity>
         <Text style={styles.topHeader}>View and Update</Text>
+      </View>
+      <View style={styles.svgheader}>
+      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(40, 81, 135)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
       </View>
 
       <KeyboardAvoidingView behavior='padding'
@@ -559,11 +562,14 @@ export default function HomeScreen({navigation}) {
       style={styles.itemsHome}
       >
 
+
+
         <TextInput
             style={styles.textIn}
             autoCapitalize="none"
             onChangeText={text => setPit({ number: text, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.riverMile, temp: pitTag.temp})}
             placeholder="Enter PIT tag"
+            placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
             keyboardType="numeric"
           />
 
@@ -585,7 +591,7 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'rgb(255, 253, 250)',
     },
 
     itemsHome: {
@@ -593,27 +599,28 @@ const styles = StyleSheet.create({
       height: "100%",
       justifyContent: "center",
       flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      
     },
 
     icon:{
       height: 50,
-      width: 50,
+      width: 70,
       resizeMode: 'contain',
       top: 50,
       right:20,
       position: 'absolute',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
+      borderRadius: 100,
+      
     },
 
     help:{
       zIndex: 1,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
+      
     },
     sendButton:{
-      backgroundColor: '#89ca97',
+      backgroundColor: 'rgb(40, 81, 135)',
       height: '10%',
       width: '70%',
       justifyContent: 'center',
@@ -622,15 +629,17 @@ const styles = StyleSheet.create({
     },
 
     buttonText:{
-      color: 'black',
+      color: 'white',
       fontSize: 25,
       textAlign: 'center',
+      fontWeight: 'bold',
     },
 
     buttonTextSync:{
       color: 'black',
       fontSize: 20,
       textAlign: 'center',
+      fontWeight: 'bold',
     },
     
     textIn: {
@@ -645,12 +654,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     // top: "40%",
     borderRadius: 10,
+    fontWeight: 'bold',
     },
 
     modalView: {
       width: "80%",
       height: "60%",
-      backgroundColor: 'rgb(255, 255, 255)',
+      backgroundColor: 'rgb(255, 253, 250)',
       alignSelf: 'center',
       top: "20%",
       borderRadius: 30,
@@ -658,11 +668,13 @@ const styles = StyleSheet.create({
 
     Modalicon:{
       height: 50,
-      width: 50,
+      width: 70,
       resizeMode: 'contain',
       top: 10,
       right:10,
       position: 'absolute',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
+      borderRadius: 100,
     },
 
     bgmodal:{
@@ -675,6 +687,7 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
       fontSize: 25,
       alignSelf: 'center',
+      color: 'white',
     },
 
     headerText:{
@@ -697,8 +710,8 @@ const styles = StyleSheet.create({
 
     nextButton:{
       alignSelf: 'center',
-      backgroundColor: '#b5dcb4',
-      height: '10%',
+      backgroundColor: 'rgb(40, 81, 135)',
+      height: '12%',
       width: '50%',
       justifyContent: 'center',
       borderRadius: 50,
@@ -719,9 +732,10 @@ const styles = StyleSheet.create({
     },
 
     updateText:{
-      color: 'black',
+      color: 'white',
       fontSize: 15,
       textAlign: 'center',
+      fontWeight: 'bold',
     },
 
     bgmodal2:{
@@ -740,34 +754,29 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     marginBottom: 20,
+    fontWeight: 'bold',
     },
 
     header:{
       width: "100%",
       height: "15%",
-      backgroundColor: 'white',
-      borderRadius: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 5,
-      marginBottom: 2,
+      backgroundColor: 'rgb(40, 81, 135)',
     },
 
     topHeader:{
-      fontWeight: '',
+      fontWeight: 'bold',
       bottom: 0,
       position: 'absolute',
       alignSelf: 'center',
       fontSize: 25,
+      color: 'white',
       
     },
 
     modalHeader: {
       width: "100%",
       height: "15%",
-      backgroundColor: "#b5dcb4",
+      backgroundColor: "rgb(40, 81, 135)",
       justifyContent: 'center',
       zIndex: 0,
       borderRadius: 20,
@@ -784,7 +793,7 @@ const styles = StyleSheet.create({
     },
 
     infoIcon:{
-      backgroundColor: '#cfb591',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
       height: 50,
       width: 70,
       justifyContent: 'center',
@@ -794,17 +803,13 @@ const styles = StyleSheet.create({
       top: 10,
       left: 10,
       position: 'absolute',
-      shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 1,  
-        elevation: 2.5,
       },
 
     buttonTextInfo: {
       color: 'black',
       fontSize: 20,
       textAlign: 'center',
+      fontWeight: 'bold',
     },
 
     modalViewHist: {
@@ -859,7 +864,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#a7d6a5',
+      backgroundColor: '#c6bfb3',
       borderRadius: 0,
       borderRadius: 20,
       shadowColor: '#000',
@@ -937,5 +942,13 @@ const styles = StyleSheet.create({
       textAlign: 'left',
       fontSize:12,
     },
+
+    svgheader: {
+      top: "15%",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "rgba(0, 255, 0, 0)",
+      position: "absolute",
+    }
 });
   

@@ -30,7 +30,7 @@ export default function MoreScreen({navigation}) {
 
   // style for rows of hisotry
   const rowStyle = (index) => ({
-    borderBottomColor: 'rgba(100, 100, 100, .5)',
+    borderBottomColor: 'rgba(100, 100, 100, .7)',
     borderLeftColor: 'white',
     borderRightColor: 'white',
     borderTopColor: 'white',
@@ -40,7 +40,7 @@ export default function MoreScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .8)' : 'rgba(200, 200, 200, 0.8)',
+    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, 0.7)',
   });
 
   // This function is for the clear button in the history modal
@@ -203,7 +203,7 @@ export default function MoreScreen({navigation}) {
 
         <TouchableOpacity  style ={styles.otherTwo} onPress={() => {Alert.alert(
                                                                   "Clearing History",
-                                                                  "This will clear your whole local database. Are you sure you want to continue?",
+                                                                  "This will clear your whole local database. You must restart the app to redownload it. Are you sure you want to continue?",
                                                                   [
                                                                     { text: "Cancel" },
                                                                     { text: "Clear",
@@ -222,7 +222,7 @@ export default function MoreScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'rgb(255, 253, 250)',
     },
     icon:{
       height: 50,
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     },
 
     learn:{
-      backgroundColor: '#fddfba',
+      backgroundColor: '#797bab',
       height: '10%',
       width: '80%',
       marginBottom: 10,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     },
 
     history:{
-      backgroundColor: '#fbd6f3',
+      backgroundColor: '#bb98a7',
       height: '10%',
       width: '80%',
       marginBottom: 10,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     },
 
     otherOne:{
-      backgroundColor: '#8acc98',
+      backgroundColor: '#dfb9a1',
       height: '10%',
       width: '80%',
       marginBottom: 10,
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     },
 
     otherTwo:{
-      backgroundColor: '#c6d9fd',
+      backgroundColor: '#edcdb4',
       height: '10%',
       width: '80%',
       marginBottom: 10,
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#f8caf0',
+      backgroundColor: '#bb98a7',
       borderRadius: 0,
       borderRadius: 20,
       shadowColor: '#000',
