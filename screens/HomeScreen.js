@@ -494,8 +494,8 @@ export default function HomeScreen({navigation}) {
           <KeyboardAvoidingView behavior='padding'
             keyboardVerticalOffset={
             Platform.select({
-              ios: () => 0,
-              android: () => 0
+              ios: () => -30,
+              android: () => -30
             })() }        style={styles.modalView}>
 
             <TouchableOpacity style={styles.zraiser} onPress={() => setUpdateVisible(false)}>
@@ -514,6 +514,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
                   placeholder="Enter Length (mm)"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
 
@@ -523,6 +524,7 @@ export default function HomeScreen({navigation}) {
                   autoCapitalize="none"
                   onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
 
@@ -572,6 +574,7 @@ export default function HomeScreen({navigation}) {
             autoCapitalize="none"
             onChangeText={text => setPit({ number: text, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.riverMile, temp: pitTag.temp})}
             placeholder="Enter PIT tag"
+            placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
             keyboardType="numeric"
           />
 
@@ -655,6 +658,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     // top: "40%",
     borderRadius: 10,
+    fontWeight: 'bold',
     },
 
     modalView: {
@@ -754,6 +758,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     marginBottom: 20,
+    fontWeight: 'bold',
     },
 
     header:{
