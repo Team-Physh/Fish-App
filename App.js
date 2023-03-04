@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Asset } from 'expo-asset';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -83,8 +83,10 @@ export default function App() {
 
 
   return (
-    <View style={{ flex: 1,}}>
+    <View style={{flex: 1}}>
+      
       <NavigationContainer>
+      
         <Stack.Navigator
         screenOptions={{
           headerShown: true, 
@@ -120,7 +122,17 @@ export default function App() {
 
         </Stack.Navigator>
     </NavigationContainer>
+    
 
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+
+  mainView: {
+    flex: 1,
+    backgroundColor: "rgba(1, 255, 1, 1)",
+    zIndex: 5,
+  }
+});

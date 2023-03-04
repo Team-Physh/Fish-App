@@ -28,7 +28,7 @@ export default function ViewScreen({navigation}) {
   const syncStyle = () => ({
     backgroundColor: '#c6d9fd',
     height: uploadReady == true ? 50 : 0,
-    width: uploadReady == true ? 50 : 0,
+    width: uploadReady == true ? 70 : 0,
     justifyContent: 'center',
     borderRadius: 100,
     // top: "45%",
@@ -49,7 +49,7 @@ export default function ViewScreen({navigation}) {
 
   // styling for alternating row colors
   const rowStyle = (index) => ({
-    borderBottomColor: 'green',
+    borderBottomColor: 'rgba(100, 100, 100, .7)',
     borderLeftColor: 'white',
     borderRightColor: 'white',
     borderTopColor: 'white',
@@ -59,7 +59,7 @@ export default function ViewScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'white' : '#ccc',
+    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, .7)',
     
   });
 
@@ -171,7 +171,7 @@ export default function ViewScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#c6d9fd',
     },
 
     bgscreen: {
@@ -180,20 +180,17 @@ const styles = StyleSheet.create({
     },
     icon:{
       height: 50,
-      width: 50,
+      width: 70,
       resizeMode: 'contain',
       top: 50,
       right:20,
       position: 'absolute',
+      backgroundColor: '#c6d9fd',
+      borderRadius: 100,
     },
 
     help:{
       zIndex: 1,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
     },
 
     itemRow:{
@@ -212,7 +209,7 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "15%",
-      backgroundColor: 'white',
+      backgroundColor: 'rgb(27, 27, 138)',
       borderRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
@@ -223,11 +220,12 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-      fontWeight: '',
+      fontWeight: 'bold',
       bottom: 0,
       position: 'absolute',
       alignSelf: 'center',
       fontSize: 25,
+      color: 'white',
       
     },
 
