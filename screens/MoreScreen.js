@@ -108,9 +108,7 @@ export default function MoreScreen({navigation}) {
 
           <View style={styles.modalView}>
 
-            <TouchableOpacity style={styles.closeIcon} onPress={() => setHistoryVisible(false)}>
-                  <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
-            </TouchableOpacity>
+            
 
 
           
@@ -131,6 +129,10 @@ export default function MoreScreen({navigation}) {
             
 
               <Text style={styles.headerText}>History</Text>
+
+              <TouchableOpacity style={styles.closeIcon} onPress={() => setHistoryVisible(false)}>
+                  <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
+            </TouchableOpacity>
             </View>
 
             <FlatList
@@ -140,6 +142,8 @@ export default function MoreScreen({navigation}) {
                   </View>
                 )}
                 data={data}
+
+                contentContainerStyle={{ paddingBottom: "100%" }}
 
               ListEmptyComponent={() => (
                 <View style={styles.emptyView}>
@@ -337,7 +341,8 @@ const styles = StyleSheet.create({
       
       alignSelf: 'center',
       top: "10%",
-      borderRadius: 30,
+      borderTopRightRadius: 20,
+      borderTopLeftRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.8,
@@ -347,26 +352,25 @@ const styles = StyleSheet.create({
     },
 
     Modalicon:{
+      backgroundColor: 'rgba(255, 253, 250, .5)',
       height: 50,
-      width: 50,
+      width: 70,
+      borderRadius: 100,
       resizeMode: 'contain',
-      top: 10,
-      right:10,
-      position: 'absolute',
 
     },
 
     closeIcon: {
-      zIndex: 1,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
+      justifyContent: 'center',
+      borderRadius: 100,
+      // top: "45%",
+      right: 10,
+      position: 'absolute',
+      
     },
 
     bgmodal:{
-      height: "90%",
+      height: "100%",
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, 0)",
     },
@@ -383,9 +387,9 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#bb98a7',
-      borderRadius: 0,
-      borderRadius: 20,
+      backgroundColor: '#6481A0',
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
@@ -470,7 +474,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     // top: "45%",
     alignSelf: 'center',
-    top: 10,
     left: 10,
     position: 'absolute',
     shadowColor: '#000',

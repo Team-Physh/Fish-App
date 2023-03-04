@@ -93,13 +93,14 @@ export default function Footer(){
 const style = StyleSheet.create({
    footer:{
      flex: 1,
-     backgroundColor: 'rgba(155, 155, 155, .5)',
+     backgroundColor: 'rgba(194, 193, 191, 1)',
      position: 'absolute',
      left: 0,
      right: 0,
      bottom: 0,
      height: '12%',
-     borderRadius: 20,
+     borderTopLeftRadius: 20,
+     borderTopRightRadius: 20,
   },
 
   textAlign:{

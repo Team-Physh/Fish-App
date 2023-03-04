@@ -343,12 +343,12 @@ export default function HomeScreen({navigation}) {
     borderRadius: 100,
     // top: "45%",
     alignSelf: 'center',
-    top: 50,
-    left: 20,
+    left: 10,
     position: 'absolute',
     borderWith: 5,
     borderWidth: 0,
     borderColor: 'black',
+    bottom: 0,
   });
 
   // screen begin
@@ -373,11 +373,13 @@ export default function HomeScreen({navigation}) {
 
             <View style={styles.modalViewHist}>
 
+              
+
+              <View style={styles.headerHist}>
+
               <TouchableOpacity style={styles.closeIconHist} onPress={() => setFishHistoryVisible(false)}>
                     <Image style={styles.ModaliconHist} source={require('../assets/exit.png')}></Image>
               </TouchableOpacity>
-
-              <View style={styles.headerHist}>
               
                 <Text style={styles.headerTextHist}>Previous Catches:{"\n"}{pitTag.number}</Text>
 
@@ -390,6 +392,8 @@ export default function HomeScreen({navigation}) {
                     </View>
                   )}
                   data={readyData}
+
+                  contentContainerStyle={{ paddingBottom: "100%" }}
 
                   ListEmptyComponent={() => (
                     <View style={styles.emptyViewHist}>
@@ -436,17 +440,23 @@ export default function HomeScreen({navigation}) {
 
           <View style={styles.modalView}>
 
+            
+
+            <View style={styles.modalHeader}>
+
             <TouchableOpacity style={styles.zraiser} onPress={() => setModalVisible(false)}>
                   <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
             </TouchableOpacity>
 
-            <View style={styles.modalHeader}>
+
+            <Text style={styles.modalText}>View Data</Text>
 
 
               <TouchableOpacity style={styles.infoIcon} onPress={() => fishHistory()}>
                 <Text style={styles.buttonTextInfo}>More</Text>
               </TouchableOpacity>
-              <Text style={styles.modalText}>View Data</Text>
+
+              
             </View>
 
             <View style = {styles.displayData}>
@@ -493,11 +503,15 @@ export default function HomeScreen({navigation}) {
               android: () => -30
             })() }        style={styles.modalView}>
 
+            
+
+            <View style={styles.modalHeader}>
+
+
             <TouchableOpacity style={styles.zraiser} onPress={() => setUpdateVisible(false)}>
                   <Image style={styles.Modalicon} source={require('../assets/exit.png')}></Image>
             </TouchableOpacity>
 
-            <View style={styles.modalHeader}>
               <Text style={styles.modalText}>Update</Text>
             </View>
 
@@ -538,15 +552,19 @@ export default function HomeScreen({navigation}) {
         </TouchableWithoutFeedback>
       </Modal>
 
-      <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
-        <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
-      </TouchableOpacity>
+      
       
 
       <View style={styles.header}>
         <TouchableOpacity style={syncStyle()} onPress={() => syncUp()}>
           <Text style={styles.buttonTextSync}>Sync</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
+        <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
+      </TouchableOpacity>
+
+
         <Text style={styles.topHeader}>View and Update</Text>
       </View>
       <View style={styles.svgheader}>
@@ -607,25 +625,34 @@ const styles = StyleSheet.create({
       height: 50,
       width: 70,
       resizeMode: 'contain',
-      top: 50,
-      right:20,
-      position: 'absolute',
-      backgroundColor: 'rgba(255, 253, 250, .5)',
-      borderRadius: 100,
       
     },
 
     help:{
       zIndex: 1,
+      justifyContent: 'center',
+      height: 50,
+      width: 70,
+      resizeMode: 'contain',
+      right:10,
+      bottom: 0,
+      position: 'absolute',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
+      borderRadius: 100,
       
     },
     sendButton:{
       backgroundColor: 'rgb(40, 81, 135)',
-      height: '10%',
+      height: '12%',
       width: '70%',
       justifyContent: 'center',
       borderRadius: 50,
       alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,  
+      elevation: 5,
     },
 
     buttonText:{
@@ -646,11 +673,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: 'center',
     width: "70%",
-    height: 40,
+    height: 60,
     marginTop: 10,
     marginBottom: 10,
     color: 'black',
-    fontSize: 20,
+    fontSize: 25,
     textAlign: "center",
     // top: "40%",
     borderRadius: 10,
@@ -667,14 +694,11 @@ const styles = StyleSheet.create({
     },
 
     Modalicon:{
+      backgroundColor: 'rgba(255, 253, 250, .5)',
       height: 50,
       width: 70,
-      resizeMode: 'contain',
-      top: 10,
-      right:10,
-      position: 'absolute',
-      backgroundColor: 'rgba(255, 253, 250, .5)',
       borderRadius: 100,
+      resizeMode: 'contain',
     },
 
     bgmodal:{
@@ -715,7 +739,6 @@ const styles = StyleSheet.create({
       width: '50%',
       justifyContent: 'center',
       borderRadius: 50,
-      marginTop: 30,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
@@ -761,6 +784,7 @@ const styles = StyleSheet.create({
       width: "100%",
       height: "15%",
       backgroundColor: 'rgb(40, 81, 135)',
+      justifyContent: 'center',
     },
 
     topHeader:{
@@ -786,10 +810,15 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.8,
       shadowRadius: 1,  
       elevation: 5,
+
     },
 
     zraiser: {
-      zIndex: 1,
+      justifyContent: 'center',
+      borderRadius: 100,
+      // top: "45%",
+      right: 10,
+      position: 'absolute',
     },
 
     infoIcon:{
@@ -799,8 +828,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius: 100,
       // top: "45%",
-      alignSelf: 'center',
-      top: 10,
       left: 10,
       position: 'absolute',
       },
@@ -819,7 +846,8 @@ const styles = StyleSheet.create({
       
       alignSelf: 'center',
       top: "10%",
-      borderRadius: 30,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.8,
@@ -830,25 +858,22 @@ const styles = StyleSheet.create({
   
     ModaliconHist:{
       height: 50,
-      width: 50,
+      width: 70,
       resizeMode: 'contain',
-      top: 10,
       right:10,
       position: 'absolute',
-
+      backgroundColor: 'rgba(255, 253, 250, .5)',
+      borderRadius: 100,
+      
     },
   
     closeIconHist: {
       zIndex: 1,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
+      justifyContent: 'center',
     },
 
     bgmodalHist:{
-      height: "90%",
+      height: "100%",
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, 0)",
     },
@@ -865,8 +890,8 @@ const styles = StyleSheet.create({
       width: "100%",
       height: "10%",
       backgroundColor: '#c6bfb3',
-      borderRadius: 0,
-      borderRadius: 20,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,

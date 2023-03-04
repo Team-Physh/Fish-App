@@ -33,8 +33,8 @@ export default function ViewScreen({navigation}) {
     borderRadius: 100,
     // top: "45%",
     alignSelf: 'center',
-    top: 50,
-    left: 20,
+    bottom: "10%",
+    left: 10,
     position: 'absolute',
     borderWith: 5,
     borderWidth: 0,
@@ -95,11 +95,7 @@ export default function ViewScreen({navigation}) {
   return (
     <View style={styles.container}>
 
-      <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
-
-                  <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
-
-      </TouchableOpacity>
+      
 
       <View style={styles.header}>
 
@@ -108,6 +104,13 @@ export default function ViewScreen({navigation}) {
         </TouchableOpacity>
 
         <Text style={styles.headerText}>Recent Catches</Text>
+
+
+        <TouchableOpacity  style ={styles.help} onPress={() => navigation.navigate('HelpScreen')}>
+
+                  <Image style={ styles.icon } source={require('../assets/question.png')}></Image>
+
+      </TouchableOpacity>
 
       </View>
 
@@ -120,6 +123,8 @@ export default function ViewScreen({navigation}) {
               </View>
             )}
           data={data}
+
+          contentContainerStyle={{ paddingBottom: "100%" }}
 
           ListEmptyComponent={() => (
             <View style={styles.emptyView}>
@@ -171,21 +176,26 @@ const styles = StyleSheet.create({
 
     bgscreen: {
       width: "100%",
-      height: "72%",
+      height: "100%",
     },
     icon:{
       height: 50,
       width: 70,
       resizeMode: 'contain',
-      top: 50,
-      right:20,
-      position: 'absolute',
-      backgroundColor: 'rgba(255, 253, 250, .5)',
-      borderRadius: 100,
+      
     },
 
     help:{
       zIndex: 1,
+      justifyContent: 'center',
+      height: 50,
+      width: 70,
+      resizeMode: 'contain',
+      right:10,
+      bottom: "10%",
+      position: 'absolute',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
+      borderRadius: 100,
     },
 
     itemRow:{
@@ -203,20 +213,14 @@ const styles = StyleSheet.create({
 
     header:{
       width: "100%",
-      height: "15%",
+      height: "16.666666666%",
       backgroundColor: 'rgb(40, 81, 135)',
-      borderRadius: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 5,
-      marginBottom: 2,
+      marginBottom: 0,
     },
 
     headerText:{
       fontWeight: 'bold',
-      bottom: 0,
+      bottom: "10%",
       position: 'absolute',
       alignSelf: 'center',
       fontSize: 25,
