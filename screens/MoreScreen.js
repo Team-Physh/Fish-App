@@ -203,7 +203,7 @@ export default function MoreScreen({navigation}) {
 
         <TouchableOpacity  style ={styles.otherTwo} onPress={() => {Alert.alert(
                                                                   "Clearing History",
-                                                                  "This will clear your whole local database. Are you sure you want to continue?",
+                                                                  "This will clear your whole local database. You must restart the app to redownload it. Are you sure you want to continue?",
                                                                   [
                                                                     { text: "Cancel" },
                                                                     { text: "Clear",
