@@ -222,7 +222,7 @@ export default function MoreScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#c6d9fd',
+      backgroundColor: 'rgb(255, 253, 250)',
     },
     icon:{
       height: 50,

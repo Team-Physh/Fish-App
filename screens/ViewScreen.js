@@ -26,7 +26,7 @@ export default function ViewScreen({navigation}) {
 
   // styling for sync button to appear
   const syncStyle = () => ({
-    backgroundColor: '#c6d9fd',
+    backgroundColor: 'rgba(255, 253, 250, .5)',
     height: uploadReady == true ? 50 : 0,
     width: uploadReady == true ? 70 : 0,
     justifyContent: 'center',
@@ -39,11 +39,6 @@ export default function ViewScreen({navigation}) {
     borderWith: 5,
     borderWidth: 0,
     borderColor: 'black',
-    shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.8,
-      shadowRadius: 1,  
-      elevation: 2.5,
     
   });
 
@@ -171,7 +166,7 @@ export default function ViewScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#c6d9fd',
+      backgroundColor: 'rgb(255, 253, 250)',
     },
 
     bgscreen: {
@@ -185,7 +180,7 @@ const styles = StyleSheet.create({
       top: 50,
       right:20,
       position: 'absolute',
-      backgroundColor: '#c6d9fd',
+      backgroundColor: 'rgba(255, 253, 250, .5)',
       borderRadius: 100,
     },
 
@@ -209,7 +204,7 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "15%",
-      backgroundColor: 'rgb(27, 27, 138)',
+      backgroundColor: 'rgb(40, 81, 135)',
       borderRadius: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
