@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
 import {clearLocal, clearRecent} from '../database/databasefunctions';
+import Svg, { Path } from 'react-native-svg';
 
 
 export default function MoreScreen({navigation}) {
@@ -178,8 +179,26 @@ export default function MoreScreen({navigation}) {
           </View>
         </View>
       </Modal>
+            
+      <View style={styles.moreheader}>
+        <Text style={styles.moreheaderText}>More</Text>
+      </View>
+
+
+
+      <View style={styles.svgheader}>
+      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(40, 81, 135)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
+      </View>
+
 
       <View style={styles.moreView}>
+
+        
+
+
+          
+
+        
 
         <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
         <Text style={styles.buttonText}>Our Website</Text>
@@ -241,12 +260,12 @@ const styles = StyleSheet.create({
     moreView:{
       justifyContent: 'center',
       width: "100%",
-      height: "100%",
+      height: "73%",
     },
 
     learn:{
-      backgroundColor: '#797bab',
-      height: '10%',
+      backgroundColor: '#28517D',
+      height: '12%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -261,8 +280,8 @@ const styles = StyleSheet.create({
     },
 
     history:{
-      backgroundColor: '#bb98a7',
-      height: '10%',
+      backgroundColor: '#6481A0',
+      height: '12%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -276,8 +295,8 @@ const styles = StyleSheet.create({
     },
 
     otherOne:{
-      backgroundColor: '#dfb9a1',
-      height: '10%',
+      backgroundColor: '#8FA3B9',
+      height: '12%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -291,8 +310,8 @@ const styles = StyleSheet.create({
     },
 
     otherTwo:{
-      backgroundColor: '#edcdb4',
-      height: '10%',
+      backgroundColor: '#B6C3D0',
+      height: '12%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -314,7 +333,7 @@ const styles = StyleSheet.create({
     modalView: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, 1)',
+      backgroundColor: 'rgb(255, 253, 250)',
       
       alignSelf: 'center',
       top: "10%",
@@ -466,6 +485,30 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
     },
+
+    moreheader:{
+      width: "100%",
+      height: "15%",
+      backgroundColor: 'rgb(40, 81, 135)',
+    },
+
+    moreheaderText:{
+      fontWeight: 'bold',
+      bottom: 0,
+      position: 'absolute',
+      alignSelf: 'center',
+      fontSize: 25,
+      color: 'white',
+      
+    },
+
+    svgheader: {
+      top: "15%",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "rgba(0, 255, 0, 0)",
+      position: "absolute",
+    }
 
 
   });

@@ -3,7 +3,7 @@ import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Mo
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
-import Svg, { Path, Circle, Rect } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 export default function HomeScreen({navigation}) {
 
