@@ -1,56 +1,136 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import {SafeAreaView, ScrollView, StatusBar,} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Pressable, Modal } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, Alert, React } from 'react-native';
+import { useState } from 'react';
 
-export default function HelpScreen({navigation}) {
+export default function HelpScreen({ navigation }) {
+
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <View style={styles.container}>
-        <TouchableOpacity style ={styles.help} onPress={() => navigation.goBack()}>
-                        <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
-                    </TouchableOpacity>
+            <TouchableOpacity style={styles.help} onPress={() => navigation.goBack()}>
+                <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+            </TouchableOpacity>
             <SafeAreaView style={styles.container}>
+                <Modal
+                    animationType={'slide'}
+                    transparent={false}
+                    visible={showModal}
+                    onRequestClose={() => {
+                        console.log('Modal has been closed.');
+                    }}>
+                    {/*All views of Modal*/}
+                    {/*Animation can be slide, slide, none*/}
+                    <View style={styles.modal}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal(!showModal)}>
+                            <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+                        </TouchableOpacity>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.titleText}>
+                                {'\n'}
+                                {'\n'}
+                                Syncing with the Database
+                                {'\n'}
+                                {'\n'}
+                            </Text>
 
-                    <Text style={styles.titleText}>Instructions 
+                            <Text style={styles.boxText}>
+                                In order for the FISH app to sync with the main database, the phone must be connected
+                                to the internet.
+                                {'\n'}
+                                {'\n'}
+                                Please verify that you have established internet connection before attempting to connect
+                                to the database.
+                                {'\n'}
+                                {'\n'}
+                                You can check if you have internet connection by going to your device's settings and seeing if
+                                it is connected to wifi or if you have cellular connection.
+                                {'\n'}
+                                {'\n'}
+                                If you are connected to the internet but are still unable to sync your device with the database, please
+                                attempt to sync at a later time, as there could be issues with the main server.
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </Modal>
+                <Text style={styles.titleText}>Instructions
+                    {'\n'}
+                    {'\n'}
+                </Text>
+                <ScrollView style={styles.scrollView}>
+                    <Text style={styles.headerText}>How to Use the FISH App</Text>
+                    <Text style={styles.boxText}>
+                        {'\n'}
+                        Once you scan the fish with your PIT scanner, record it's PIT tag value in the entry field.
+                        {'\n'}
+                        {'\n'}
+                        <Image style={styles.image} source={require('../assets/help_scan_page.png')} />
+                        {'\n'}
+                        Before you upload any data, make sure that you have the most recent version of the database possible.
+                        {'\n'}
+                        {'\n'}
+                        You can do this by clicking the "Download DB" button on the home screen when you have access to the internet.
+                        {'\n'}
+                        {'\n'}
+                        Click the "Enter" button. Once clicked, you will be sent to the data entry page where you can
+                        update information on your fish, such as size and the mile marker at which it was caught.
+                        {'\n'}
+                        {'\n'}
+                        The time of the catch is automatically recorded. If you are retroactively updating a fish's information, please change the time and
+                        date accordingly before submitting.
                         {'\n'}
                         {'\n'}
                     </Text>
-                    <ScrollView style={styles.scrollView}>
-                        <Text style={styles.headerText}>How to Upload Fish Data</Text>
-                        <Text style={styles.boxText}>
-                            {'\n'}
-                            In order to scan your fish, you will need to first make sure 
-                            that your device and PIT scanner are connected via Bluetooth.
-                            {'\n'}
-                            {'\n'}
-                            Ensure that your Bluetooth is on by going to your settings and verifying that 
-                            your device is ready for Bluetooth pairing. Here, you can also make sure your device 
-                            is connected to your PIT scanner.
-                            {'\n'}
-                            {'\n'}
-                        <Image style = {styles.image} source={require('../assets/bluetooth_help.jpg')} />
-                            {'\n'}
-                            {'\n'}
-                            If your device cannot connect to the PIT scanner, you can also 
-                            manually input your fish's PIT code in the app.
-                            {'\n'}
-                            {'\n'}
-                            Once you have a value for the PIT tag in the text box, click enter.
-                            {'\n'}
-                            {'\n'}
-                        <Image style={styles.image} source={require('../assets/help_scan_page.png')} />
-                            {'\n'}
-                            Next, you will be in the data entry page. If your fish has already been 
-                            caught and recorded in our database, some fields may already be filled out.
-                            {'\n'}
-                            {'\n'}
-                            If you notice any of the fields have values missing, please fill them in before
-                            moving to the next step.
-                            {'\n'}
-                            {'\n'}
-                            Beofre you click "next," please verify that all information is accurate. Clicking 
-                            next will push your entry to the database and bring you to the view page.
-                        </Text>
-                     </ScrollView>
+                    <Text style={styles.titleText}>
+                        Additional Help
+                        {'\n'}
+                        {'\n'}
+                        {'\n'}
+                        {'\n'}
+                        {'\n'}
+                    </Text>
+                    <View style={styles.buttonContainer}>
+                        <Pressable
+                            //onPress={() => Alert.alert('button 1 pressed')}
+                            onPress={() => { setShowModal(!showModal) }}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>
+                                My phone isn't{'\n'} syncing with{'\n'} the database
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => Alert.alert('button 2 pressed')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>
+                                How can I{'\n'} view my most{'\n'} recent catches
+                            </Text>
+                        </Pressable>
+                    </View>
+                    <Text>
+                        {'\n'}
+                        {'\n'}
+                    </Text>
+                    <View style={styles.buttonContainer}>
+                        <Pressable
+                            onPress={() => Alert.alert('button 3 pressed')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>
+                                How do I{'\n'} know if my{'\n'} entry was{'\n'} uploaded?
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => Alert.alert('button 4 pressed')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>
+                                How do I{'\n'} pair my{'\n'} phone with my{'\n'} PIT scanner?
+                            </Text>
+                        </Pressable>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         </View>
     )
@@ -58,11 +138,11 @@ export default function HelpScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: 'cadetblue',
-      paddingTop: StatusBar.currentHeight,
+        flex: 1,
+        backgroundColor: 'cadetlblue',
+        paddingTop: StatusBar.currentHeight,
     },
-    boxText:{
+    boxText: {
         color: 'black',
         fontSize: 25,
         textAlign: 'left',
@@ -78,39 +158,55 @@ const styles = StyleSheet.create({
         fontFamily: "Arial",
     },
     titleText: {
-        color: 'oldlace',
+        color: 'cadetblue',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
         top: "10%",
         fontFamily: "Arial",
     },
-    icon:{
+    icon: {
         height: 50,
-        width: 70,
+        width: 50,
         resizeMode: 'contain',
         top: 50,
-        right:20,
+        right: 20,
         position: 'absolute',
-        backgroundColor: 'rgba(255, 253, 250, .5)',
-        borderRadius: 100,
     },
     help: {
         zIndex: 1,
     },
     scrollView: {
-        margin: 0,
-        backgroundColor:'rgba(0, 0, 0, .2)', 
-        borderRadius: 20,
-    },  
+        margin: 20,
+    },
     safeAreaView: {
         marginHorizontal: 20,
         padding: 20,
-    }, 
+    },
     image: {
         width: '100%',
         height: undefined,
         aspectRatio: 1,
     },
-  });
-  
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'lightgreen',
+        borderRadius: 50,
+        width: '45%',
+    },
+    buttonText: {
+        fontSize: 20,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 5,
+        width: '100%',
+        alignSelf: 'flex-end'
+    }
+});
