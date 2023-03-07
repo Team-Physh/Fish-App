@@ -1,15 +1,40 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Pressable, Modal } from 'react-native';
-import {SafeAreaView, ScrollView, StatusBar, Alert} from 'react-native';
-
+import {SafeAreaView, ScrollView, StatusBar, Alert, React} from 'react-native';
+import { useState } from 'react';
 
 export default function HelpScreen({navigation}) {
-    //const [modalVisible, setModalVisible] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <View style={styles.container}>
         <TouchableOpacity style ={styles.help} onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
         </TouchableOpacity>
             <SafeAreaView style={styles.container}>
+                <Modal
+                    animationType={'slide'}
+                    transparent={false}
+                    visible={showModal}
+                    onRequestClose={() => {
+                        console.log('Modal has been closed.');
+                    }}>
+                    {/*All views of Modal*/}
+                    {/*Animation can be slide, slide, none*/}
+                    <View style={styles.modal}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal(!showModal)}>
+                            <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+                        </TouchableOpacity>
+                        <Text style={styles.titleText}>
+                            {'\n'}{'\n'}
+                            Syncing with the Database
+                            {'\n'}
+                        </Text>
+                        <Text>
+                            text
+                        </Text>
+                    </View>
+                </Modal>
                     <Text style={styles.titleText}>Instructions
                         {'\n'}
                         {'\n'}
@@ -48,7 +73,8 @@ export default function HelpScreen({navigation}) {
                         </Text>
                         <View style={styles.buttonContainer}>
                             <Pressable
-                                onPress={() => Alert.alert('button 1 pressed')}
+                                //onPress={() => Alert.alert('button 1 pressed')}
+                                onPress={() => {setShowModal(!showModal)}}
                                 style={styles.button}
                             >
                                 <Text style={styles.buttonText}>
