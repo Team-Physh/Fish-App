@@ -8,11 +8,15 @@ import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
 import * as SQLite from 'expo-sqlite'
  import { getAllData, downloadDatabase } from './database/databasefunctions.js'
+//import * as Network from 'expo-network';
 
 const Stack = createNativeStackNavigator()
+//const networkState = await Network.getNetworkStateAsync();
 
 export default function App() {
   console.log("App Start");
+
+  //console.log("network state: " + networkState);
 
   // download function!
   //downloadDatabase();

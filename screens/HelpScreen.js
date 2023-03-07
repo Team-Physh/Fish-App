@@ -1,55 +1,91 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import {SafeAreaView, ScrollView, StatusBar,} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Pressable, Modal } from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, Alert} from 'react-native';
+
 
 export default function HelpScreen({navigation}) {
-
+    //const [modalVisible, setModalVisible] = useState(false);
     return (
         <View style={styles.container}>
         <TouchableOpacity style ={styles.help} onPress={() => navigation.goBack()}>
                         <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
-                    </TouchableOpacity>
+        </TouchableOpacity>
             <SafeAreaView style={styles.container}>
-
-                    <Text style={styles.titleText}>Instructions 
+                    <Text style={styles.titleText}>Instructions
                         {'\n'}
                         {'\n'}
                     </Text>
                     <ScrollView style={styles.scrollView}>
-                        <Text style={styles.headerText}>How to Upload Fish Data</Text>
+                    <Text style={styles.headerText}>How to Use the FISH App</Text>
                         <Text style={styles.boxText}>
                             {'\n'}
-                            In order to scan your fish, you will need to first make sure 
-                            that your device and PIT scanner are connected via Bluetooth.
-                            {'\n'}
-                            {'\n'}
-                            Ensure that your Bluetooth is on by going to your settings and verifying that 
-                            your device is ready for Bluetooth pairing. Here, you can also make sure your device 
-                            is connected to your PIT scanner.
-                            {'\n'}
-                            {'\n'}
-                        <Image style = {styles.image} source={require('../assets/bluetooth_help.jpg')} />
-                            {'\n'}
-                            {'\n'}
-                            If your device cannot connect to the PIT scanner, you can also 
-                            manually input your fish's PIT code in the app.
-                            {'\n'}
-                            {'\n'}
-                            Once you have a value for the PIT tag in the text box, click enter.
+                            Once you scan the fish with your PIT scanner, record it's PIT tag value in the entry field.
                             {'\n'}
                             {'\n'}
                         <Image style={styles.image} source={require('../assets/help_scan_page.png')} />
                             {'\n'}
-                            Next, you will be in the data entry page. If your fish has already been 
-                            caught and recorded in our database, some fields may already be filled out.
+                            Before you upload any data, make sure that you have the most recent version of the database possible.
                             {'\n'}
                             {'\n'}
-                            If you notice any of the fields have values missing, please fill them in before
-                            moving to the next step.
+                            You can do this by clicking the "Download DB" button on the home screen when you have access to the internet.
                             {'\n'}
                             {'\n'}
-                            Beofre you click "next," please verify that all information is accurate. Clicking 
-                            next will push your entry to the database and bring you to the view page.
+                            Click the "Enter" button. Once clicked, you will be sent to the data entry page where you can 
+                            update information on your fish, such as size and the mile marker at which it was caught.
+                            {'\n'}
+                            {'\n'}
+                            The time of the catch is automatically recorded. If you are retroactively updating a fish's information, please change the time and 
+                            date accordingly before submitting.
+                            {'\n'}
+                            {'\n'}
                         </Text>
+                        <Text style={styles.titleText}>
+                            Additional Help
+                            {'\n'}
+                            {'\n'}
+                            {'\n'}
+                            {'\n'}
+                            {'\n'}
+                        </Text>
+                        <View style={styles.buttonContainer}>
+                            <Pressable
+                                onPress={() => Alert.alert('button 1 pressed')}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>
+                                My phone isn't{'\n'} syncing with{'\n'} the database
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => Alert.alert('button 2 pressed')}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>
+                                How can I{'\n'} view my most{'\n'} recent catches
+                                </Text>
+                            </Pressable>
+                        </View>
+                        <Text>
+                            {'\n'}
+                            {'\n'}
+                        </Text>
+                        <View style={styles.buttonContainer}>
+                            <Pressable
+                                onPress={() => Alert.alert('button 3 pressed')}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>
+                                How do I{'\n'} know if my{'\n'} entry was{'\n'} uploaded?
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => Alert.alert('button 4 pressed')}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>
+                                How do I{'\n'} pair my{'\n'} phone with my{'\n'} PIT scanner?
+                                </Text>
+                            </Pressable>
+                        </View>
                      </ScrollView>
             </SafeAreaView>
         </View>
@@ -59,7 +95,7 @@ export default function HelpScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'cadetblue',
+      backgroundColor: 'cadetlblue',
       paddingTop: StatusBar.currentHeight,
     },
     boxText:{
@@ -78,7 +114,7 @@ const styles = StyleSheet.create({
         fontFamily: "Arial",
     },
     titleText: {
-        color: 'oldlace',
+        color: 'blue',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -108,5 +144,26 @@ const styles = StyleSheet.create({
         height: undefined,
         aspectRatio: 1,
     },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'lightgreen',
+        borderRadius: 50,
+        width: '45%',
+    },
+    buttonText: {
+        fontSize: 20,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 5,
+        width: '100%',
+        alignSelf: 'flex-end'
+    }
   });
   
