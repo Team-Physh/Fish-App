@@ -25,14 +25,32 @@ export default function HelpScreen({navigation}) {
                         <TouchableOpacity style={styles.help} onPress={() => setShowModal(!showModal)}>
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
-                        <Text style={styles.titleText}>
-                            {'\n'}{'\n'}
-                            Syncing with the Database
-                            {'\n'}
-                        </Text>
-                        <Text>
-                            text
-                        </Text>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.titleText}>
+                                {'\n'}
+                                {'\n'}
+                                Syncing with the Database
+                                {'\n'}
+                                {'\n'}
+                            </Text>
+                            
+                            <Text style={styles.boxText}>      
+                                In order for the FISH app to sync with the main database, the phone must be connected 
+                                to the internet.
+                                {'\n'}
+                                {'\n'}
+                                Please verify that you have established internet connection before attempting to connect 
+                                to the database.
+                                {'\n'}
+                                {'\n'}
+                                You can check if you have internet connection by going to your device's settings and seeing if 
+                                it is connected to wifi or if you have cellular connection.
+                                {'\n'}
+                                {'\n'}
+                                If you are connected to the internet but are still unable to sync your device with the database, please 
+                                attempt to sync at a later time, as there could be issues with the main server.
+                            </Text>
+                        </ScrollView>
                     </View>
                 </Modal>
                     <Text style={styles.titleText}>Instructions
@@ -140,7 +158,7 @@ const styles = StyleSheet.create({
         fontFamily: "Arial",
     },
     titleText: {
-        color: 'blue',
+        color: 'cadetblue',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
