@@ -3,8 +3,14 @@ import { SafeAreaView, ScrollView, StatusBar, Alert, React } from 'react-native'
 import { useState } from 'react';
 
 export default function HelpScreen({ navigation }) {
-
-    const [showModal, setShowModal] = useState(false);
+    //button 1 modal
+    const [showModal1, setShowModal1] = useState(false);
+    //button 2 modal
+    const [showModal2, setShowModal2] = useState(false);
+    //button 3 modal
+    const [showModal3, setShowModal3] = useState(false);
+    //button 4 modal
+    const [showModal4, setShowModal4] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -12,17 +18,16 @@ export default function HelpScreen({ navigation }) {
                 <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
             </TouchableOpacity>
             <SafeAreaView style={styles.container}>
+                {/*Modal 1*/}
                 <Modal
                     animationType={'slide'}
                     transparent={false}
-                    visible={showModal}
+                    visible={showModal1}
                     onRequestClose={() => {
                         console.log('Modal has been closed.');
                     }}>
-                    {/*All views of Modal*/}
-                    {/*Animation can be slide, slide, none*/}
                     <View style={styles.modal}>
-                        <TouchableOpacity style={styles.help} onPress={() => setShowModal(!showModal)}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal1(!showModal1)}>
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
@@ -49,6 +54,63 @@ export default function HelpScreen({ navigation }) {
                                 {'\n'}
                                 If you are connected to the internet but are still unable to sync your device with the database, please
                                 attempt to sync at a later time, as there could be issues with the main server.
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </Modal>
+                {/*Modal 2*/}
+                <Modal
+                    animationType={'slide'}
+                    transparent={false}
+                    visible={showModal2}
+                    onRequestClose={() => {
+                        console.log('Modal has been closed.');
+                    }}>
+                    <View style={styles.modal}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal2(!showModal2)}>
+                            <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+                        </TouchableOpacity>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.boxText}>
+                                text
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </Modal>
+                {/*Modal 3*/}
+                <Modal
+                    animationType={'slide'}
+                    transparent={false}
+                    visible={showModal3}
+                    onRequestClose={() => {
+                        console.log('Modal has been closed.');
+                    }}>
+                    <View style={styles.modal}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal3(!showModal3)}>
+                            <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+                        </TouchableOpacity>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.boxText}>
+                                text
+                            </Text>
+                        </ScrollView>
+                    </View>
+                </Modal>
+                {/*Modal 4*/}
+                <Modal
+                    animationType={'slide'}
+                    transparent={false}
+                    visible={showModal4}
+                    onRequestClose={() => {
+                        console.log('Modal has been closed.');
+                    }}>
+                    <View style={styles.modal}>
+                        <TouchableOpacity style={styles.help} onPress={() => setShowModal4(!showModal4)}>
+                            <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
+                        </TouchableOpacity>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.boxText}>
+                                text
                             </Text>
                         </ScrollView>
                     </View>
@@ -91,8 +153,7 @@ export default function HelpScreen({ navigation }) {
                     </Text>
                     <View style={styles.buttonContainer}>
                         <Pressable
-                            //onPress={() => Alert.alert('button 1 pressed')}
-                            onPress={() => { setShowModal(!showModal) }}
+                            onPress={() => { setShowModal1(!showModal1) }}
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>
@@ -100,7 +161,7 @@ export default function HelpScreen({ navigation }) {
                             </Text>
                         </Pressable>
                         <Pressable
-                            onPress={() => Alert.alert('button 2 pressed')}
+                            onPress={() => { setShowModal2(!showModal2) }}
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>
@@ -114,7 +175,7 @@ export default function HelpScreen({ navigation }) {
                     </Text>
                     <View style={styles.buttonContainer}>
                         <Pressable
-                            onPress={() => Alert.alert('button 3 pressed')}
+                            onPress={() => { setShowModal3(!showModal3) }}
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>
@@ -122,7 +183,7 @@ export default function HelpScreen({ navigation }) {
                             </Text>
                         </Pressable>
                         <Pressable
-                            onPress={() => Alert.alert('button 4 pressed')}
+                            onPress={() => { setShowModal4(!showModal4) }}
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>
@@ -158,7 +219,7 @@ const styles = StyleSheet.create({
         fontFamily: "Arial",
     },
     titleText: {
-        color: 'cadetblue',
+        color: 'rgb(40, 81, 135)',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -195,12 +256,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'lightgreen',
+        backgroundColor: '#008ae6',
         borderRadius: 50,
         width: '45%',
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: 25,
+        color: 'white',
     },
     buttonContainer: {
         flexDirection: 'row',
