@@ -109,8 +109,21 @@ export default function HelpScreen({ navigation }) {
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
+                            <Text style={styles.headerText}>
+                                {'\n'}
+                                {'\n'}
+                                Tips for Improving App Experience
+                            </Text>
                             <Text style={styles.boxText}>
-                                text
+                                {'\n'}
+                                For best practice and to avoid connectivity issues, always ensure that your version of the database is 
+                                up-to-date before going fishing.
+                                {'\n'}
+                                {'\n'}
+                                You can do this by clicking the "sync" button on the home screen while you are connected to the internet.
+                                {'\n'}
+                                {'\n'}
+                                We reccomend that you have X MB of data free on your device when using this app.
                             </Text>
                         </ScrollView>
                     </View>
@@ -187,7 +200,7 @@ export default function HelpScreen({ navigation }) {
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>
-                                How do I{'\n'} pair my{'\n'} phone with my{'\n'} PIT scanner?
+                               Tips for Best Usability
                             </Text>
                         </Pressable>
                     </View>
