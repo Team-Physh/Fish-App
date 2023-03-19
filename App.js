@@ -58,20 +58,28 @@ export default function App() {
     //FUNCTION that just runs if db is populated. doesn't do anything, just here for testing
     const checkinfo = (_array) => {
 
-      // get keycount
-      //var count = Object.keys(_array).length;
+      console.log("checking");
 
-      // TESTING FUNCTION if local table not empty, just log that it is populated
-      // if(count > 0)
-      // {
-      //   console.log("DB Populated");
-      // }
+      //get keycount
+      var count = Object.keys(_array).length;
+      console.log(count);
+
+      //TESTING FUNCTION if local table not empty, just log that it is populated
+      if(count > 0)
+      {
+        console.log("DB Populated");
+      }
+      else {
+        downloadDatabase();
+      }
 
       };
 
+      console.log("SELECING DB");
+
       // grab all fish
       tx.executeSql(
-        "select * from fishTable",
+        "select count(*) from fishTable",
         [],
         // success: do nothing (runs checkinfo function above)
         (_, { rows: { _array } }) => checkinfo(_array),

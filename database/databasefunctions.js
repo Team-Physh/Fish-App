@@ -26,6 +26,8 @@ export async function getNewData(date) {
 // This should only run when the app is started for the very first time 
 export async function downloadDatabase() {
 
+  console.log("DOWNLOADING");
+
   const connectionInfo = await NetInfo.fetch();
 
   //const connectionInfo = await NetInfo.fetch();
@@ -84,6 +86,8 @@ export async function downloadDatabase() {
 
                         
         }
+
+        console.log("DB DOWNLOADED");
 
 
 
