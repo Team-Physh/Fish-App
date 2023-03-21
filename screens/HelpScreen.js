@@ -31,10 +31,9 @@ export default function HelpScreen({ navigation }) {
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
-                            <Text style={styles.titleText}>
-                                {'\n'}
-                                {'\n'}
+                            <Text style={styles.titleText}>             
                                 Syncing with the Database
+                                {'\n'}
                                 {'\n'}
                                 {'\n'}
                             </Text>
@@ -133,77 +132,54 @@ export default function HelpScreen({ navigation }) {
                     {'\n'}
                 </Text>
                 <ScrollView style={styles.scrollView}>
-                    <Text style={styles.headerText}>How to Use the FISH App</Text>
-                    <Text style={styles.boxText}>
-                        {'\n'}
-                        Once you scan the fish with your PIT scanner, record it's PIT tag value in the entry field.
-                        {'\n'}
-                        {'\n'}
-                        <Image style={styles.image} source={require('../assets/help_scan_page.png')} />
-                        {'\n'}
-                        Before you upload any data, make sure that you have the most recent version of the database possible.
-                        {'\n'}
-                        {'\n'}
-                        You can do this by clicking the "Download DB" button on the home screen when you have access to the internet.
-                        {'\n'}
-                        {'\n'}
-                        Click the "Enter" button. Once clicked, you will be sent to the data entry page where you can
-                        update information on your fish, such as size and the mile marker at which it was caught.
-                        {'\n'}
-                        {'\n'}
-                        The time of the catch is automatically recorded. If you are retroactively updating a fish's information, please change the time and
-                        date accordingly before submitting.
-                        {'\n'}
-                        {'\n'}
-                    </Text>
-                    <Text style={styles.titleText}>
-                        Additional Help
-                        {'\n'}
-                        {'\n'}
-                        {'\n'}
-                        {'\n'}
-                        {'\n'}
-                    </Text>
-                    <View style={styles.buttonContainer}>
-                        <Pressable
-                            onPress={() => { setShowModal1(!showModal1) }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>
-                                My phone isn't{'\n'} syncing with{'\n'} the database
-                            </Text>
-                        </Pressable>
-                        <Pressable
-                            onPress={() => { setShowModal2(!showModal2) }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>
-                                How can I{'\n'} view my most{'\n'} recent catches
-                            </Text>
-                        </Pressable>
-                    </View>
+                <View style={styles.buttonContainer}>
+                    <Pressable
+                        onPress={() => { setShowModal1(!showModal1) }}
+                        style={styles.databaseBtn}
+                    >
+                        <Text style={styles.buttonText}>
+                            Syncing Your Phone with the Database
+                        </Text>
+                    </Pressable>
                     <Text>
                         {'\n'}
                         {'\n'}
                     </Text>
-                    <View style={styles.buttonContainer}>
-                        <Pressable
-                            onPress={() => { setShowModal3(!showModal3) }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>
-                                How do I{'\n'} know if my{'\n'} entry was{'\n'} uploaded?
-                            </Text>
-                        </Pressable>
-                        <Pressable
-                            onPress={() => { setShowModal4(!showModal4) }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>
-                               Tips for Best Usability
-                            </Text>
-                        </Pressable>
-                    </View>
+                    <Pressable
+                        onPress={() => { setShowModal2(!showModal2) }}
+                        style={styles.viewBtn}
+                    >
+                        <Text style={styles.buttonText}>
+                            Viewing Most Recent Catches
+                        </Text>
+                    </Pressable>
+                </View>
+                <Text>
+                    {'\n'}
+                    {'\n'}
+                </Text>
+                <View style={styles.buttonContainer}>
+                    <Pressable
+                        onPress={() => { setShowModal3(!showModal3) }}
+                        style={styles.entryBtn}
+                    >
+                        <Text style={styles.buttonText}>
+                            Making an Entry
+                        </Text>
+                    </Pressable>
+                    <Text>
+                        {'\n'}
+                        {'\n'}
+                    </Text>
+                    <Pressable
+                        onPress={() => { setShowModal4(!showModal4) }}
+                        style={styles.tipsBtn}
+                    >
+                        <Text style={styles.buttonText}>
+                            Tips for Best Usability
+                        </Text>
+                    </Pressable>
+                </View>
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -232,7 +208,7 @@ const styles = StyleSheet.create({
         fontFamily: "Arial",
     },
     titleText: {
-        color: 'rgb(40, 81, 135)',
+        color: '#18324e',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -271,17 +247,61 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: '#008ae6',
         borderRadius: 50,
-        width: '45%',
+        width: '90%',
     },
     buttonText: {
-        fontSize: 25,
+        fontSize: 30,
         color: 'white',
     },
     buttonContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         marginHorizontal: 5,
         width: '100%',
         alignSelf: 'flex-end'
-    }
+    },
+    databaseBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#1f3f61',
+        borderRadius: 50,
+        width: '90%',
+    },
+    viewBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#28517D',
+        borderRadius: 50,
+        width: '90%',
+    },
+    entryBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#6481A0',
+        borderRadius: 50,
+        width: '90%',
+    },
+    tipsBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#8FA3B9',
+        borderRadius: 50,
+        width: '90%',
+    },
 });
