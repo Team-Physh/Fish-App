@@ -70,8 +70,13 @@ export default function HelpScreen({ navigation }) {
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
+                            <Text style={styles.titleText}>
+                                {'\n'}
+                                Viewing Catch History
+                                {'\n'}
+                            </Text>
                             <Text style={styles.boxText}>
-                                text
+                                To view your catch history, navigate to the "view" button located at the bottom of the homescreen.
                             </Text>
                         </ScrollView>
                     </View>
@@ -89,8 +94,27 @@ export default function HelpScreen({ navigation }) {
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
+                            <Text style={styles.titleText}>
+                                Making an Entry
+                                {'\n'}
+                                {'\n'}
+                                {'\n'}
+                            </Text>
                             <Text style={styles.boxText}>
-                                text
+                                To make an entry, you will first need to navigate to the homescreen.
+                                {'\n'}
+                                {'\n'}
+                                If you are using an Android device, you will have the option to input your caught fish's PIT tag via Bluetooth. 
+                                Otherwise, if you are using an IOS device, you must manually input the PIT tag in the entry field.
+                            </Text>
+                            <Image style={styles.image} source={require('../assets/pit_entry.png')}></Image>
+                            <Text style={styles.boxText}>
+                                {'\n'}
+                                {'\n'}
+                                Once you have entered a valid PIT tag value, click the "Enter" button and navigate to the data entry page. 
+                                Here, you will be able to input other values for your caught fish, such as length and the mile marker at which it was caught.
+                                {'\n'}
+                                {'\n'}
                             </Text>
                         </ScrollView>
                     </View>
@@ -108,10 +132,11 @@ export default function HelpScreen({ navigation }) {
                             <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
-                            <Text style={styles.headerText}>
-                                {'\n'}
+                            <Text style={styles.titleText}>
                                 {'\n'}
                                 Tips for Improving App Experience
+                                {'\n'}
+                                {'\n'}
                             </Text>
                             <Text style={styles.boxText}>
                                 {'\n'}
@@ -247,7 +272,7 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: '#008ae6',
         borderRadius: 50,
-        width: '90%',
+        width: '85%',
     },
     buttonText: {
         fontSize: 30,
@@ -257,7 +282,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginHorizontal: 5,
-        width: '100%',
+        width: '95%',
         alignSelf: 'flex-end'
     },
     databaseBtn: {
