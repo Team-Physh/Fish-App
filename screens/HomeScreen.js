@@ -4,6 +4,9 @@ import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
+import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
+
+
 
 export default function HomeScreen({navigation}) {
 
@@ -134,6 +137,8 @@ export default function HomeScreen({navigation}) {
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
   function syncUp() {
+
+
     // UPLOAD DATA FIRST
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
@@ -227,8 +232,11 @@ export default function HomeScreen({navigation}) {
     // open db
     const db = SQLite.openDatabase("fish.db");
 
+  
+
       // this const runs when it gets a valid code from DB. just gets the data
       const printInfo = (_array) => {
+        
         
         // get count of keys retrieved
         var count = Object.keys(_array).length;
@@ -240,6 +248,7 @@ export default function HomeScreen({navigation}) {
           //var key = Object.values(_array[0]);
 
           var key = _array[0];
+          
 
           // set data retrieved (3 is hex?)
           setPit({ number: key.hex, species: key.species, lastCaught: key.lastCaught, length: key.length, rivermile: key.riverMile, temp: key.pit});
@@ -253,6 +262,7 @@ export default function HomeScreen({navigation}) {
         // right now just shows an error
         else
         {
+          
           Alert.alert(
           "PIT code not found",
           "Try again",
@@ -272,7 +282,9 @@ export default function HomeScreen({navigation}) {
           "select * from fishTable where hex = ? ORDER BY lastCaught DESC",
           [number],
           // success, show user the data
-          (_, { rows: { _array } }) => printInfo(_array));
+          (_, { rows: { _array } }) => printInfo(_array),
+          
+          () => console.log("db not exist"));
 
       });
   }
@@ -350,6 +362,54 @@ export default function HomeScreen({navigation}) {
     borderColor: 'black',
     bottom: 0,
   });
+
+
+  // bluetooth button style
+  const bluetoothIcon = () => ({
+    backgroundColor: 'rgba(64, 128, 2, 0.5)',
+    height: Platform.OS === 'android' ? 70 : 0,
+    width: Platform.OS === 'android' ? 100 : 0,
+    justifyContent: 'center',
+    borderRadius: 100,
+    alignSelf: 'center',
+    left: 10,
+    position: 'absolute',
+    borderWith: 5,
+    borderWidth: 0,
+    borderColor: 'black',
+    top: "15%",
+  });
+
+
+  const blueImage = () => ({
+    height: Platform.OS === 'android' ? 35 : 0,
+    width: Platform.OS === 'android' ? 35 : 0,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  });
+
+
+  // This function is run for when the user wants to view the history of a fish. (all of its catches)
+  // shows a list of every catch of a single given fish
+  async function bluetoothRun(scannerNum) {
+
+    var pit = await bluetoothTest(2);
+    console.log("HOMESCREEN PIT");
+    console.log(pit);
+    if (pit === undefined){
+      Alert.alert(
+        "PIT code not recieved from bluetooth",
+        "Make sure scanner is connected",
+        [
+          { text: "Ok" }
+        ]
+      );
+    }
+    else{
+      enterTag(pit);
+    }
+    
+  }
 
   // screen begin
   return (
@@ -581,6 +641,9 @@ export default function HomeScreen({navigation}) {
       >
 
 
+        <TouchableOpacity style={bluetoothIcon()} onPress={() => bluetoothRun()}>
+        <Image style={blueImage()} source={require('../assets/blue.png')}></Image>
+        </TouchableOpacity>
 
         <TextInput
             style={styles.textIn}
@@ -974,6 +1037,7 @@ const styles = StyleSheet.create({
       width: "100%",
       backgroundColor: "rgba(0, 255, 0, 0)",
       position: "absolute",
-    }
+    },
+
 });
   

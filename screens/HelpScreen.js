@@ -259,9 +259,9 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     image: {
-        width: '100%',
+        width: 100,
         height: undefined,
-        aspectRatio: 1,
+        resizeMode: 'contain',
     },
     button: {
         alignItems: 'center',
