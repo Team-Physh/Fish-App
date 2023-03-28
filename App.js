@@ -7,6 +7,7 @@ import ViewScreen from './screens/ViewScreen';
 import HomeScreen from './screens/HomeScreen';
 import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
+import SplashScreen from './screens/Splash';
 import * as SQLite from 'expo-sqlite';
 import { getAllData, downloadDatabase } from './database/databasefunctions.js';
 import NetInfo from '@react-native-community/netinfo';
@@ -45,49 +46,49 @@ export default function App() {
     loadResources();
   }, [])
 
-  // useEffect function that checks if user has database downloaded. If not, it will download the database.
-  // This is mainly for first time users opening the app.
-  useEffect(() => {
+//   // useEffect function that checks if user has database downloaded. If not, it will download the database.
+//   // This is mainly for first time users opening the app.
+//   useEffect(() => {
 
-  // make db object
-  const db = SQLite.openDatabase("fish.db");
+//   // make db object
+//   const db = SQLite.openDatabase("fish.db");
 
-  // start transaction
-  db.transaction(tx => {
+//   // start transaction
+//   db.transaction(tx => {
 
-    //FUNCTION that just runs if db is populated. doesn't do anything, just here for testing
-    const checkinfo = (_array) => {
+//     //FUNCTION that just runs if db is populated. doesn't do anything, just here for testing
+//     const checkinfo = (_array) => {
 
-      console.log("checking");
+//       console.log("checking");
 
-      //get keycount
-      var count = Object.keys(_array).length;
-      console.log(count);
+//       //get keycount
+//       var count = Object.keys(_array).length;
+//       console.log(count);
 
-      //TESTING FUNCTION if local table not empty, just log that it is populated
-      if(count > 0)
-      {
-        console.log("DB Populated");
-      }
-      else {
-        downloadDatabase();
-      }
+//       //TESTING FUNCTION if local table not empty, just log that it is populated
+//       if(count > 0)
+//       {
+//         console.log("DB Populated");
+//       }
+//       else {
+//         downloadDatabase();
+//       }
 
-      };
+//       };
 
-      console.log("SELECING DB");
+//       console.log("SELECING DB");
 
-      // grab all fish
-      tx.executeSql(
-        "select count(*) from fishTable",
-        [],
-        // success: do nothing (runs checkinfo function above)
-        (_, { rows: { _array } }) => checkinfo(_array),
-        // error: table is empty so download DB
-        () => downloadDatabase()
-                    );
-  });
-}, []);
+//       // grab all fish
+//       tx.executeSql(
+//         "select count(*) from fishTable",
+//         [],
+//         // success: do nothing (runs checkinfo function above)
+//         (_, { rows: { _array } }) => checkinfo(_array),
+//         // error: table is empty so download DB
+//         () => downloadDatabase()
+//                     );
+//   });
+// }, []);
 
 
   return (
@@ -101,7 +102,13 @@ export default function App() {
           gestureEnabled: true,
         }} 
         mode="modal"
-        initialRouteName="Home">
+        initialRouteName="Splash">
+
+        <Stack.Screen options={{
+          headerShown: false, 
+          gestureEnabled: false,
+          animation: 'none',
+        }} name="Splash" component={ SplashScreen } />
 
           <Stack.Screen options={{
           headerShown: false, 
