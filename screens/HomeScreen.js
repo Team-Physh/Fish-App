@@ -431,7 +431,7 @@ export default function HomeScreen({navigation}) {
     // start transaction
     db.transaction(tx => {
   
-      const useDate = async (_array) => {
+      const useDate = (_array) => {
 
         // get date
         var retrievedDate = Object.values(_array[0]);
@@ -721,7 +721,6 @@ export default function HomeScreen({navigation}) {
 
         <Text style ={styles.dateText}> Last Attempted Sync{"\n"} {new Date(lastSyncDate.date).toLocaleString("en-US", {
             localeMatcher: "best fit",
-            timeZoneName: "short"
           })}</Text>
 
         <TextInput
