@@ -150,7 +150,9 @@ export default function ViewScreen({navigation}) {
                     Species: {getSpecies(item.species)}
                     </Text>
                     <Text style={styles.rightText}>
-                  Date: {item.lastCaught}
+                  Date: {new Date(item.lastCaught).toLocaleString("en-US", {
+            localeMatcher: "best fit",
+          })}
                   </Text>
                   <Text style={styles.rightText}>
                   Mile: {item.riverMile}

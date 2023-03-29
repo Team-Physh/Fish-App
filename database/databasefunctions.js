@@ -6,9 +6,22 @@ import NetInfo from '@react-native-community/netinfo';
 // API call to get data
 export async function getAllData(){
 
-      const response = await fetch('http://api.teamphysh.com:3000/fish')
-      const data = await response.json()
-
+      console.log("before fetch");
+      try {
+      // api call
+      const response = await fetch('http://api.teamphysh.com:3000/fish');
+      
+      // set data
+      const data = await response.json();
+      
+      // return the data
+      return data;
+      } catch(err){
+        console.log("fetch err");
+        
+      }
+      
+      const data = null;
       return data;
 }
 

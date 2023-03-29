@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {updateDatabase, getCurrentDate, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import {updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
@@ -38,6 +38,10 @@ export default function HomeScreen({navigation}) {
   // data is stored here temporarily that needs to be viewed.
   const [readyData, setData] = useState([]);
 
+  const [lastSyncDate, updateDate] = useState({
+    date: '12023-03-29T00:30:07.662Z',
+  });
+
   // Just converts fish type to readable string for user
   const getSpecies=(species)=>{
 
@@ -71,7 +75,7 @@ export default function HomeScreen({navigation}) {
       // just insert into history no matter what. with this uncommented and bottom part commented, users can have same fish in history 
       // multiple times. If you dont want this, just comment this out and uncomment part below
       tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
 
 
       // if( count == 0)
@@ -95,7 +99,7 @@ export default function HomeScreen({navigation}) {
 
   // This is run in uploadData function. Basically just checks if it should update or insert value
   // handles edge case for if a user (for whatever reason) uploads data for same fish twice
-  // basically just doesnt allow 2 of the same fish to exist in the recent catch table
+  // basically just doesnt allow 2 of the same fish to exist in the catch table
   const keyExistCatch = (_array) => {
 
     const db = SQLite.openDatabase("fish.db");
@@ -110,13 +114,13 @@ export default function HomeScreen({navigation}) {
       {
         // inserting catch
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
       else if ( count > 0)
       {
         tx.executeSql("UPDATE catchTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
-                        [getCurrentDate(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        [getCurrentDateNonReadable(), pitTag.length, pitTag.rivermile, pitTag.number]
                         );
       }
 
@@ -155,9 +159,14 @@ export default function HomeScreen({navigation}) {
 
           // upload data
           uploadDatabaseSync(_array);
+
+
+
+
         }
 
         };
+
 
         // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist (get data anyways)
         tx.executeSql(
@@ -168,10 +177,33 @@ export default function HomeScreen({navigation}) {
           // error
           () => updateDatabase()
                       );
+
     });
 
-    // download database and then we will be fully in sync
-    //updateDatabase();
+    // start transaction
+    db.transaction(tx => {
+  
+      const useDate = async (_array) => {
+
+        // get date
+        var retrievedDate = Object.values(_array[0]);
+        
+
+        updateDate({ date: retrievedDate[1]});
+        
+
+        };
+
+      // retrieve new data
+      tx.executeSql(
+        "select * from recentDate WHERE idNum = ?",
+        [1],
+        // success
+        (_, { rows: { _array } }) => useDate(_array));
+    });
+
+
+    
 
   }
 
@@ -389,6 +421,37 @@ export default function HomeScreen({navigation}) {
   });
 
 
+  // this runs when you open screen. gets last sync date
+  useEffect(() => {
+
+    // open db
+    const db = SQLite.openDatabase("fish.db");
+
+    
+    // start transaction
+    db.transaction(tx => {
+  
+      const useDate = async (_array) => {
+
+        // get date
+        var retrievedDate = Object.values(_array[0]);
+        
+
+        updateDate({ date: retrievedDate[1]});
+        
+
+        };
+
+      // retrieve new data
+      tx.executeSql(
+        "select * from recentDate WHERE idNum = ?",
+        [1],
+        // success
+        (_, { rows: { _array } }) => useDate(_array));
+    });
+  }, []);
+
+
   // This function is run for when the user wants to view the history of a fish. (all of its catches)
   // shows a list of every catch of a single given fish
   async function bluetoothRun(scannerNum) {
@@ -410,6 +473,9 @@ export default function HomeScreen({navigation}) {
     }
     
   }
+
+
+
 
   // screen begin
   return (
@@ -479,7 +545,9 @@ export default function HomeScreen({navigation}) {
                           Species: {getSpecies(item.species)}
                           </Text>
                           <Text style={styles.rightTextHist}>
-                          Date: {fixDate(item.lastCaught)}
+                          Date: {new Date(item.lastCaught).toLocaleString("en-US", {
+            localeMatcher: "best fit",
+          })}
                           </Text>
                           <Text style={styles.rightTextHist}>
                           Mile: {item.riverMile}
@@ -528,7 +596,10 @@ export default function HomeScreen({navigation}) {
               <Text style={styles.dataText}>{getSpecies(pitTag.species)}</Text>
 
               <Text style={styles.headerText}>Last Caught</Text>
-              <Text style={styles.dataText}>{fixDate(pitTag.lastCaught)}</Text>
+              <Text style={styles.dataText}>{new Date(pitTag.lastCaught).toLocaleString("en-US", {
+            localeMatcher: "best fit",
+            timeZoneName: "short"
+          })}</Text>
               
               <Text style={styles.headerText}>Last River Mile</Text>
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
@@ -598,7 +669,10 @@ export default function HomeScreen({navigation}) {
                 />
 
               <Text style={styles.headerTextUpdate}>Current Timestamp</Text>
-              <Text style={styles.dataText}>{getCurrentDate()} UTC</Text>
+              <Text style={styles.dataText}>{new Date().toLocaleString("en-US", {
+            localeMatcher: "best fit",
+            timeZoneName: "short"
+          })}</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => uploadData()}>
                 <Text style={styles.updateText}>Confirm Updates</Text>
@@ -644,6 +718,11 @@ export default function HomeScreen({navigation}) {
         <TouchableOpacity style={bluetoothIcon()} onPress={() => bluetoothRun()}>
         <Image style={blueImage()} source={require('../assets/blue.png')}></Image>
         </TouchableOpacity>
+
+        <Text style ={styles.dateText}> Last Attempted Sync{"\n"} {new Date(lastSyncDate.date).toLocaleString("en-US", {
+            localeMatcher: "best fit",
+            timeZoneName: "short"
+          })}</Text>
 
         <TextInput
             style={styles.textIn}
@@ -1038,6 +1117,15 @@ const styles = StyleSheet.create({
       backgroundColor: "rgba(0, 255, 0, 0)",
       position: "absolute",
     },
+
+    dateText: {
+      fontWeight: 'bold',
+      position: 'absolute',
+      top: "15%",
+      fontSize: 12,
+      alignSelf: 'center',
+      textAlign: 'center',
+    }
 
 });
   

@@ -12,6 +12,9 @@ export default function SplashScreen({navigation}) {
 
       // useEffect function that checks if user has database downloaded. If not, it will download the database.
   // This is mainly for first time users opening the app.
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+
   useEffect(() => {
 
     // make db object
@@ -22,19 +25,15 @@ export default function SplashScreen({navigation}) {
   
       //FUNCTION that just runs if db is populated. doesn't do anything, just here for testing
       const checkinfo = (_array) => {
-
-        setIntro("Database found!");
-  
-        console.log("checking");
   
         //get keycount
         var count = Object.keys(_array).length;
-        console.log(count);
   
         //TESTING FUNCTION if local table not empty, just log that it is populated
         if(count > 0)
         {
 
+        // navigate home
         navigation.navigate('Home');
         }
         else {
@@ -42,8 +41,6 @@ export default function SplashScreen({navigation}) {
         }
   
         };
-
-        //setIntro({ text: "Checking for database..."});
   
         // grab all fish
         tx.executeSql(
@@ -57,10 +54,14 @@ export default function SplashScreen({navigation}) {
     });
   }, []);
 
+
+
   async function downloadSplash(){
 
     setIntro({ text: "Downloading Database..."});
     await downloadDatabase();
+    setIntro({ text: "Downloaded!"});
+    await delay(2000);
     navigation.navigate('Home');
   }
 
@@ -85,13 +86,15 @@ const styles = StyleSheet.create({
     textIntro: {
         textAlign: 'center',
         fontSize: 20,
+        fontWeight: 'bold',
+        opacity: 1,
       },
     
     swimmer: {
         width: 300,
         height: 200,
         alignSelf: 'center',
-        fontWeight: 'bold',
+        opacity: 1,
     },
 
   });
