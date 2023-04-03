@@ -39,20 +39,20 @@ export default function HelpScreen({ navigation }) {
                             </Text>
 
                             <Text style={styles.boxText}>
-                                In order for the FISH app to sync with the main database, the phone must be connected
-                                to the internet.
+                                - In order for the FISH app to keep the most up to date data, it must sync by uploading your stored catches and downloading new catches.
                                 {'\n'}
                                 {'\n'}
-                                Please verify that you have established internet connection before attempting to connect
-                                to the database.
+                                - Please verify that you have established internet connection before attempting to sync your data with the sync button on the home page.
                                 {'\n'}
                                 {'\n'}
-                                You can check if you have internet connection by going to your device's settings and seeing if
-                                it is connected to wifi or if you have cellular connection.
+                                - You should try to sync once you return from fishing and have some recent catches to upload (shown in the view screen).
                                 {'\n'}
                                 {'\n'}
-                                If you are connected to the internet but are still unable to sync your device with the database, please
-                                attempt to sync at a later time, as there could be issues with the main server.
+                                - Once you are connected to the internet, just press the sync button to upload your recent catches and get the most recent data.
+                                {'\n'}
+                                {'\n'}
+                                - If you are connected to the internet but are still unable to sync your device with the database, please
+                                attempt to sync at a later time, as there could be server issues.
                             </Text>
                         </ScrollView>
                     </View>
@@ -71,12 +71,17 @@ export default function HelpScreen({ navigation }) {
                         </TouchableOpacity>
                         <ScrollView style={styles.scrollView}>
                             <Text style={styles.titleText}>
-                                {'\n'}
                                 Viewing Catch History
+                                {'\n'}
+                                {'\n'}
                                 {'\n'}
                             </Text>
                             <Text style={styles.boxText}>
-                                To view your catch history, navigate to the "view" button located at the bottom of the homescreen.
+                                - Recent catches (catches stored but not uploaded) are shown in the "Recent Catches" screen.
+                                {'\n'}
+                                {'\n'}
+                                - If you wish to view your entire catch history, go to the "More" screen and press "Total Catch History"
+
                             </Text>
                         </ScrollView>
                     </View>
@@ -105,10 +110,7 @@ export default function HelpScreen({ navigation }) {
                                 {'\n'}
                                 {'\n'}
                                 If you are using an Android device, you will have the option to input your caught fish's PIT tag via Bluetooth. 
-                                Otherwise, if you are using an IOS device, you must manually input the PIT tag in the entry field.
-                            </Text>
-                            <Image style={styles.image} source={require('../assets/pit_entry.png')}></Image>
-                            <Text style={styles.boxText}>
+                                Otherwise, if you are using an iOS device, you must manually input the PIT tag in the entry field.
                                 {'\n'}
                                 {'\n'}
                                 Once you have entered a valid PIT tag value, click the "Enter" button and navigate to the data entry page. 
@@ -134,25 +136,23 @@ export default function HelpScreen({ navigation }) {
                         <ScrollView style={styles.scrollView}>
                             <Text style={styles.titleText}>
                                 {'\n'}
-                                Tips for Improving App Experience
+                                Bluetooth
                                 {'\n'}
                                 {'\n'}
                             </Text>
                             <Text style={styles.boxText}>
-                                {'\n'}
-                                For best practice and to avoid connectivity issues, always ensure that your version of the database is 
-                                up-to-date before going fishing.
+                                Bluetooth is currently an Android only feature. In order to use the bluetooth feature, start by connecting to the scanner in your device settings.
                                 {'\n'}
                                 {'\n'}
-                                You can do this by clicking the "sync" button on the home screen while you are connected to the internet.
+                                Once connected, scan the fish PIT tag. Once the tag number is shown on the scanner device, press the bluetooth icon on the app.
                                 {'\n'}
                                 {'\n'}
-                                We reccomend that you have X MB of data free on your device when using this app.
+                                It could several attempts, but the tag number should transmit to the Android device and prompt the user with a data entry screen.
                             </Text>
                         </ScrollView>
                     </View>
                 </Modal>
-                <Text style={styles.titleText}>Instructions
+                <Text style={styles.titleText}>Help
                     {'\n'}
                     {'\n'}
                 </Text>
@@ -161,46 +161,27 @@ export default function HelpScreen({ navigation }) {
 
 
 
-<View style={styles.moreView}>
 
 
 
 
-
-
-
-
+    <View style={styles.moreView}>
         <TouchableOpacity  style ={styles.learn} onPress={() => { setShowModal1(!showModal1) }}>
-        <Text style={styles.buttonText}>button1</Text>
+        <Text style={styles.buttonText}>Syncing</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity  style ={styles.history} onPress={() => { setShowModal1(!showModal2 }}>
-        <Text style={styles.buttonText}>button2</Text>
+        <TouchableOpacity  style ={styles.history} onPress={() => { setShowModal2(!showModal2) }}>
+        <Text style={styles.buttonText}>Catch History</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity  style ={styles.otherOne} onPress={() => { setShowModal1(!showModal3) }}>
-          <Text style={styles.buttonText}>button3</Text>
+        <TouchableOpacity  style ={styles.otherOne} onPress={() => { setShowModal3(!showModal3) }}>
+          <Text style={styles.buttonText}>Entering Data</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity  style ={styles.otherTwo} onPress={() => { setShowModal1(!showModal4) }}>
-          <Text style={styles.buttonText}>button4</Text>
+        <TouchableOpacity  style ={styles.otherTwo} onPress={() => { setShowModal4(!showModal4) }}>
+          <Text style={styles.buttonText}>Bluetooth</Text>
         </TouchableOpacity>
       </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -210,8 +191,6 @@ export default function HelpScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'cadetlblue',
-        paddingTop: StatusBar.currentHeight,
     },
     boxText: {
         color: 'black',
@@ -228,6 +207,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: "Arial",
     },
+
+    moreView:{
+        justifyContent: 'center',
+        width: "100%",
+        height: "100%",
+        paddingTop: 100,
+      },
+      
     titleText: {
         color: '#18324e',
         fontSize: 50,
@@ -250,10 +237,6 @@ const styles = StyleSheet.create({
     scrollView: {
         margin: 20,
     },
-    safeAreaView: {
-        marginHorizontal: 20,
-        padding: 20,
-    },
     image: {
         width: 100,
         height: undefined,
@@ -270,65 +253,15 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: '85%',
     },
-    buttonText: {
-        fontSize: 30,
-        color: 'white',
-    },
-    buttonContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        marginHorizontal: 5,
-        width: '95%',
-        alignSelf: 'flex-end'
-    },
-    databaseBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#1f3f61',
-        borderRadius: 50,
-        width: '90%',
-    },
-    viewBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#28517D',
-        borderRadius: 50,
-        width: '90%',
-    },
-    entryBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#6481A0',
-        borderRadius: 50,
-        width: '90%',
-    },
-    tipsBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#8FA3B9',
-        borderRadius: 50,
-        width: '90%',
-    },
+    buttonText:{
+        color: 'black',
+        fontSize: 25,
+        textAlign: 'center',
+      },
 
         learn:{
       backgroundColor: '#28517D',
-      height: '12%',
+      height: '50%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -344,7 +277,7 @@ const styles = StyleSheet.create({
 
     history:{
       backgroundColor: '#6481A0',
-      height: '12%',
+      height: '50%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -359,7 +292,7 @@ const styles = StyleSheet.create({
 
     otherOne:{
       backgroundColor: '#8FA3B9',
-      height: '12%',
+      height: '50%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -374,7 +307,7 @@ const styles = StyleSheet.create({
 
     otherTwo:{
       backgroundColor: '#B6C3D0',
-      height: '12%',
+      height: '50%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
