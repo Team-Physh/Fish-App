@@ -157,54 +157,50 @@ export default function HelpScreen({ navigation }) {
                     {'\n'}
                 </Text>
                 <ScrollView style={styles.scrollView}>
-                <View style={styles.buttonContainer}>
-                    <Pressable
-                        onPress={() => { setShowModal1(!showModal1) }}
-                        style={styles.databaseBtn}
-                    >
-                        <Text style={styles.buttonText}>
-                            Syncing Your Phone with the Database
-                        </Text>
-                    </Pressable>
-                    <Text>
-                        {'\n'}
-                        {'\n'}
-                    </Text>
-                    <Pressable
-                        onPress={() => { setShowModal2(!showModal2) }}
-                        style={styles.viewBtn}
-                    >
-                        <Text style={styles.buttonText}>
-                            Viewing Most Recent Catches
-                        </Text>
-                    </Pressable>
-                </View>
-                <Text>
-                    {'\n'}
-                    {'\n'}
-                </Text>
-                <View style={styles.buttonContainer}>
-                    <Pressable
-                        onPress={() => { setShowModal3(!showModal3) }}
-                        style={styles.entryBtn}
-                    >
-                        <Text style={styles.buttonText}>
-                            Making an Entry
-                        </Text>
-                    </Pressable>
-                    <Text>
-                        {'\n'}
-                        {'\n'}
-                    </Text>
-                    <Pressable
-                        onPress={() => { setShowModal4(!showModal4) }}
-                        style={styles.tipsBtn}
-                    >
-                        <Text style={styles.buttonText}>
-                            Tips for Best Usability
-                        </Text>
-                    </Pressable>
-                </View>
+
+
+
+
+<View style={styles.moreView}>
+
+
+
+
+
+
+
+
+        <TouchableOpacity  style ={styles.learn} onPress={() => { setShowModal1(!showModal1) }}>
+        <Text style={styles.buttonText}>button1</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity  style ={styles.history} onPress={() => { setShowModal1(!showModal2 }}>
+        <Text style={styles.buttonText}>button2</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity  style ={styles.otherOne} onPress={() => { setShowModal1(!showModal3) }}>
+          <Text style={styles.buttonText}>button3</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity  style ={styles.otherTwo} onPress={() => { setShowModal1(!showModal4) }}>
+          <Text style={styles.buttonText}>button4</Text>
+        </TouchableOpacity>
+      </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -328,5 +324,66 @@ const styles = StyleSheet.create({
         backgroundColor: '#8FA3B9',
         borderRadius: 50,
         width: '90%',
+    },
+
+        learn:{
+      backgroundColor: '#28517D',
+      height: '12%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 20,
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,
+      elevation: 2.5,
+
+    },
+
+    history:{
+      backgroundColor: '#6481A0',
+      height: '12%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 20,
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,
+      elevation: 2.5,
+    },
+
+    otherOne:{
+      backgroundColor: '#8FA3B9',
+      height: '12%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 20,
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,
+      elevation: 2.5,
+    },
+
+    otherTwo:{
+      backgroundColor: '#B6C3D0',
+      height: '12%',
+      width: '80%',
+      marginBottom: 10,
+      justifyContent: 'center',
+      borderRadius: 20,
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 1,
+      elevation: 2.5,
     },
 });

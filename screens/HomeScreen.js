@@ -39,7 +39,7 @@ export default function HomeScreen({navigation}) {
   const [readyData, setData] = useState([]);
 
   const [lastSyncDate, updateDate] = useState({
-    date: '12023-03-29T00:30:07.662Z',
+    date: '0000-00-00T00:00:00.000Z',
   });
 
   // Just converts fish type to readable string for user
@@ -159,9 +159,6 @@ export default function HomeScreen({navigation}) {
 
           // upload data
           uploadDatabaseSync(_array);
-
-
-
 
         }
 
@@ -412,7 +409,7 @@ export default function HomeScreen({navigation}) {
     top: "15%",
   });
 
-
+  // style for the image inside the bluetooth button. needs to also be turned invisible
   const blueImage = () => ({
     height: Platform.OS === 'android' ? 35 : 0,
     width: Platform.OS === 'android' ? 35 : 0,
@@ -452,13 +449,23 @@ export default function HomeScreen({navigation}) {
   }, []);
 
 
-  // This function is run for when the user wants to view the history of a fish. (all of its catches)
-  // shows a list of every catch of a single given fish
+  // This function is run when the user clicks the bluetooth button.
+  // it runs the bluetooth functions in the bluetooth file. Depending on the scanner used, thats what mac address will be picked.
+  // CURRENTLY ONLY WORKS WITH SCANNER 2. This is why number 2 is passed into bluetoothTest.
+  // I only had scanner two, so i cant enter the other approved scanners mac addresses. 
+  // To add new scanners, just go to bluetooth test and add them like 2 is added. 
+  // A text input field will need to be added to input the scanner number used
+  // this will be passed to this function in scannerNum and this passed into bluetoothTest
   async function bluetoothRun(scannerNum) {
 
+    // recieve pit
     var pit = await bluetoothTest(2);
+    
+    // testing to print out pit recieved to ensure operation
     console.log("HOMESCREEN PIT");
     console.log(pit);
+
+    // if pit is undefined, alert
     if (pit === undefined){
       Alert.alert(
         "PIT code not recieved from bluetooth",
@@ -468,14 +475,12 @@ export default function HomeScreen({navigation}) {
         ]
       );
     }
+    // otherwise continue operation
     else{
       enterTag(pit);
     }
     
   }
-
-
-
 
   // screen begin
   return (
