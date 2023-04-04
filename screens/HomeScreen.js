@@ -139,13 +139,13 @@ export default function HomeScreen({navigation}) {
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
   async function syncUp() {
-
+    
     // UPLOAD DATA FIRST
     const db = SQLite.openDatabase("fish.db");
     db.transaction(tx => {
 
       //upload data to local database. runs on success of select from catchTable
-      const storeInfo =  (_array) => {
+      const storeInfo = async (_array) => {
 
         // get count
         var count = Object.keys(_array).length;
@@ -160,6 +160,13 @@ export default function HomeScreen({navigation}) {
 
       };
 
+      //upload data to local database. runs on success of select from catchTable
+      const justDownload = async () => {
+
+          updateDatabase();
+
+      };
+
       // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist (get data anyways)
       tx.executeSql(
         "select * from catchTable",
@@ -167,7 +174,7 @@ export default function HomeScreen({navigation}) {
         // success, sync
         (_, { rows: { _array } }) => storeInfo(_array),
         // error, table doesnt exist, update whole thing and dont sync (SHOULDNT RUN) (AKA ONLY DOWNLOAD BECAUSE NOTHING TO UPLOAD)
-        () => updateDatabase()
+        () => justDownload()
                     );
 
     });
@@ -175,13 +182,13 @@ export default function HomeScreen({navigation}) {
     // start transaction
     db.transaction(tx => {
   
-      const useDate = (_array) => {
+      const useDate =  (_array) => {
 
         // get date
         var retrievedDate = Object.values(_array[0]);
 
         // update last synced date
-        updateDate({ date: retrievedDate[1]});
+         updateDate({ date: retrievedDate[1]});
 
       };
 
@@ -352,7 +359,6 @@ export default function HomeScreen({navigation}) {
     backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, 0.7)',
   });
 
-
   // sync button (styling is up here in case we want to add functionality to it. (ex: making it only appear when a sync is needed?))
   // currently serves no purpose other than styling, but its up here because i may want to add some functionality later
   // ex: maybe have it change color when synced, or disappear if the user just synced?
@@ -396,7 +402,6 @@ export default function HomeScreen({navigation}) {
     resizeMode: 'contain',
     alignSelf: 'center',
   });
-
 
   // this runs when you open screen. gets last sync date
   useEffect(() => {

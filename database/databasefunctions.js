@@ -219,7 +219,7 @@ export async function uploadDatabaseSync(data) {
         ]
       );
 
-      return false;
+      return
     }
     
 }
@@ -303,6 +303,8 @@ export async function updateDatabase() {
           // call inserter to insert because it is non-async, and confirms that data is inserted before it is redownloaded
           inserter(array);
         }
+
+        return true;
         
 
         };
@@ -312,7 +314,7 @@ export async function updateDatabase() {
         "select * from recentDate WHERE idNum = ?",
         [1],
         // success
-        (_, { rows: { _array } }) => useDate(_array));
+        (_, { rows: { _array } }) =>  useDate(_array));
     
       tx.executeSql("UPDATE recentDate SET lastSync = ? WHERE idNum = ?;",
                       [getCurrentDateNonReadable(), 1]
@@ -329,11 +331,10 @@ export async function updateDatabase() {
           { text: "Ok" }
         ]
       );
+
+      return false;
     }
 
-
-
-    
 }
 
 // date grabber function. gets current date/time FORMATTED TO READ!
