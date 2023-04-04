@@ -145,7 +145,7 @@ export default function HomeScreen({navigation}) {
     db.transaction(tx => {
 
       //upload data to local database. runs on success of select from catchTable
-      const storeInfo = (_array) => {
+      const storeInfo =  (_array) => {
 
         // get count
         var count = Object.keys(_array).length;
@@ -153,8 +153,7 @@ export default function HomeScreen({navigation}) {
         // if catch table not empty, store in data field and upload
         if(count >= 0)
         {
-
-          // upload data (maybe await this?)
+          // upload data (maybe await this and return a true or false!
           uploadDatabaseSync(_array);
 
         }
@@ -167,7 +166,7 @@ export default function HomeScreen({navigation}) {
         [],
         // success, sync
         (_, { rows: { _array } }) => storeInfo(_array),
-        // error, table doesnt exist, update whole thing and dont sync (SHOULDNT RUN)
+        // error, table doesnt exist, update whole thing and dont sync (SHOULDNT RUN) (AKA ONLY DOWNLOAD BECAUSE NOTHING TO UPLOAD)
         () => updateDatabase()
                     );
 
@@ -176,13 +175,13 @@ export default function HomeScreen({navigation}) {
     // start transaction
     db.transaction(tx => {
   
-      const useDate = async (_array) => {
+      const useDate = (_array) => {
 
         // get date
         var retrievedDate = Object.values(_array[0]);
-        
+
         // update last synced date
-        await updateDate({ date: retrievedDate[1]});     
+        updateDate({ date: retrievedDate[1]});
 
       };
 
@@ -193,7 +192,6 @@ export default function HomeScreen({navigation}) {
         // success, update recent date
         (_, { rows: { _array } }) => useDate(_array));
     });
-
   }
 
   // This is run when the user confirms new lenght/rivermile in update data popup modal.
@@ -669,9 +667,6 @@ export default function HomeScreen({navigation}) {
         </TouchableWithoutFeedback>
       </Modal>
 
-      
-      
-
       <View style={styles.header}>
         <TouchableOpacity style={syncStyle()} onPress={() => syncUp()}>
           <Text style={styles.buttonTextSync}>Sync</Text>
@@ -702,7 +697,7 @@ export default function HomeScreen({navigation}) {
         <Image style={blueImage()} source={require('../assets/blue.png')}></Image>
         </TouchableOpacity>
 
-        <Text style ={styles.dateText}> Last Attempted Sync{"\n"} {new Date(lastSyncDate.date).toLocaleString("en-US", {
+        <Text style ={styles.dateText}>Last Attempted Sync{"\n"} {new Date(lastSyncDate.date).toLocaleString("en-US", {
             localeMatcher: "best fit",
           })}</Text>
 

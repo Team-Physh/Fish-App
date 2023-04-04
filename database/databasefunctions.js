@@ -205,6 +205,7 @@ export async function uploadDatabaseSync(data) {
 
       // clear recent catches
       clearRecent()
+      return true;
 
     }
     // otherwise netinfo check failed
@@ -217,6 +218,8 @@ export async function uploadDatabaseSync(data) {
           { text: "Ok" }
         ]
       );
+
+      return false;
     }
     
 }
