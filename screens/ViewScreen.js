@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     bgscreen: {
       width: "100%",
       height: "100%",
+      backgroundColor: 'rgb(248, 245, 237)',
     },
     icon:{
       height: 50,
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "16.666666666%",
-      backgroundColor: 'rgb(73, 104, 61)',
+      backgroundColor: 'rgb(76, 106, 62)',
       marginBottom: 0,
     },
 
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
       height: 100,
       alignSelf: 'center',
       justifyContent: 'center',
-      backgroundColor: "",
+      backgroundColor: 'rgb(248, 245, 237)',
       
     },
 

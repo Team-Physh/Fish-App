@@ -41,7 +41,7 @@ export default function MoreScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, 0.7)',
+    backgroundColor: index % 2 === 0 ? 'rgba(248, 245, 237, .7)' : 'rgba(200, 200, 200, 0.7)',
   });
 
   // This function is for the clear button in the history modal
@@ -193,7 +193,7 @@ export default function MoreScreen({navigation}) {
 
 
       <View style={styles.svgheader}>
-      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(73, 104, 61)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
+      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(76, 106, 62)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
       </View>
 
 
@@ -206,7 +206,7 @@ export default function MoreScreen({navigation}) {
 
         
 
-        <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://ceias.nau.edu/capstone/projects/CS/2022/TeamPhysh_F22/')}}>
+        <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://www.azgfd.com')}}>
         <Text style={styles.buttonText}>Our Website</Text>
         </TouchableOpacity>
 
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     },
 
     learn:{
-      backgroundColor: '#49683D',
+      backgroundColor: 'rgb(185, 125, 88)',
       height: '12%',
       width: '80%',
       marginBottom: 10,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     },
 
     history:{
-      backgroundColor: '#768D6B',
+      backgroundColor: 'rgb(112, 136, 101)',
       height: '12%',
       width: '80%',
       marginBottom: 10,
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     },
 
     otherOne:{
-      backgroundColor: '#A2B097',
+      backgroundColor: 'rgb(121, 134, 157)',
       height: '12%',
       width: '80%',
       marginBottom: 10,
@@ -315,8 +315,9 @@ const styles = StyleSheet.create({
       elevation: 2.5,
     },
 
+
     otherTwo:{
-      backgroundColor: '#D0D5C5',
+      backgroundColor: 'rgb(129, 112, 92)',
       height: '12%',
       width: '80%',
       marginBottom: 10,
@@ -494,7 +495,7 @@ const styles = StyleSheet.create({
     moreheader:{
       width: "100%",
       height: "15%",
-      backgroundColor: 'rgb(73, 104, 61)',
+      backgroundColor: 'rgb(76, 106, 62)',
     },
 
     moreheaderText:{
