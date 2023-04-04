@@ -140,7 +140,7 @@ export default function HomeScreen({navigation}) {
   // it uploads data from recent catches and clears recent catch table
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
-  function syncUp() {
+  async function syncUp() {
 
 
     // UPLOAD DATA FIRST
@@ -186,7 +186,9 @@ export default function HomeScreen({navigation}) {
         var retrievedDate = Object.values(_array[0]);
         
 
-        updateDate({ date: retrievedDate[1]});
+        console.log("UPDATING");
+        console.log(retrievedDate[1]);
+        await updateDate({ date: retrievedDate[1]});
         
 
         };
@@ -198,9 +200,6 @@ export default function HomeScreen({navigation}) {
         // success
         (_, { rows: { _array } }) => useDate(_array));
     });
-
-
-    
 
   }
 
