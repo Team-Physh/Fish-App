@@ -287,16 +287,18 @@ export default function HomeScreen({navigation}) {
         }
 
         // otherwise, the code doesn't exist in database. 
-        // if you want to allow the user to create a new PIT code in the database, heres the place to do it
-        // right now just shows an error
+        // ask if new entry is to be created
         else
         {
           
           Alert.alert(
           "PIT code not found",
-          "Try again",
+          "Would you like to create a new entry?",
           [
-            { text: "Ok" }
+            { text: "Create",
+            onPress: () => console.log("CREATE HERE")},
+            { text: "Cancel" }
+            
           ]
         );
         }
