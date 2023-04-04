@@ -106,14 +106,14 @@ export default function HelpScreen({ navigation }) {
                                 {'\n'}
                             </Text>
                             <Text style={styles.boxText}>
-                                To make an entry, you will first need to navigate to the homescreen.
+                                - To make an entry, you will first need to navigate to the homescreen.
                                 {'\n'}
                                 {'\n'}
-                                If you are using an Android device, you will have the option to input your caught fish's PIT tag via Bluetooth. 
+                                - If you are using an Android device, you will have the option to input your caught fish's PIT tag via Bluetooth. 
                                 Otherwise, if you are using an iOS device, you must manually input the PIT tag in the entry field.
                                 {'\n'}
                                 {'\n'}
-                                Once you have entered a valid PIT tag value, click the "Enter" button and navigate to the data entry page. 
+                                - Once you have entered a valid PIT tag value, click the "Enter" button and navigate to the data entry page. 
                                 Here, you will be able to input other values for your caught fish, such as length and the mile marker at which it was caught.
                                 {'\n'}
                                 {'\n'}
@@ -141,13 +141,13 @@ export default function HelpScreen({ navigation }) {
                                 {'\n'}
                             </Text>
                             <Text style={styles.boxText}>
-                                Bluetooth is currently an Android only feature. In order to use the bluetooth feature, start by connecting to the scanner in your device settings.
+                                - Bluetooth is currently an Android only feature. In order to use the bluetooth feature, start by connecting to the scanner in your device settings.
                                 {'\n'}
                                 {'\n'}
-                                Once connected, scan the fish PIT tag. Once the tag number is shown on the scanner device, press the bluetooth icon on the app.
+                                - Once connected, scan the fish PIT tag. Once the tag number is shown on the scanner device, press the bluetooth icon on the app.
                                 {'\n'}
                                 {'\n'}
-                                It could several attempts, but the tag number should transmit to the Android device and prompt the user with a data entry screen.
+                                - It could several attempts, but the tag number should transmit to the Android device and prompt the user with a data entry screen.
                             </Text>
                         </ScrollView>
                     </View>
@@ -191,6 +191,7 @@ export default function HelpScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "rgb(248, 245, 237)",
     },
     boxText: {
         color: 'black',
@@ -216,12 +217,16 @@ const styles = StyleSheet.create({
       },
       
     titleText: {
-        color: '#18324e',
+        color: '#222d1c',
         fontSize: 50,
         fontWeight: 'bold',
         textAlign: 'center',
         top: "10%",
         fontFamily: "Arial",
+    },
+
+    modal: {
+        backgroundColor: "rgb(248, 245, 237)",
     },
     icon: {
         height: 50,
@@ -242,17 +247,6 @@ const styles = StyleSheet.create({
         height: undefined,
         resizeMode: 'contain',
     },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#008ae6',
-        borderRadius: 50,
-        width: '85%',
-    },
     buttonText:{
         color: 'black',
         fontSize: 25,
@@ -260,7 +254,7 @@ const styles = StyleSheet.create({
       },
 
         learn:{
-      backgroundColor: '#28517D',
+      backgroundColor: '#49683D',
       height: '50%',
       width: '80%',
       marginBottom: 10,
@@ -276,7 +270,7 @@ const styles = StyleSheet.create({
     },
 
     history:{
-      backgroundColor: '#6481A0',
+      backgroundColor: '#768D6B',
       height: '50%',
       width: '80%',
       marginBottom: 10,
@@ -291,7 +285,7 @@ const styles = StyleSheet.create({
     },
 
     otherOne:{
-      backgroundColor: '#8FA3B9',
+      backgroundColor: '#A2B097',
       height: '50%',
       width: '80%',
       marginBottom: 10,
@@ -306,7 +300,7 @@ const styles = StyleSheet.create({
     },
 
     otherTwo:{
-      backgroundColor: '#B6C3D0',
+      backgroundColor: '#D0D5C5',
       height: '50%',
       width: '80%',
       marginBottom: 10,

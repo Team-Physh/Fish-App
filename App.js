@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
 
   mainView: {
     flex: 1,
-    backgroundColor: "rgba(1, 255, 1, 1)",
     zIndex: 5,
   }
 });

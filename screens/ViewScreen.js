@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "16.666666666%",
-      backgroundColor: 'rgb(40, 81, 135)',
+      backgroundColor: 'rgb(73, 104, 61)',
       marginBottom: 0,
     },
 

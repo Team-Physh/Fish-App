@@ -707,7 +707,7 @@ export default function HomeScreen({navigation}) {
         <Text style={styles.topHeader}>View and Update</Text>
       </View>
       <View style={styles.svgheader}>
-      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(40, 81, 135)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
+      <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 144 1440 320"><Path fill="rgb(73, 104, 61)" fill-opacity="1" d="M0,192L26.7,170.7C53.3,149,107,107,160,85.3C213.3,64,267,64,320,80C373.3,96,427,128,480,154.7C533.3,181,587,203,640,224C693.3,245,747,267,800,261.3C853.3,256,907,224,960,202.7C1013.3,181,1067,171,1120,181.3C1173.3,192,1227,224,1280,245.3C1333.3,267,1387,277,1413,282.7L1440,288L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></Path></Svg>
       </View>
 
       <KeyboardAvoidingView behavior='padding'
@@ -755,7 +755,7 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'rgb(255, 253, 250)',
+      backgroundColor: 'rgb(248, 245, 237)',
     },
 
     itemsHome: {
@@ -788,7 +788,7 @@ const styles = StyleSheet.create({
       
     },
     sendButton:{
-      backgroundColor: 'rgb(40, 81, 135)',
+      backgroundColor: 'rgb(73, 104, 61)',
       height: '12%',
       width: '70%',
       justifyContent: 'center',
@@ -833,7 +833,7 @@ const styles = StyleSheet.create({
     modalView: {
       width: "80%",
       height: "60%",
-      backgroundColor: 'rgb(255, 253, 250)',
+      backgroundColor: 'rgb(248, 245, 237)',
       alignSelf: 'center',
       top: "20%",
       borderRadius: 30,
@@ -880,7 +880,7 @@ const styles = StyleSheet.create({
 
     nextButton:{
       alignSelf: 'center',
-      backgroundColor: 'rgb(40, 81, 135)',
+      backgroundColor: 'rgb(73, 104, 61)',
       height: '12%',
       width: '50%',
       justifyContent: 'center',
@@ -929,7 +929,7 @@ const styles = StyleSheet.create({
     header:{
       width: "100%",
       height: "15%",
-      backgroundColor: 'rgb(40, 81, 135)',
+      backgroundColor: 'rgb(73, 104, 61)',
       justifyContent: 'center',
     },
 
@@ -946,7 +946,7 @@ const styles = StyleSheet.create({
     modalHeader: {
       width: "100%",
       height: "15%",
-      backgroundColor: "rgb(40, 81, 135)",
+      backgroundColor: "rgb(73, 104, 61)",
       justifyContent: 'center',
       zIndex: 0,
       borderRadius: 20,
@@ -988,7 +988,7 @@ const styles = StyleSheet.create({
     modalViewHist: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, 1)',
+      backgroundColor: 'rgb(248, 245, 237)',
       
       alignSelf: 'center',
       top: "10%",
