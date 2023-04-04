@@ -988,7 +988,7 @@ const styles = StyleSheet.create({
     modalViewHist: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgb(248, 245, 237)',
+      backgroundColor: 'rgba(248, 245, 237, .8)',
       
       alignSelf: 'center',
       top: "10%",
@@ -1035,7 +1035,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#c6bfb3',
+      backgroundColor: 'rgb(194, 180, 155)',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       shadowColor: '#000',

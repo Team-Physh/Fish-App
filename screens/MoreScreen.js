@@ -208,6 +208,11 @@ export default function MoreScreen({navigation}) {
 
         <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://www.azgfd.com')}}>
         <Text style={styles.buttonText}>Our Website</Text>
+
+        <Image
+              style = {styles.azLogo}
+              source = {require('../assets/azgfd_black.png')}
+              />
         </TouchableOpacity>
 
         <TouchableOpacity  style ={styles.history} onPress={() => openHistory()}>
@@ -282,6 +287,8 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.8,
       shadowRadius: 1,  
       elevation: 2.5,
+      flexDirection: 'row',
+      alignItems: 'center',
       
     },
 
@@ -340,7 +347,7 @@ const styles = StyleSheet.create({
     modalView: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgb(248, 245, 237)',
+      backgroundColor: 'rgba(248, 245, 237, .8)',
       
       alignSelf: 'center',
       top: "10%",
@@ -390,7 +397,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       width: "100%",
       height: "10%",
-      backgroundColor: '#6481A0',
+      backgroundColor: 'rgb(194, 180, 155)',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       shadowColor: '#000',
@@ -514,7 +521,14 @@ const styles = StyleSheet.create({
       width: "100%",
       backgroundColor: "rgba(0, 255, 0, 0)",
       position: "absolute",
-    }
+    },
+
+    azLogo:{
+      width: "30%",
+      height: "90%",
+      resizeMode: 'contain',
+      tintColor: "black",
+    },
 
 
   });

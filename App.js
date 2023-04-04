@@ -30,6 +30,8 @@ export default function App() {
     require('./assets/more.png'),
     require('./assets/catches.png'),
     require('./assets/splash.png'),
+    require('./assets/azgfd.png'),
+    require('./assets/azgfd_black.png'),
     ];
     const cacheImages = images.map(image => {
       return Asset.fromModule(image).downloadAsync();
