@@ -29,10 +29,10 @@ export async function getAllData(){
 // This is for updating the local database without having to redownload the whole thing (just gets values newer than given date)
 export async function getNewData(date) {
 
-      const response = await fetch('http://api.teamphysh.com:3000/fish/sync/'+date)
-      const data = await response.json()
+  const response = await fetch('http://api.teamphysh.com:3000/fish/sync/'+date)
+  const data = await response.json()
 
-      return data;
+  return data;
 }
 
 // function to download db to local db (downloads ENTIRE THING)
@@ -207,6 +207,7 @@ export async function uploadDatabaseSync(data) {
       clearRecent()
 
     }
+    // otherwise netinfo check failed
     else
     {
       Alert.alert(
@@ -248,6 +249,8 @@ export async function clearLocal() {
 
 // simple local non-async function thats used to insert values non-asynchronously. 
 // it was having problems inserting if called within async function so this was a quick solution
+// runs within an async function, and its purpose is to confirm that the value was inserted before it downloaded the new database values
+// this ensures that when the values are uploaded to the database, theyre then redownloaded and fully synced and not missed.
 function inserter(array){
 
   const db = SQLite.openDatabase("fish.db");
@@ -294,7 +297,7 @@ export async function updateDatabase() {
         {
           const array = data[i];
 
-          // call inserter to insert because it is non-async
+          // call inserter to insert because it is non-async, and confirms that data is inserted before it is redownloaded
           inserter(array);
         }
         
@@ -308,11 +311,6 @@ export async function updateDatabase() {
         // success
         (_, { rows: { _array } }) => useDate(_array));
     
-
-      // PROBLEM: We upload our data and then try to download the new data with our data in it. our data we just sent isnt included
-      // this is most likly because the post request is async and were downloading all the new values before its officially posted
-      // BASICALLY: DATA THAT WAS JUST UPLOADED HASNT REACHED SERVER, AND WE ARE ASKING FOR IT BACK. make sometihng non-async to fix
-      // update last date
       tx.executeSql("UPDATE recentDate SET lastSync = ? WHERE idNum = ?;",
                       [getCurrentDateNonReadable(), 1]
                       );
@@ -337,21 +335,15 @@ export async function updateDatabase() {
 
 // date grabber function. gets current date/time FORMATTED TO READ!
 // commented out block is for if we want to get ride of timestamp and just use date
+// this isnt used currently
 export function getCurrentDate() {
 
   var date;
   date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-  //date = new Date();
-  // if we dont want seconds/minutes
-  // date = date.getUTCFullYear() + '-' +
-  // ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-  // ('00' + date.getUTCDate()).slice(-2);
-
   return date;//format: d-m-y H:M:S;
 }
 
-// date grabber function. gets current date/time NOT FORMATTED TO READ! Just used by updateDatabase currently
+// date grabber function. gets current date/time NOT FORMATTED TO READ! not used currently, since date js function just does it 
 export function getCurrentDateNonReadable() {
 
   var date = new Date();

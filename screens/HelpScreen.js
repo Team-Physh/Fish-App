@@ -158,13 +158,6 @@ export default function HelpScreen({ navigation }) {
                 </Text>
                 <ScrollView style={styles.scrollView}>
 
-
-
-
-
-
-
-
     <View style={styles.moreView}>
         <TouchableOpacity  style ={styles.learn} onPress={() => { setShowModal1(!showModal1) }}>
         <Text style={styles.buttonText}>Syncing</Text>

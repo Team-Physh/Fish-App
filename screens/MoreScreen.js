@@ -5,7 +5,6 @@ import * as SQLite from 'expo-sqlite';
 import {clearLocal, clearRecent} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 
-
 export default function MoreScreen({navigation}) {
   // history modal
   const [historyVisible, setHistoryVisible] = useState(false);
@@ -16,7 +15,7 @@ export default function MoreScreen({navigation}) {
   // data for clearing
   const [cleared, setCleared] = useState(false);
 
-  // Just converts fish type to readable string for user
+  // Just converts fish type to readable string for user (MAYBE IMPORT FROM HOME SCREEN?)
   const getSpecies=(species)=>{
 
     if(species=="RBT")
@@ -28,21 +27,6 @@ export default function MoreScreen({navigation}) {
       return "Brown Trout";
     }
   }
-
-  // style for rows of hisotry
-  const rowStyle = (index) => ({
-    borderBottomColor: 'rgba(100, 100, 100, .7)',
-    borderLeftColor: 'white',
-    borderRightColor: 'white',
-    borderTopColor: 'white',
-    borderBottomWidth: 3,
-    width: "100%",
-    height: 100,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'rgba(248, 245, 237, .7)' : 'rgba(200, 200, 200, 0.7)',
-  });
 
   // This function is for the clear button in the history modal
   // just clears all the users fishing history
@@ -96,6 +80,22 @@ export default function MoreScreen({navigation}) {
     setHistoryVisible(true);
   }
 
+  // style for rows of histori
+  // here so every other row is a slightly different color for readability
+  const rowStyle = (index) => ({
+    borderBottomColor: 'rgba(100, 100, 100, .7)',
+    borderLeftColor: 'white',
+    borderRightColor: 'white',
+    borderTopColor: 'white',
+    borderBottomWidth: 3,
+    width: "100%",
+    height: 100,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    zIndex: 0,
+    backgroundColor: index % 2 === 0 ? 'rgba(248, 245, 237, .7)' : 'rgba(200, 200, 200, 0.7)',
+  });
+
   return (
     <View style={styles.container}>
 
@@ -107,11 +107,6 @@ export default function MoreScreen({navigation}) {
         <View style={styles.bgmodal}>
 
           <View style={styles.modalView}>
-
-            
-
-
-          
 
             <View style={styles.header}>
 
@@ -199,13 +194,9 @@ export default function MoreScreen({navigation}) {
 
       <View style={styles.moreView}>
 
-        
 
 
-          
-
-        
-
+        {/* ACTUAL SCREEN START */}
         <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://www.azgfd.com')}}>
         <Text style={styles.buttonText}>Our Website</Text>
 

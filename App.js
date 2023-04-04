@@ -13,7 +13,6 @@ import { getAllData, downloadDatabase } from './database/databasefunctions.js';
 import NetInfo from '@react-native-community/netinfo';
 
 
-
 // creates stack for stack navigator
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +20,8 @@ export default function App() {
 
 
   // cache icons for faster loading
+  // without this icons can glitch a little when switching screens
+  // add new icons here to cache them
   let cacheResources = async () => {
     const images = [
     require('./assets/PHYSH.png'),
@@ -39,7 +40,7 @@ export default function App() {
     return Promise.all(cacheImages);
   }
 
-  // load the resources
+  // load the resources (icons)
   useEffect(() => {
     const loadResources = async () => {
       await cacheResources();
@@ -49,6 +50,7 @@ export default function App() {
   }, [])
 
 
+  // just the navigation container here
   return (
     <View style={{flex: 1}}>
       

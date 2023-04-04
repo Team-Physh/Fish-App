@@ -6,11 +6,10 @@ import {updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatab
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
-
-
 export default function HomeScreen({navigation}) {
 
   // this data is temp storage for whatever key the user is viewing/working on
+  // this is used to display data to the user on a singular fish
   const [pitTag, setPit] = useState({
     number: '',
     lastCaught: '0000-00-00T00:00:00.000Z',
@@ -21,28 +20,24 @@ export default function HomeScreen({navigation}) {
     temp: '1',
   });
 
-  // const function that just makes the date/time look pretty and readable
-  const fixDate=(datetime) => {
-    return datetime.slice(0, 19).replace('T', ' ');;
-  };
-
-  // main modal bool
+  // main modal bool. view screen
   const [modalVisible, setModalVisible] = useState(false);
 
-  // update modal bool
+  // update modal bool. enter data to update
   const [updateVisible, setUpdateVisible] = useState(false);
 
-  // history modal bool
+  // history modal bool. pops up for fish history
   const [fishHistoryVisible, setFishHistoryVisible] = useState(false);
 
-  // data is stored here temporarily that needs to be viewed.
+  // data is stored here temporarily that needs to be viewed. this is used by the flatlist to load a fish's total catch history
   const [readyData, setData] = useState([]);
 
+  // this is the last date that the app has synced. stored so the user knows and displayed
   const [lastSyncDate, updateDate] = useState({
     date: '0000-00-00T00:00:00.000Z',
   });
 
-  // Just converts fish type to readable string for user
+  // Just converts fish type to readable string for user. add new fish here if there are new ones in the database
   const getSpecies=(species)=>{
 
     if(species=="RBT")
@@ -65,15 +60,15 @@ export default function HomeScreen({navigation}) {
     // opens db
     const db = SQLite.openDatabase("fish.db");
 
-    // gets count
-    var count = Object.keys(_array).length;
+    // gets count (unused right now unless area below is uncommented)
+    //var count = Object.keys(_array).length;
 
     // start transaction
     db.transaction(tx => {
 
-      
       // just insert into history no matter what. with this uncommented and bottom part commented, users can have same fish in history 
       // multiple times. If you dont want this, just comment this out and uncomment part below
+      // if u choose to do it other way, be warned it hasnt been tested too much but it should work. just updated value though
       tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
         [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
 
@@ -102,23 +97,27 @@ export default function HomeScreen({navigation}) {
   // basically just doesnt allow 2 of the same fish to exist in the catch table
   const keyExistCatch = (_array) => {
 
+    // make db
     const db = SQLite.openDatabase("fish.db");
 
+    // get count
     var count = Object.keys(_array).length;
 
-
+    // start transaction
     db.transaction(tx => {
 
-
+      // if the count of keys recieved in 0
       if( count == 0)
       {
-        // inserting catch
+        // inserting catch as new catch
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
         [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
+      // otherwise its already existing in the recent catches
       else if ( count > 0)
       {
+        // update instead
         tx.executeSql("UPDATE catchTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
                         [getCurrentDateNonReadable(), pitTag.length, pitTag.rivermile, pitTag.number]
                         );
@@ -135,13 +134,11 @@ export default function HomeScreen({navigation}) {
     setModalVisible(false);
   };
 
-  // TODO: WRAP IN NETINFO CHECKER (along with other things requiring online functionality)
   // sync button function. First, checks internet connection. If connected, 
   // it uploads data from recent catches and clears recent catch table
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
   async function syncUp() {
-
 
     // UPLOAD DATA FIRST
     const db = SQLite.openDatabase("fish.db");
@@ -157,23 +154,22 @@ export default function HomeScreen({navigation}) {
         if(count >= 0)
         {
 
-          // upload data
+          // upload data (maybe await this?)
           uploadDatabaseSync(_array);
 
         }
 
-        };
+      };
 
-
-        // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist (get data anyways)
-        tx.executeSql(
-          "select * from catchTable",
-          [],
-          // success
-          (_, { rows: { _array } }) => storeInfo(_array),
-          // error
-          () => updateDatabase()
-                      );
+      // select all recent catches, and upload them. otherwise print no values grabbed cus the table doesnt exist (get data anyways)
+      tx.executeSql(
+        "select * from catchTable",
+        [],
+        // success, sync
+        (_, { rows: { _array } }) => storeInfo(_array),
+        // error, table doesnt exist, update whole thing and dont sync (SHOULDNT RUN)
+        () => updateDatabase()
+                    );
 
     });
 
@@ -185,19 +181,16 @@ export default function HomeScreen({navigation}) {
         // get date
         var retrievedDate = Object.values(_array[0]);
         
+        // update last synced date
+        await updateDate({ date: retrievedDate[1]});     
 
-        console.log("UPDATING");
-        console.log(retrievedDate[1]);
-        await updateDate({ date: retrievedDate[1]});
-        
-
-        };
+      };
 
       // retrieve new data
       tx.executeSql(
         "select * from recentDate WHERE idNum = ?",
         [1],
-        // success
+        // success, update recent date
         (_, { rows: { _array } }) => useDate(_array));
     });
 
@@ -213,12 +206,6 @@ export default function HomeScreen({navigation}) {
 
     // start transaction
     db.transaction(tx => {
-    
-      // upload data to local database. Does this so it isn't out of date while the user doesn't have internet
-      // COMMENTED OUT BECAUSE IT MAKES A DUPE
-      // tx.executeSql("INSERT INTO fishTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-      //   [pitTag.number, getCurrentDate(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
-      
 
       // make recent catch table if not exists
       tx.executeSql(
@@ -260,11 +247,8 @@ export default function HomeScreen({navigation}) {
     // open db
     const db = SQLite.openDatabase("fish.db");
 
-  
-
       // this const runs when it gets a valid code from DB. just gets the data
       const printInfo = (_array) => {
-        
         
         // get count of keys retrieved
         var count = Object.keys(_array).length;
@@ -273,11 +257,8 @@ export default function HomeScreen({navigation}) {
         if (count >= 1)
         {
           // get data for the first key (will be most recent since sorted by date)
-          //var key = Object.values(_array[0]);
-
           var key = _array[0];
           
-
           // set data retrieved (3 is hex?)
           setPit({ number: key.hex, species: key.species, lastCaught: key.lastCaught, length: key.length, rivermile: key.riverMile, temp: key.pit});
 
@@ -289,7 +270,6 @@ export default function HomeScreen({navigation}) {
         // ask if new entry is to be created
         else
         {
-          
           Alert.alert(
           "PIT code not found",
           "Would you like to create a new entry?",
@@ -321,6 +301,7 @@ export default function HomeScreen({navigation}) {
 
   // This function is run for when the user wants to view the history of a fish. (all of its catches)
   // shows a list of every catch of a single given fish
+  // grabs all the data for a fish, and stores it in usestate so that it can be displayed in flatlist
   function fishHistory() {
     setData([]);
     // get history
@@ -336,7 +317,6 @@ export default function HomeScreen({navigation}) {
         // get count
         var count = Object.keys(_array).length;
 
-        
         // if recent catches exist for fish (they have to at this point)
         if(count >= 0)
         {
@@ -377,6 +357,7 @@ export default function HomeScreen({navigation}) {
 
   // sync button (styling is up here in case we want to add functionality to it. (ex: making it only appear when a sync is needed?))
   // currently serves no purpose other than styling, but its up here because i may want to add some functionality later
+  // ex: maybe have it change color when synced, or disappear if the user just synced?
   const syncStyle = () => ({
     backgroundColor: 'rgba(255, 253, 250, .5)',
     height: 50,
@@ -393,8 +374,8 @@ export default function HomeScreen({navigation}) {
     bottom: 0,
   });
 
-
   // bluetooth button style
+  // up here because it only shows up on android
   const bluetoothIcon = () => ({
     backgroundColor: 'rgba(64, 128, 2, 0.5)',
     height: Platform.OS === 'android' ? 70 : 0,
@@ -410,7 +391,7 @@ export default function HomeScreen({navigation}) {
     top: "15%",
   });
 
-  // style for the image inside the bluetooth button. needs to also be turned invisible
+  // style for the image inside the bluetooth button. needs to also be turned invisible on iOS platform
   const blueImage = () => ({
     height: Platform.OS === 'android' ? 35 : 0,
     width: Platform.OS === 'android' ? 35 : 0,
@@ -425,7 +406,6 @@ export default function HomeScreen({navigation}) {
     // open db
     const db = SQLite.openDatabase("fish.db");
 
-    
     // start transaction
     db.transaction(tx => {
   
@@ -434,9 +414,8 @@ export default function HomeScreen({navigation}) {
         // get date
         var retrievedDate = Object.values(_array[0]);
         
-
+        // update the date to be shown
         updateDate({ date: retrievedDate[1]});
-        
 
         };
 
@@ -449,7 +428,6 @@ export default function HomeScreen({navigation}) {
     });
   }, []);
 
-
   // This function is run when the user clicks the bluetooth button.
   // it runs the bluetooth functions in the bluetooth file. Depending on the scanner used, thats what mac address will be picked.
   // CURRENTLY ONLY WORKS WITH SCANNER 2. This is why number 2 is passed into bluetoothTest.
@@ -459,7 +437,7 @@ export default function HomeScreen({navigation}) {
   // this will be passed to this function in scannerNum and this passed into bluetoothTest
   async function bluetoothRun(scannerNum) {
 
-    // recieve pit
+    // recieve pit (SCANNERNUM WILL BE PASSED IN HERE INSTEAD OF 2)
     var pit = await bluetoothTest(2);
     
     // testing to print out pit recieved to ensure operation
@@ -478,6 +456,7 @@ export default function HomeScreen({navigation}) {
     }
     // otherwise continue operation
     else{
+      // enter the retrieved tag to update or create
       enterTag(pit);
     }
     
@@ -504,8 +483,6 @@ export default function HomeScreen({navigation}) {
           <View style={styles.bgmodalHist}>
 
             <View style={styles.modalViewHist}>
-
-              
 
               <View style={styles.headerHist}>
 
@@ -913,6 +890,7 @@ const styles = StyleSheet.create({
       width: "100%",
       backgroundColor: "rgba(0, 0, 0, .7)",
     },
+
     textInUpdate: {
     borderWidth: 2,
     alignSelf: 'center',
@@ -1048,12 +1026,9 @@ const styles = StyleSheet.create({
     },
 
     headerTextHist:{
-      fontWeight: '',
-
       position: 'absolute',
       alignSelf: 'center',
       fontSize: 25,
-      
     },
 
     emptyViewHist:{
@@ -1071,7 +1046,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       color: "black",
     },
-
 
     itemRowHist:{
       borderBottomColor: '#6e4b78',

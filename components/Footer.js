@@ -2,11 +2,14 @@ import { TouchableOpacity , Text , Image , StyleSheet , View } from 'react-nativ
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 
-
 export default function Footer(){
+
+    // gets data on current page to use
     const navigation = useNavigation();
     const route = useRoute();
 
+    
+    // these styles are for if on current page, then add border to icon 
     const scanStyle = (name) => ({
       alignSelf: 'center',
       height: 50,
@@ -16,7 +19,6 @@ export default function Footer(){
       marginTop: 5,
       borderBottomWidth: name == "Home" ? 3 : 0,
     });
-
     const viewStyle = (name) => ({
       alignSelf: 'center',
       height: 50,
@@ -26,7 +28,6 @@ export default function Footer(){
       marginTop: 5,
       borderBottomWidth: name == "View" ? 3 : 0,
     });
-
     const moreStyle = (name) => ({
       alignSelf: 'center',
       height: 50,
@@ -37,6 +38,7 @@ export default function Footer(){
       borderBottomWidth: name == "More" ? 3 : 0,
     });
 
+    // these styles add a opaque dark box to the selected icon
     const boxStyle = (name) => ({
       height: "100%",
       width: "33.3%",
@@ -46,7 +48,6 @@ export default function Footer(){
       backgroundColor: name == "Home" ? "rgba(0, 0, 0, 0.3)" : 0,
       borderRadius: 20,
     });
-
     const boxStyleTwo = (name) => ({
       height: "100%",
       width: "33.3%",
@@ -56,7 +57,6 @@ export default function Footer(){
       backgroundColor: name == "View" ? "rgba(0, 0, 0, 0.3)" : 0,
       borderRadius: 20,
     });
-
     const boxStyleThree = (name) => ({
       height: "100%",
       width: "33.3%",
@@ -67,9 +67,7 @@ export default function Footer(){
       borderRadius: 20,
     });
 
-
-
-    
+    // footer 
     return(
             <View elevation={5} style={ style.footer }>
                   <View style={ style.textAlign }>
