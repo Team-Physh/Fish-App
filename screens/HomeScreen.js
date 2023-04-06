@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import {clearRecent, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
@@ -36,19 +36,6 @@ export default function HomeScreen({navigation}) {
   const [lastSyncDate, updateDate] = useState({
     date: '0000-00-00T00:00:00.000Z',
   });
-
-  // Just converts fish type to readable string for user. add new fish here if there are new ones in the database
-  const getSpecies=(species)=>{
-
-    if(species=="RBT")
-    {
-      return "Rainbow Trout";
-    }
-    else if (species == "BNT")
-    {
-      return "Brown Trout";
-    }
-  };
 
   // This is run in uploadData function. Basically just checks if it should update or insert value
   // handles edge case for if a user (for whatever reason) uploads data for same fish twice
@@ -145,7 +132,7 @@ export default function HomeScreen({navigation}) {
     db.transaction(tx => {
 
       //upload data to local database. runs on success of select from catchTable
-      const storeInfo = async (_array) => {
+      const storeInfo = (_array) => {
 
         // get count
         var count = Object.keys(_array).length;

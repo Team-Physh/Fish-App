@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react
 import Footer from '../components/Footer';
 import {useEffect, useState} from 'react';
 import * as SQLite from 'expo-sqlite'
-import {uploadDatabase} from '../database/databasefunctions';
+import {uploadDatabase, getSpecies} from '../database/databasefunctions';
 
 export default function ViewScreen({navigation}) {
 
@@ -10,19 +10,11 @@ export default function ViewScreen({navigation}) {
   const [data, setData] = useState([]);
 
   // upload is ready constant
+  // THIS IS CURRENTLY ALWAYS FALSE.
+  // IF YOU WOULD LIKE THE ABILITY FOR USERS TO UPLOAD DATA WITHOUT DOWNLOADING ANY, UNCOMMENT CODE BELOW (marked)
   const [uploadReady, setUploadReady] = useState(false);
 
-  const getSpecies=(species)=>{
-
-    if(species=="RBT")
-    {
-      return "Rainbow Trout";
-    }
-    else if (species == "BNT")
-    {
-      return "Brown Trout";
-    }
-  }
+  
 
   // styling for sync button to appear
   const syncStyle = () => ({
@@ -77,7 +69,8 @@ export default function ViewScreen({navigation}) {
         if(count >= 0)
         {
           // make button uppear and store
-          setUploadReady(true);
+          // UNCOMMENT THIS LINE TO ALLOW USER TO UPLOAD
+          //setUploadReady(true);
           setData(_array);
         }
 

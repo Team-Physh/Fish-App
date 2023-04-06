@@ -197,14 +197,14 @@ export async function uploadDatabaseSync(data) {
         body: JSON.stringify(data)
       }).then( response => {
         // return response.json();
-          updateDatabase();
+        updateDatabase();
       })
       .catch(error => {
       })
 
 
       // clear recent catches
-      clearRecent()
+      clearRecent();
       return true;
 
     }
@@ -358,5 +358,145 @@ export function getCurrentDateNonReadable() {
   return date.toISOString();//format: d-m-y H:M:S;
 }
 
+// Returns string of fish
+export const getSpecies=(species)=>{
+
+  if(species=="BBH")
+  {
+    return "Black Bullhead";
+  }
+  else if (species == "BGS")
+  {
+    return "Bluegill";
+  }
+  else if (species == "BHS")
+  {
+    return "Bluehead Sucker";
+  }
+  else if (species == "BKC")
+  {
+    return "Black Crappie";
+  }
+  else if (species == "BKT")
+  {
+    return "Brook Trout";
+  }
+  else if (species == "CCF")
+  {
+    return "Channel Catfish";
+  }
+  else if (species == "CRP")
+  {
+    return "Common Carp";
+  }
+  else if (species == "CTT")
+  {
+    return "Cutthroat Carp";
+  }
+  else if (species == "FMS")
+  {
+    return "Flannelmouth Sucker";
+  }
+  else if (species == "FRH")
+  {
+    return "Flannelmouth/Razorback";
+  }
+  else if (species == "GSF")
+  {
+    return "Green Sunfish";
+  }
+  else if (species == "GZD")
+  {
+    return "Gizzard Shad";
+  }
+  else if (species == "HBC")
+  {
+    return "Humpback Chub";
+  }
+  else if (species == "LMB")
+  {
+    return "Largemouth Bass";
+  }
+  else if (species == "NFC")
+  {
+    return "No Fish Caught";
+  }
+  else if (species == "NOP")
+  {
+    return "Northern Pike";
+  }
+  else if (species == "PKF")
+  {
+    return "Plains Killifish";
+  }
+  else if (species == "RBS")
+  {
+    return "Razorback Sucker";
+  }
+  else if (species == "RBT")
+  {
+    return "Rainbow Trout";
+  }
+  else if (species == "RCH")
+  {
+    return "Rainbow/Cutthroat";
+  }
+  else if (species == "SMB")
+  {
+    return "Smallmouth Bass";
+  }
+  else if (species == "STB")
+  {
+    return "Striped Bass";
+  }
+  else if (species == "SUC")
+  {
+    return "Unidentified Sucker";
+  }
+  else if (species == "TET")
+  {
+    return "Test PIT Tag";
+  }
+  else if (species == "TRT")
+  {
+    return "Unidentified Trout";
+  }
+  else if (species == "UBH")
+  {
+    return "Unidentified Bullhead";
+  }
+  else if (species == "UIB")
+  {
+    return "Unidentified Bass";
+  }
+  else if (species == "UIM")
+  {
+    return "Unidentified Minnow";
+  }
+  else if (species == "UIS")
+  {
+    return "Unidentified Sunfish";
+  }
+  else if (species == "UTR")
+  {
+    return "Unidentified Trout";
+  }
+  else if (species == "WAL")
+  {
+    return "Walleye";
+  }
+  else if (species == "YBH")
+  {
+    return "Yellow Bullhead";
+  }
+  else if (species == "YPE")
+  {
+    return "Yellow Perch";
+  }
+  else if (species == "CUT")
+  {
+    return "Cutthroat Trout";
+  }
+}
 
 

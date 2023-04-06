@@ -2,7 +2,7 @@ import { Alert, FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity
 import Footer from '../components/Footer'
 import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
-import {clearLocal, clearRecent} from '../database/databasefunctions';
+import {getSpecies, clearLocal, clearRecent} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 
 export default function MoreScreen({navigation}) {
@@ -14,19 +14,6 @@ export default function MoreScreen({navigation}) {
 
   // data for clearing
   const [cleared, setCleared] = useState(false);
-
-  // Just converts fish type to readable string for user (MAYBE IMPORT FROM HOME SCREEN?)
-  const getSpecies=(species)=>{
-
-    if(species=="RBT")
-    {
-      return "Rainbow Trout";
-    }
-    else if (species == "BNT")
-    {
-      return "Brown Trout";
-    }
-  }
 
   // This function is for the clear button in the history modal
   // just clears all the users fishing history
