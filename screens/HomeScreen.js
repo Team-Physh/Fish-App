@@ -23,6 +23,9 @@ export default function HomeScreen({navigation}) {
   // main modal bool. view screen
   const [modalVisible, setModalVisible] = useState(false);
 
+  // is the sync button visible
+  const [syncReady, setSyncReady] = useState(true);
+
   // update modal bool. enter data to update
   const [updateVisible, setUpdateVisible] = useState(false);
 
@@ -126,6 +129,9 @@ export default function HomeScreen({navigation}) {
   // then it downloads the database so everything is in sync
   // if no internet, alerts user and does nothing
   async function syncUp() {
+
+    setSyncReady(false);
+    
     
     // UPLOAD DATA FIRST
     const db = SQLite.openDatabase("fish.db");
@@ -166,26 +172,15 @@ export default function HomeScreen({navigation}) {
 
     });
 
-    // start transaction
-    db.transaction(tx => {
-  
-      const useDate =  (_array) => {
+    // update recent sync date
+    updateDate({ date: getCurrentDateNonReadable()});
 
-        // get date
-        var retrievedDate = Object.values(_array[0]);
 
-        // update last synced date
-         updateDate({ date: retrievedDate[1]});
+    // make button invisible for a little
+    setTimeout(() => {
+                  setSyncReady(true);
 
-      };
-
-      // retrieve new data
-      tx.executeSql(
-        "select * from recentDate WHERE idNum = ?",
-        [1],
-        // success, update recent date
-        (_, { rows: { _array } }) => useDate(_array));
-    });
+              }, 10000);
   }
 
   // This is run when the user confirms new lenght/rivermile in update data popup modal.
@@ -347,13 +342,11 @@ export default function HomeScreen({navigation}) {
     backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, 0.7)',
   });
 
-  // sync button (styling is up here in case we want to add functionality to it. (ex: making it only appear when a sync is needed?))
-  // currently serves no purpose other than styling, but its up here because i may want to add some functionality later
-  // ex: maybe have it change color when synced, or disappear if the user just synced?
+  // sync button disappear if the user just synced
   const syncStyle = () => ({
     backgroundColor: 'rgba(255, 253, 250, .5)',
-    height: 50,
-    width: 70,
+    height: syncReady == true ? 50 : 0,
+    width: syncReady == true ? 70 : 0,
     justifyContent: 'center',
     borderRadius: 100,
     // top: "45%",
