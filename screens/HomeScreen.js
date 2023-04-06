@@ -280,7 +280,7 @@ export default function HomeScreen({navigation}) {
           "Would you like to create a new entry?",
           [
             { text: "Create",
-            onPress: () => console.log("CREATE HERE")},
+            onPress: () => navigation.navigate("New", {pitNum: number})},
             { text: "Cancel" }
             
           ]
@@ -302,6 +302,7 @@ export default function HomeScreen({navigation}) {
           () => console.log("db not exist"));
 
       });
+
   }
 
   // This function is run for when the user wants to view the history of a fish. (all of its catches)

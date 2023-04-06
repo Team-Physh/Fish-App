@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
 import SplashScreen from './screens/Splash';
+import NewEntry from './screens/NewEntry';
 import * as SQLite from 'expo-sqlite';
 import { getAllData, downloadDatabase } from './database/databasefunctions.js';
 import NetInfo from '@react-native-community/netinfo';
@@ -69,6 +70,12 @@ export default function App() {
           gestureEnabled: false,
           animation: 'none',
         }} name="Splash" component={ SplashScreen } />
+
+        <Stack.Screen options={{
+          headerShown: false, 
+          gestureEnabled: false,
+          animation: 'none',
+        }} name="New" component={ NewEntry } />
 
           <Stack.Screen options={{
           headerShown: false, 
