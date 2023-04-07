@@ -499,11 +499,23 @@ export const getSpecies=(species)=>{
   }
 }
 
+// converts to ft and inch
 export function mmToFeetAndInches(mm) {
   const inches = mm / 25.4;
   const feet = Math.floor(inches / 12);
   const remainingInches = Math.round((inches % 12) * 10) / 10;
   return feet + " ft " + remainingInches + " in";
+}
+
+// converts back to mm
+export function feetAndInchesToMm(feet, inches) {
+  // Convert feet to inches and add to total inches
+  let totalInches = feet * 12 + inches;
+  // Convert total inches to millimeters
+  let mm = totalInches * 25.4;
+  // Round the result to the nearest whole number
+  let roundedMM = Math.round(mm/10);
+  return roundedMM;
 }
 
 

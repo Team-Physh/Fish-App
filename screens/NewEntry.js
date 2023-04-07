@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
 import Svg, { Path } from 'react-native-svg';
 import {Picker} from '@react-native-picker/picker';
-import {getCurrentDateNonReadable} from '../database/databasefunctions';
+import {feetAndInchesToMm, getCurrentDateNonReadable} from '../database/databasefunctions';
 
 
 export default function NewEntry({route, navigation}) {
@@ -22,6 +22,8 @@ export default function NewEntry({route, navigation}) {
       species: 'BBH',
       // remove?
       temp: '1',
+      foot: 0,
+      inch: 0,
   });
 
   // This is run in uploadData function. Basically just checks if it should update or insert value
@@ -44,7 +46,7 @@ export default function NewEntry({route, navigation}) {
       // multiple times. If you dont want this, just comment this out and uncomment part below
       // if u choose to do it other way, be warned it hasnt been tested too much but it should work. just updated value though
       tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.temp, pitTag.rivermile, pitTag.species]);
 
 
       // if( count == 0)
@@ -85,7 +87,7 @@ export default function NewEntry({route, navigation}) {
       {
         // inserting catch as new catch
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
       // otherwise its already existing in the recent catches
@@ -93,7 +95,7 @@ export default function NewEntry({route, navigation}) {
       {
         // update instead
         tx.executeSql("UPDATE catchTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
-                        [getCurrentDateNonReadable(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        [getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.rivermile, pitTag.number]
                         );
       }
 
@@ -101,7 +103,7 @@ export default function NewEntry({route, navigation}) {
 
   };
 
-  // upload data functions from homescreen
+  // upload data functions from homescreen. added functionality for ft and inches
   function uploadData() {
 
     // make db
@@ -165,20 +167,31 @@ export default function NewEntry({route, navigation}) {
       style={styles.entryFields}>
 
         <Text style={styles.headerTextUpdate}>Length</Text>
+
+            <View style={styles.footinch}>
               <TextInput
-                  style={styles.textInUpdate}
+                  style={styles.textInUpdateFT}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
-                  placeholder="Enter Length (mm)"
+                  onChangeText={text => setPit({ foot: text, inch: pitTag.inch, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught,rivermile: pitTag.rivermile, length: pitTag.length, temp: pitTag.temp})    }
+                  placeholder="ft"
                   placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
+                <TextInput
+                  style={styles.textInUpdateFT}
+                  autoCapitalize="none"
+                  onChangeText={text => setPit({ foot: pitTag.foot, inch: text, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, rivermile: pitTag.rivermile, length: pitTag.length, temp: pitTag.temp})    }
+                  placeholder="in"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
+                  keyboardType="numeric"
+                />
+            </View>
 
               <Text style={styles.headerTextUpdate}>River Mile</Text>
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
+                  onChangeText={text => setPit({ foot: pitTag.foot, inch: pitTag.inch, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
                   placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
@@ -188,7 +201,7 @@ export default function NewEntry({route, navigation}) {
               <Picker
                 selectedValue={pitTag.species}
                 onValueChange={(itemValue, itemIndex) =>
-                    setPit({ number: pitTag.number, species: itemValue, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.rivermile, temp: pitTag.temp})
+                    setPit({ foot: pitTag.foot, inch: pitTag.inch, number: pitTag.number, species: itemValue, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: pitTag.rivermile, temp: pitTag.temp})
                 }
                 style = {styles.fishpicker}>
                 <Picker.Item label="BLACK BULLHEAD" value="BBH" />
@@ -250,6 +263,27 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: 'rgb(248, 245, 237)',
+    },
+
+    footinch: {
+        flexDirection: "row",
+        alignSelf: 'center',
+    },
+
+    textInUpdateFT: {
+        borderWidth: 2,
+        alignSelf: 'center',
+        width: "20%",
+        height: 35,
+        color: 'black',
+        fontSize: 20,
+        textAlign: "center",
+        alignSelf: 'center',
+        borderRadius: 10,
+        marginBottom: 10,
+        fontWeight: 'bold',
+        marginLeft: 5,
+        marginRight: 5,
     },
 
     fishpicker:{

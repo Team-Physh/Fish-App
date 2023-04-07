@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import { Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {mmToFeetAndInches, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import {feetAndInchesToMm ,mmToFeetAndInches, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
@@ -18,6 +18,8 @@ export default function HomeScreen({navigation}) {
     species: '',
     // remove?
     temp: '1',
+    foot: 0,
+    inch: 0,
   });
 
   // main modal bool. view screen
@@ -60,7 +62,7 @@ export default function HomeScreen({navigation}) {
       // multiple times. If you dont want this, just comment this out and uncomment part below
       // if u choose to do it other way, be warned it hasnt been tested too much but it should work. just updated value though
       tx.executeSql("INSERT INTO history (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.temp, pitTag.rivermile, pitTag.species]);
 
 
       // if( count == 0)
@@ -101,7 +103,7 @@ export default function HomeScreen({navigation}) {
       {
         // inserting catch as new catch
         tx.executeSql("INSERT INTO catchTable (hex, lastCaught, length, pit, rivermile, species) VALUES (?, ?, ?, ?, ?, ?);",
-        [pitTag.number, getCurrentDateNonReadable(), pitTag.length, pitTag.temp, pitTag.rivermile, pitTag.species]);
+        [pitTag.number, getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.temp, pitTag.rivermile, pitTag.species]);
       }
 
       // otherwise its already existing in the recent catches
@@ -109,7 +111,7 @@ export default function HomeScreen({navigation}) {
       {
         // update instead
         tx.executeSql("UPDATE catchTable SET lastCaught = ?, length = ?, riverMile = ? WHERE hex = ?;",
-                        [getCurrentDateNonReadable(), pitTag.length, pitTag.rivermile, pitTag.number]
+                        [getCurrentDateNonReadable(), feetAndInchesToMm(pitTag.foot, pitTag.inch), pitTag.rivermile, pitTag.number]
                         );
       }
 
@@ -633,20 +635,30 @@ export default function HomeScreen({navigation}) {
             <View style = {styles.displayData}>
 
               <Text style={styles.headerTextUpdate}>New Length</Text>
+              <View style={styles.footinch}>
               <TextInput
-                  style={styles.textInUpdate}
+                  style={styles.textInUpdateFT}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: text, rivermile: pitTag.rivermile, temp: pitTag.temp})    }
-                  placeholder="Enter Length (mm)"
+                  onChangeText={text => setPit({ foot: text, inch: pitTag.inch, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught,rivermile: pitTag.rivermile, length: pitTag.length, temp: pitTag.temp})    }
+                  placeholder="ft"
                   placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
                 />
+                <TextInput
+                  style={styles.textInUpdateFT}
+                  autoCapitalize="none"
+                  onChangeText={text => setPit({ foot: pitTag.foot, inch: text, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, rivermile: pitTag.rivermile, length: pitTag.length, temp: pitTag.temp})    }
+                  placeholder="in"
+                  placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
+                  keyboardType="numeric"
+                />
+            </View>
 
               <Text style={styles.headerTextUpdate}>River Mile</Text>
               <TextInput
                   style={styles.textInUpdate}
                   autoCapitalize="none"
-                  onChangeText={text => setPit({ number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
+                  onChangeText={text => setPit({ foot: pitTag.foot, inch: pitTag.inch, number: pitTag.number, species: pitTag.species, lastCaught: pitTag.lastCaught, length: pitTag.length, rivermile: text, temp: pitTag.temp})    }
                   placeholder="Enter River Mile"
                   placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
                   keyboardType="numeric"
@@ -1103,7 +1115,28 @@ const styles = StyleSheet.create({
       fontSize: 12,
       alignSelf: 'center',
       textAlign: 'center',
-    }
+    },
+
+    footinch: {
+      flexDirection: "row",
+      alignSelf: 'center',
+  },
+
+  textInUpdateFT: {
+      borderWidth: 2,
+      alignSelf: 'center',
+      width: "20%",
+      height: 35,
+      color: 'black',
+      fontSize: 20,
+      textAlign: "center",
+      alignSelf: 'center',
+      borderRadius: 10,
+      marginBottom: 10,
+      fontWeight: 'bold',
+      marginLeft: 5,
+      marginRight: 5,
+  },
 
 });
   
