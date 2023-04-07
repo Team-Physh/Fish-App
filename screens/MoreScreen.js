@@ -2,7 +2,7 @@ import { Alert, FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity
 import Footer from '../components/Footer'
 import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
-import {getSpecies, clearLocal, clearRecent} from '../database/databasefunctions';
+import {mmToFeetAndInches, getSpecies, clearLocal, clearRecent} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 
 export default function MoreScreen({navigation}) {
@@ -145,7 +145,7 @@ export default function MoreScreen({navigation}) {
 
                     <View style={styles.rightSide}>
                       <Text style={styles.rightText}>
-                        Length: {item.length}mm
+                        Length: {mmToFeetAndInches(item.length)}
                         </Text>
                         <Text style={styles.rightText}>
                         Species: {getSpecies(item.species)}

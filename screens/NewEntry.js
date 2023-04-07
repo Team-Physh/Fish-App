@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
 
     entryFields: {
         top: "10%",
-        height: "60%",
+        height: "50%",
     },
 
     headerTextUpdate: {
@@ -307,13 +307,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         alignSelf: 'center',
         width: "70%",
-        height: 40,
+        height: 35,
         color: 'black',
         fontSize: 20,
         textAlign: "center",
         alignSelf: 'center',
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 10,
         fontWeight: 'bold',
     },
 

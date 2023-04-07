@@ -499,4 +499,16 @@ export const getSpecies=(species)=>{
   }
 }
 
+export function mmToFeetAndInches(mm) {
+  const inches = mm / 25.4;
+  const feet = Math.floor(inches / 12);
+  const remainingInches = Math.round((inches % 12) * 10) / 10;
+  return feet + " ft " + remainingInches + " in";
+}
+
+
+
+
+
+
 

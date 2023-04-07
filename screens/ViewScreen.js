@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react
 import Footer from '../components/Footer';
 import {useEffect, useState} from 'react';
 import * as SQLite from 'expo-sqlite'
-import {uploadDatabase, getSpecies} from '../database/databasefunctions';
+import {mmToFeetAndInches, uploadDatabase, getSpecies} from '../database/databasefunctions';
 
 export default function ViewScreen({navigation}) {
 
@@ -46,7 +46,7 @@ export default function ViewScreen({navigation}) {
     alignSelf: 'center',
     justifyContent: 'center',
     zIndex: 0,
-    backgroundColor: index % 2 === 0 ? 'rgba(255, 255, 255, .7)' : 'rgba(200, 200, 200, .7)',
+    backgroundColor: index % 2 === 0 ? 'rgba(248, 245, 237, .7)' : 'rgba(200, 200, 200, 0.7)',
     
   });
 
@@ -137,7 +137,7 @@ export default function ViewScreen({navigation}) {
 
                 <View style={styles.rightSide}>
                   <Text style={styles.rightText}>
-                    Length: {item.length}mm
+                    Length: {mmToFeetAndInches(item.length)}
                     </Text>
                     <Text style={styles.rightText}>
                     Species: {getSpecies(item.species)}

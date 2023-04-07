@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import { Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {clearRecent, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import {mmToFeetAndInches, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
@@ -523,7 +523,7 @@ export default function HomeScreen({navigation}) {
 
                         <View style={styles.rightSideHist}>
                           <Text style={styles.rightTextHist}>
-                            Length: {item.length}mm
+                            Length: {mmToFeetAndInches(item.length)}
                           </Text>
                           <Text style={styles.rightTextHist}>
                           Species: {getSpecies(item.species)}
@@ -589,7 +589,7 @@ export default function HomeScreen({navigation}) {
               <Text style={styles.dataText}>{pitTag.rivermile}</Text>
 
               <Text style={styles.headerText}>Last Recorded Length</Text>
-              <Text style={styles.dataText}>{pitTag.length}mm</Text>
+              <Text style={styles.dataText}>{mmToFeetAndInches(pitTag.length)}</Text>
 
               <TouchableOpacity style={styles.nextButton} onPress={() => nextModal()}>
                 <Text style={styles.updateText}>Update Data  ⮕</Text>
@@ -1027,6 +1027,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       alignSelf: 'center',
       fontSize: 25,
+      textAlign: 'center',
     },
 
     emptyViewHist:{
