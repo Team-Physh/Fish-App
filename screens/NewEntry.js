@@ -1,5 +1,4 @@
 import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
-import { downloadDatabase } from '../database/databasefunctions.js';
 import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
 import Svg, { Path } from 'react-native-svg';
@@ -7,24 +6,23 @@ import {Picker} from '@react-native-picker/picker';
 import {getCurrentDateNonReadable} from '../database/databasefunctions';
 
 
-
 export default function NewEntry({route, navigation}) {
 
-    // gets pit num
-    const { pitNum } = route.params;
+  // gets pit num passed in
+  const { pitNum } = route.params;
 
-    // this data is temp storage for whatever key the user is viewing/working on
-    // this is used to display data to the user on a singular fish
-    const [pitTag, setPit] = useState({
-        number: pitNum,
-        lastCaught: '0000-00-00T00:00:00.000Z',
-        length: 0,
-        rivermile: 0,
-        species: 'BBH',
-        // remove?
-        temp: '1',
-    });
 
+  // this data is temp storage for whatever key the user is viewing/working on
+  // this is used to display data to the user on a singular fish
+  const [pitTag, setPit] = useState({
+      number: pitNum,
+      lastCaught: '0000-00-00T00:00:00.000Z',
+      length: 0,
+      rivermile: 0,
+      species: 'BBH',
+      // remove?
+      temp: '1',
+  });
 
   // This is run in uploadData function. Basically just checks if it should update or insert value
   // handles edge case for if a user (for whatever reason) uploads data for same fish twice
@@ -103,45 +101,45 @@ export default function NewEntry({route, navigation}) {
 
   };
 
-    // upload data functions from homescreen
-    function uploadData() {
+  // upload data functions from homescreen
+  function uploadData() {
 
-        // make db
-        const db = SQLite.openDatabase("fish.db");
-    
-        // start transaction
-        db.transaction(tx => {
-    
-          // make recent catch table if not exists
-          tx.executeSql(
-            "create table if not exists catchTable (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
-            []
-            );
-    
-          // check if key exist locally already. do so by running that const and either update or insert
-          tx.executeSql(
-          "select * from catchTable where hex = ?",
-          [pitTag.number],
-          // success
-          (_, { rows: { _array } }) => keyExistCatch(_array));
-    
-          // make history catch table if not exists
-          tx.executeSql(
-            "create table if not exists history (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
-            []
-            );
-    
-          // check if key exist locally already. do so by running that const and either update or insert
-          tx.executeSql(
-            "select * from history where hex = ?",
-            [pitTag.number],
-            // success
-            (_, { rows: { _array } }) => keyExistHistory(_array));
-    
-        });
-    
-        // finally, close modal
-        navigation.goBack();
+    // make db
+    const db = SQLite.openDatabase("fish.db");
+
+    // start transaction
+    db.transaction(tx => {
+
+        // make recent catch table if not exists
+        tx.executeSql(
+        "create table if not exists catchTable (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
+        []
+        );
+
+        // check if key exist locally already. do so by running that const and either update or insert
+        tx.executeSql(
+        "select * from catchTable where hex = ?",
+        [pitTag.number],
+        // success
+        (_, { rows: { _array } }) => keyExistCatch(_array));
+
+        // make history catch table if not exists
+        tx.executeSql(
+        "create table if not exists history (hex integer prmiary key not null, lastCaught date, length integer, pit varchar(100), riverMile float, species varchar(100));",
+        []
+        );
+
+        // check if key exist locally already. do so by running that const and either update or insert
+        tx.executeSql(
+        "select * from history where hex = ?",
+        [pitTag.number],
+        // success
+        (_, { rows: { _array } }) => keyExistHistory(_array));
+
+    });
+
+    // finally, close modal
+    navigation.goBack();
   }
     
   return (

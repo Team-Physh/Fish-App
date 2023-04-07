@@ -185,7 +185,7 @@ export default function MoreScreen({navigation}) {
 
         {/* ACTUAL SCREEN START */}
         <TouchableOpacity  style ={styles.learn} onPress={() => { Linking.openURL('https://www.azgfd.com')}}>
-        <Text style={styles.buttonText}>Our Website</Text>
+        <Text style={styles.buttonText}>Website</Text>
 
         <Image
               style = {styles.azLogo}

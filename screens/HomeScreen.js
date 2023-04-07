@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {  Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
+import { Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
 import {clearRecent, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, downloadDatabase, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
@@ -231,6 +231,22 @@ export default function HomeScreen({navigation}) {
   // it just stores data for the fish from local database to const so the user can view/edit it
   function enterTag(number) {
 
+    
+    // if number is nothing, show error and do nothing
+    // or if number isnt numberic characters
+    if(number == '' ||  !(/^\d+$/.test(number)))
+    {
+      Alert.alert(
+        "Invalid number",
+        "Enter a valid number",
+        [
+          { text: "Ok" }
+        ]
+      );
+    }
+    // otherwise valid
+    else{
+
     // open db
     const db = SQLite.openDatabase("fish.db");
 
@@ -252,7 +268,6 @@ export default function HomeScreen({navigation}) {
           // make screen visible to user so they can see the data
           setModalVisible(true);
         }
-
         // otherwise, the code doesn't exist in database. 
         // ask if new entry is to be created
         else
@@ -284,6 +299,8 @@ export default function HomeScreen({navigation}) {
           () => console.log("db not exist"));
 
       });
+
+    }
 
   }
 
