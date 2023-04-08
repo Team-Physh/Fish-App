@@ -29,8 +29,10 @@ export async function getAllData(){
 // This is for updating the local database without having to redownload the whole thing (just gets values newer than given date)
 export async function getNewData(date) {
 
-  const response = await fetch('http://api.teamphysh.com:3000/fish/sync/'+date)
-  const data = await response.json()
+
+  const response = await fetch('http://api.teamphysh.com:3000/fish/sync/'+date);
+  const data = await response.json();
+
 
   return data;
 }
@@ -135,47 +137,6 @@ export async function downloadDatabase() {
 
 }
 
-// Uploads catch data and clears catch table.
-// This runs from the view screen. just uploads and doesnt sync
-export async function uploadDatabase(data) {
-
-  const connectionInfo = await NetInfo.fetch();
-
-  //const connectionInfo = await NetInfo.fetch();
-  //console.log(connectionInfo.isConnected);
-    if(connectionInfo.isConnected)
-    {
-
-      await fetch( "http://api.teamphysh.com:3000/fish/data" , {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-
-        body: JSON.stringify(data)
-      }).then( response => {
-        // return response.json();
-          // console.log(response.json());
-      })
-      .catch(error => {
-      })
-
-      // clear recent catches
-      clearRecent()
-    }
-    else
-    {
-      Alert.alert(
-        "Could not upload data",
-        "Try again with an internet connection",
-        [
-          { text: "Ok" }
-        ]
-      );
-    }
-}
-
 // Uploads catch data and clears catch table
 // This runs from the home screen sync button. The reason the updateDatabase is called from here
 // is because it is an await function, so i dont want it to update until the post request is finished (so no duplicates get added to local)
@@ -186,7 +147,6 @@ export async function uploadDatabaseSync(data) {
   //console.log(connectionInfo.isConnected);
     if(connectionInfo.isConnected)
     {
-
       await fetch( "http://api.teamphysh.com:3000/fish/data" , {
       method: 'POST',
       headers: {
@@ -197,16 +157,13 @@ export async function uploadDatabaseSync(data) {
         body: JSON.stringify(data)
       }).then( response => {
         // return response.json();
+
+        // update now
         updateDatabase();
+
       })
       .catch(error => {
       })
-
-
-      // clear recent catches
-      clearRecent();
-      return true;
-
     }
     // otherwise netinfo check failed
     else
@@ -225,7 +182,7 @@ export async function uploadDatabaseSync(data) {
 }
 
 // clears recent catches table
-export async function clearRecent() {
+export function clearRecent() {
   const db = SQLite.openDatabase("fish.db");
   
   // start DATABASE transaction
@@ -287,13 +244,31 @@ export async function updateDatabase() {
         // get date
         var retrievedDate = Object.values(_array[0]);
         
-
+        // clear recent catches
+        await clearRecent();
         // retrieve data from date
         const data = await getNewData(retrievedDate[1]);
 
-        // TODO REMOVE THIS
-        console.log("NEW DATA BEING INSERTED:");
-        console.log(data);
+        var lastdate;
+
+        // HOW THIS WORKS:
+        // off all the new data retrieved, get the most recent ones date. this becomes the new 
+        // last synced date.  
+        if(Object.keys(data).length != 0)
+        {
+          lastdate = data[data.length-1].createdAt;
+
+          db.transaction( tx => {
+            tx.executeSql("UPDATE recentDate SET lastSync = ? WHERE idNum = ?;",
+            [lastdate, 1],
+            // success
+            (_, )  => {
+              // do nothing, used this space for debugging 
+            }
+            );
+          });
+          
+        }
 
         //upload data to local database
         for (var i = 0; i < data.length; i++)
@@ -304,9 +279,6 @@ export async function updateDatabase() {
           inserter(array);
         }
 
-        return true;
-        
-
         };
 
       // retrieve new data
@@ -315,11 +287,8 @@ export async function updateDatabase() {
         [1],
         // success
         (_, { rows: { _array } }) =>  useDate(_array));
-    
-      tx.executeSql("UPDATE recentDate SET lastSync = ? WHERE idNum = ?;",
-                      [getCurrentDateNonReadable(), 1]
-                      );
     });
+
 
     }
     else
@@ -331,8 +300,6 @@ export async function updateDatabase() {
           { text: "Ok" }
         ]
       );
-
-      return false;
     }
 
 }
@@ -501,21 +468,19 @@ export const getSpecies=(species)=>{
 
 // converts to ft and inch
 export function mmToFeetAndInches(mm) {
-  const inches = mm / 25.4;
+  const inches = parseInt(mm) / 25.4;
   const feet = Math.floor(inches / 12);
-  const remainingInches = Math.round((inches % 12) * 10) / 10;
+  const remainingInches = Math.round((inches % 12));
   return feet + " ft " + remainingInches + " in";
 }
 
 // converts back to mm
 export function feetAndInchesToMm(feet, inches) {
-  // Convert feet to inches and add to total inches
-  let totalInches = feet * 12 + inches;
-  // Convert total inches to millimeters
-  let mm = totalInches * 25.4;
-  // Round the result to the nearest whole number
-  let roundedMM = Math.round(mm/10);
-  return roundedMM;
+  const totalInches = (parseInt(feet) * 12) + parseInt(inches);
+  // Convert inches to millimeters
+  const millimeters = totalInches * 25.4;
+  console.log(millimeters);
+  return millimeters;
 }
 
 

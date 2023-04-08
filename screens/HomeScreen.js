@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import { Keyboard, TouchableWithoutFeedback, FlatList, KeyboardAvoidingView, Modal, Alert, StyleSheet, Text, Image, TextInput, View, TouchableOpacity } from 'react-native';
 import Footer from '../components/Footer'
 import * as SQLite from 'expo-sqlite'
-import {feetAndInchesToMm ,mmToFeetAndInches, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
+import {clearRecent, feetAndInchesToMm ,mmToFeetAndInches, getSpecies, updateDatabase, getCurrentDate, getCurrentDateNonReadable, uploadDatabase, uploadDatabaseSync} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';
 import {bluetoothTest} from '../bluetooth/bluetoothfunctions';
 
@@ -148,7 +148,9 @@ export default function HomeScreen({navigation}) {
         // if catch table not empty, store in data field and upload
         if(count >= 0)
         {
-          // upload data (maybe await this and return a true or false!
+          // upload data and update
+          // clear recent catches
+          clearRecent()
           uploadDatabaseSync(_array);
 
         }
@@ -156,8 +158,9 @@ export default function HomeScreen({navigation}) {
       };
 
       //upload data to local database. runs on success of select from catchTable
-      const justDownload = async () => {
+      const justDownload = () => {
 
+          // just update
           updateDatabase();
 
       };
@@ -177,12 +180,11 @@ export default function HomeScreen({navigation}) {
     // update recent sync date
     updateDate({ date: getCurrentDateNonReadable()});
 
-
-    // make button invisible for a little
+    //make button invisible for a little
     setTimeout(() => {
                   setSyncReady(true);
 
-              }, 10000);
+              }, 5000);
   }
 
   // This is run when the user confirms new lenght/rivermile in update data popup modal.
