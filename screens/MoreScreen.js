@@ -1,6 +1,6 @@
 import { Alert, FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
 import Footer from '../components/Footer'
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import * as SQLite from 'expo-sqlite';
 import {mmToFeetAndInches, getSpecies, clearLocal, clearRecent} from '../database/databasefunctions';
 import Svg, { Path } from 'react-native-svg';

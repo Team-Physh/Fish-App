@@ -1,4 +1,4 @@
-import { Alert, FlatList, Modal, StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { downloadDatabase } from '../database/databasefunctions.js';
 import {useState, useEffect} from 'react';
 import * as SQLite from 'expo-sqlite';
@@ -29,7 +29,7 @@ export default function SplashScreen({navigation}) {
         //get keycount
         var count = Object.keys(_array).length;
   
-        //TESTING FUNCTION if local table not empty, just log that it is populated
+        // if local database is populated, allow user into the app
         if(count > 0)
         {
 
@@ -37,6 +37,7 @@ export default function SplashScreen({navigation}) {
         navigation.navigate('Home');
         }
         else {
+        // otherwise download the database (this really shouldnt run)
           downloadDatabase();
         }
   
@@ -55,7 +56,7 @@ export default function SplashScreen({navigation}) {
   }, []);
 
 
-
+  // database not installed, so download and navigate user home
   async function downloadSplash(){
 
     setIntro({ text: "Downloading Database..."});

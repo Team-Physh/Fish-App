@@ -9,9 +9,6 @@ import MoreScreen from './screens/MoreScreen';
 import HelpScreen from './screens/HelpScreen';
 import SplashScreen from './screens/Splash';
 import NewEntry from './screens/NewEntry';
-import * as SQLite from 'expo-sqlite';
-import { getAllData, downloadDatabase } from './database/databasefunctions.js';
-import NetInfo from '@react-native-community/netinfo';
 
 
 // creates stack for stack navigator

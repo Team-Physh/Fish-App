@@ -440,6 +440,7 @@ export default function HomeScreen({navigation}) {
   // To add new scanners, just go to bluetooth test and add them like 2 is added. 
   // A text input field will need to be added to input the scanner number used
   // this will be passed to this function in scannerNum and this passed into bluetoothTest
+  // TLDR: bluetooth only (currently) works with scanners whos mac address are inputted.
   async function bluetoothRun(scannerNum) {
 
     // recieve pit (SCANNERNUM WILL BE PASSED IN HERE INSTEAD OF 2)

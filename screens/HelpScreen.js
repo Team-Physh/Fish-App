@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Pressable, Modal } from 'react-native';
-import { SafeAreaView, ScrollView, StatusBar, Alert, React } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Modal } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { useState } from 'react';
 
 export default function HelpScreen({ navigation }) {
