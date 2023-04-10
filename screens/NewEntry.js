@@ -209,6 +209,7 @@ export default function NewEntry({route, navigation}) {
                 <Picker.Item label="BLUEHEAD SUCKER" value="BHS" />
                 <Picker.Item label="BLACK CRAPPIE" value="BKC" />
                 <Picker.Item label="BROOK TROUT" value="BKT" />
+                <Picker.Item label="BROWN TROUT" value="BNT" />
                 <Picker.Item label="CHANNEL CATFISH" value="CCF" />
                 <Picker.Item label="COMMON CARP" value="CRP" />
                 <Picker.Item label="CUTTHROAT TROUT" value="CTT" />

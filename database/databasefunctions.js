@@ -332,6 +332,10 @@ export const getSpecies=(species)=>{
   {
     return "Black Bullhead";
   }
+  if(species=="BNT")
+  {
+    return "Brown Trout";
+  }
   else if (species == "BGS")
   {
     return "Bluegill";
