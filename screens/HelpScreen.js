@@ -17,7 +17,6 @@ export default function HelpScreen({ navigation }) {
             <TouchableOpacity style={styles.help} onPress={() => navigation.goBack()}>
                 <Image style={styles.icon} source={require('../assets/exit.png')}></Image>
             </TouchableOpacity>
-            <SafeAreaView style={styles.container}>
                 {/*Modal 1*/}
                 <Modal
                     animationType={'slide'}
@@ -156,7 +155,6 @@ export default function HelpScreen({ navigation }) {
                     {'\n'}
                     {'\n'}
                 </Text>
-                <ScrollView style={styles.scrollView}>
 
     <View style={styles.moreView}>
         <TouchableOpacity  style ={styles.learn} onPress={() => { setShowModal1(!showModal1) }}>
@@ -175,8 +173,6 @@ export default function HelpScreen({ navigation }) {
           <Text style={styles.buttonText}>Bluetooth</Text>
         </TouchableOpacity>
       </View>
-                </ScrollView>
-            </SafeAreaView>
         </View>
     )
 }
@@ -201,10 +197,9 @@ const styles = StyleSheet.create({
     },
 
     moreView:{
-        justifyContent: 'center',
         width: "100%",
         height: "100%",
-        paddingTop: 100,
+
       },
       
     titleText: {
@@ -230,7 +225,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     scrollView: {
-        margin: 20,
+        width: "100%",
+        height: "100%",
     },
     image: {
         width: 100,
@@ -245,7 +241,7 @@ const styles = StyleSheet.create({
 
         learn:{
       backgroundColor: '#49683D',
-      height: '50%',
+      height: '10%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -261,7 +257,7 @@ const styles = StyleSheet.create({
 
     history:{
       backgroundColor: '#768D6B',
-      height: '50%',
+      height: '10%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -276,7 +272,7 @@ const styles = StyleSheet.create({
 
     otherOne:{
       backgroundColor: '#A2B097',
-      height: '50%',
+      height: '10%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
@@ -291,7 +287,7 @@ const styles = StyleSheet.create({
 
     otherTwo:{
       backgroundColor: '#D0D5C5',
-      height: '50%',
+      height: '10%',
       width: '80%',
       marginBottom: 10,
       justifyContent: 'center',
