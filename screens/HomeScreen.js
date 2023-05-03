@@ -22,6 +22,11 @@ export default function HomeScreen({navigation}) {
     inch: 0,
   });
 
+  // const for scanner num
+  const [scanNum, setNum] = useState({
+    scanner: 0,
+  });
+
   // main modal bool. view screen
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -397,6 +402,7 @@ export default function HomeScreen({navigation}) {
     top: "15%",
   });
 
+
   // style for the image inside the bluetooth button. needs to also be turned invisible on iOS platform
   const blueImage = () => ({
     height: Platform.OS === 'android' ? 35 : 0,
@@ -404,6 +410,24 @@ export default function HomeScreen({navigation}) {
     resizeMode: 'contain',
     alignSelf: 'center',
   });
+
+  // style for the text input for the scanner number
+  const blueIn = () => ({
+    height: Platform.OS === 'android' ? 35 : 0,
+    width: Platform.OS === 'android' ? "50%" : 0,
+    position: Platform.OS === 'android' ? "relative" : "absolute",
+    alignSelf: 'center',
+    borderWidth: 2,
+    marginTop: 10,
+    marginBottom: 10,
+    color: 'black',
+    fontSize: 25,
+    textAlign: "center",
+    // top: "40%",
+    borderRadius: 10,
+    fontWeight: 'bold',
+  });
+
 
   // this runs when you open screen. gets last sync date
   useEffect(() => {
@@ -438,17 +462,18 @@ export default function HomeScreen({navigation}) {
   // CURRENTLY ONLY WORKS WITH SCANNER 2. This is why number 2 is passed into bluetoothTest.
   // I only had scanner two, so i cant enter the other approved scanners mac addresses. 
   // To add new scanners, just go to bluetooth test and add them like 2 is added. 
-  // A text input field will need to be added to input the scanner number used
-  // this will be passed to this function in scannerNum and this passed into bluetoothTest
+  // this will be passed to this function in scanNum and this passed into bluetoothTest
   // TLDR: bluetooth only (currently) works with scanners whos mac address are inputted.
-  async function bluetoothRun(scannerNum) {
+  async function bluetoothRun() {
 
     // recieve pit (SCANNERNUM WILL BE PASSED IN HERE INSTEAD OF 2)
-    var pit = await bluetoothTest(2);
+
+    var pit = await bluetoothTest(scanNum.scanner);
+
     
     // testing to print out pit recieved to ensure operation
-    console.log("HOMESCREEN PIT");
-    console.log(pit);
+    // console.log("HOMESCREEN PIT");
+    // console.log(pit);
 
     // if pit is undefined, alert
     if (pit === undefined){
@@ -714,6 +739,15 @@ export default function HomeScreen({navigation}) {
         <TouchableOpacity style={bluetoothIcon()} onPress={() => bluetoothRun()}>
         <Image style={blueImage()} source={require('../assets/blue.png')}></Image>
         </TouchableOpacity>
+
+        <TextInput
+            style={blueIn()}
+            autoCapitalize="none"
+            onChangeText={text => setNum({scanner: text})}
+            placeholder="Scanner Num"
+            placeholderTextColor={'rgba(100, 100, 100, 0.7)'}
+            keyboardType="numeric"
+          />
 
         <Text style ={styles.dateText}>Last Attempted Sync{"\n"} {new Date(lastSyncDate.date).toLocaleString("en-US", {
             localeMatcher: "best fit",

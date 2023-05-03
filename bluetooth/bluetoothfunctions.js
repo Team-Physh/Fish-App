@@ -21,11 +21,11 @@ export async function bluetoothTest(scannerNum)
     var pit;
     var tagaddress;
 
+    // INPUT NEW SCANNER NUMBERS BELOW!
     if (scannerNum == 1){
       tagaddress = "0"
     }
     else if(scannerNum == 2){
-      console.log("SCANNER TWO FOUND");
       tagaddress = "00:04:3E:6F:46:37"
     }
     else if(scannerNum == 3){
