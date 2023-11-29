@@ -46,10 +46,6 @@ export async function bluetoothTest(scannerNum)
     */
     const connectTo = async (address)=>{
       try{
-        // var tagaddress = "00:04:3E:6F:46:37"
-
-        
-        console.log("HELLO");
 
         // check if device is off
         try {
@@ -62,8 +58,6 @@ export async function bluetoothTest(scannerNum)
         // connect if on
         await RNBluetoothClassic.connectToDevice(address);
         console.log('Connected to device');
-
-        console.log("HELLOTWO");
         
         pit = await read(address);
 
